@@ -1,11 +1,34 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\GenreController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
 Route::resource('items', ItemController::class);
 Route::resource('reviews', ReviewController::class);
 Route::resource('genres', GenreController::class);
 
+Route::get('/', function () {
+    return view('welcome');
+});
+<<<<<<< Updated upstream
+Route::resource('items', ItemController::class);
+Route::resource('reviews', ReviewController::class);
+Route::resource('genres', GenreController::class);
+
+=======
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
+>>>>>>> Stashed changes
