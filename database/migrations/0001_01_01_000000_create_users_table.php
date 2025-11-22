@@ -12,14 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id'); // atau ->id(); sudah set bigint unsigned auto increment
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('username', 50)->unique();
+            $table->string('email', 255)->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->string('password', 255);
+            $table->enum('role', ['user', 'admin'])->default('user');
+            $table->rememberToken(); // sama dengan varchar(100) nullable
+            $table->timestamps(); // otomatis membuat kolom created_at dan updated_at bertipe timestamp
         });
+
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
