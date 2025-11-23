@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REVUE - Home</title>
+    <title>REVUE - Books</title>
     <style>
-                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
+                        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
 
         * {
             margin: 0;
@@ -37,8 +37,6 @@
     background-repeat: no-repeat;
     background-position: center;
 }
-
-
         
         .logo img {
             height: 100%;
@@ -48,15 +46,14 @@
         nav {
             display: flex;
             gap: 40px;
-            left: 6rem;
         }
 
         nav a {
             color: #ffffff;
             text-decoration: none;
             font-size: 16px;
-            font-family: 'Poppins';
             transition: color 0.3s;
+            font-family: 'Poppins';
         }
 
         nav a:hover {
@@ -66,7 +63,6 @@
         .search-container {
             display: flex;
             align-items: center;
-            font-family: 'Poppins';
         }
 
         .search-box {
@@ -110,13 +106,13 @@
         .filter-group {
             display: flex;
             align-items: center;
-            font-family: 'Poppins';
             gap: 15px;
         }
 
         .filter-group label {
             color: #ffffff;
             font-size: 14px;
+            font-family: 'Poppins';
         }
 
         .filter-group select {
@@ -129,67 +125,25 @@
             min-width: 150px;
         }
 
-        /* Content Section */
-        .content {
+        /* Movies Section */
+        .movies-section {
             padding: 0 50px 50px;
-        }
-
-        .category-section {
-            margin-bottom: 60px;
-            position: relative;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
         }
 
         .section-title {
             font-size: 28px;
+            margin-bottom: 30px;
             border-left: 4px solid #ff0000;
             padding-left: 15px;
         }
 
-        .view-more {
-            width: 50px;
-            height: 50px;
-            background-color: #ff0000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.3s;
-            position: absolute;
-            right: -25px;
-            top: 56.5%;
-            transform: translateY(-50%);
-            z-index: 10;
-        }
-
-        .view-more:hover {
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .view-more svg {
-            width: 24px;
-            height: 24px;
-            fill: white;
-        }
-
-        .cards-grid {
+        .movies-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 20px;
         }
 
-        .cards-grid.two-rows {
-            grid-template-rows: repeat(2, 1fr);
-        }
-
-        .card {
+        .movie-card {
             background-color: #d3d3d3;
             border-radius: 10px;
             aspect-ratio: 2/3;
@@ -197,14 +151,14 @@
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .card:hover {
+        .movie-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3);
         }
 
       .footer-section {
             position: absolute;
-            top: 2900px; /* Posisi footer dimulai dari sini */
+            top: 2150px; /* Posisi footer dimulai dari sini */
             width: 100%;
             height: 232px;
             z-index: 20;
@@ -318,20 +272,21 @@
             font-size: 13px;
         }
 
+
         /* Responsive */
         @media (max-width: 1200px) {
-            .cards-grid {
+            .books-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
         }
 
         @media (max-width: 768px) {
-            header, .filters, .content, footer {
+            header, .filters, .books-section, footer {
                 padding-left: 20px;
                 padding-right: 20px;
             }
 
-            .cards-grid {
+            .books-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
 
@@ -345,14 +300,9 @@
                 margin: 20px;
             }
 
-            .view-more {
-                position: static;
-                transform: none;
-                margin-left: auto;
-            }
-
-            .view-more:hover {
-                transform: scale(1.1);
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
             }
         }
     </style>
@@ -369,14 +319,15 @@
         </nav>
         <div class="search-container">
             <input type="text" class="search-box" placeholder="Search titles, authors...">
-            <a href="user.html" class="user-icon">
+            <div class="user-icon">
+                <a href="user.html" class="user-icon">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 
                             1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 
                             1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
                 </a>
-
+            </div>
         </div>
     </header>
 
@@ -396,10 +347,10 @@
             <label>Genre:</label>
             <select>
                 <option>Select</option>
-                <option>Action</option>
-                <option>Comedy</option>
-                <option>Drama</option>
-                <option>Horror</option>
+                <option>Fiction</option>
+                <option>Non-Fiction</option>
+                <option>Mystery</option>
+                <option>Romance</option>
                 <option>Sci-Fi</option>
             </select>
         </div>
@@ -416,84 +367,32 @@
         </div>
     </div>
 
-    <!-- Content -->
-    <div class="content">
-        <!-- New Arrival Section -->
-        <section class="category-section">
-            <div class="section-header">
-                <h2 class="section-title">New Arrival</h2>
-            </div>
-            <div class="cards-grid two-rows">
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-            </div>
-        </section>
-
-        <!-- 2025's Best Section -->
-        <section class="category-section">
-            <div class="section-header">
-                <h2 class="section-title">2025's Best</h2>
-            </div>
-            <div class="cards-grid">
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-            </div>
-            <div class="view-more">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                </svg>
-            </div>
-        </section>
-
-        <!-- Books Section -->
-        <section class="category-section">
-            <div class="section-header">
-                <h2 class="section-title">Books</h2>
-            </div>
-            <div class="cards-grid">
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-            </div>
-            <div class="view-more">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                </svg>
-            </div>
-        </section>
-
-        <!-- Movies Section -->
-        <section class="category-section">
-            <div class="section-header">
-                <h2 class="section-title">Movies</h2>
-            </div>
-            <div class="cards-grid">
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-            </div>
-            <div class="view-more">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                </svg>
-            </div>
-        </section>
-    </div>
+    <!-- Books Section -->
+    <section class="movies-section">
+        <h2 class="section-title">My List</h2>
+        <div class="movies-grid">
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+            <div class="movie-card"></div>
+        </div>
+    </section>
 
     <!-- Footer -->
      <footer class="footer-section">
