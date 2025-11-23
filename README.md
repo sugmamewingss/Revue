@@ -1,6 +1,6 @@
 ---
 
-# **📱Revue — Social Review Platform (Laravel Web App)🎬**
+# **📱Revue — Social Review Platform (Laravel Web App)**
 
 Revue adalah aplikasi web berbasis Laravel yang dikembangkan sebagai platform komunitas untuk menulis, membaca, dan mengelola ulasan serta rating buku maupun film. Aplikasi ini dirancang responsif, mudah diinstal, dan cocok untuk mahasiswa, komunitas, serta pengguna umum yang ingin berbagi rekomendasi secara personal dan interaktif.
 
