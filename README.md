@@ -1,10 +1,13 @@
-Berikut draft **README.md** yang rapi dan informatif untuk project *Revue*. Kamu bisa langsung pakai atau modifikasi.
-
 ---
 
 # **Revue — Social Review Platform (Laravel Web App)**
 
 Revue adalah aplikasi web berbasis Laravel yang dikembangkan sebagai platform komunitas untuk menulis, membaca, dan mengelola ulasan serta rating buku maupun film. Aplikasi ini dirancang responsif, mudah diinstal, dan cocok untuk mahasiswa, komunitas, serta pengguna umum yang ingin berbagi rekomendasi secara personal dan interaktif.
+
+---
+
+## 🎨 **Desain Figma Bisa Dilihat Disini!**
+Link: https://www.figma.com/design/VkQ3iz3qT775RdANxI33uf/REVUE_KELOMPOK-7?node-id=0-1&t=Ppo0IQj8rnlrxMlV-1
 
 ---
 
