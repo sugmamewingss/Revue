@@ -3,74 +3,466 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REVUE | Portal Ulasan Buku & Film</title>
-    <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <title>Revue - Review Buku dan Film</title>
+    <!-- Menggunakan font Poppins dan Inter sesuai desain Figma -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
+
+        /* CSS INTERNAL FIGMA: LANDING PAGE */
+        /* Mengatur Box Sizing Global */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        /* Body dan Container Utama */
+        body {
+            margin: 0;
+            background: #1E1E1E; /* Warna latar belakang utama */
+            font-family: 'Poppins', sans-serif;
+            color: #FFFFFF;
+            overflow-x: hidden; /* Mencegah scroll horizontal dari elemen miring */
+        }
+        
+        /* FIX: Memastikan lebar maksimum 1440px di layar lebar */
+        /* Kontainer pembungkus ini akan memastikan konten tidak melebihi 1440px */
+        .wrapper {
+            max-width: 1920px; 
+            margin: 0 auto; /* Menengahkan container di layar yang lebih besar dari 1440px */
+            position: relative;
+        }
+
+        /* Container Pembungkus utama untuk mensimulasikan dimensi Figma 1440x1531 */
+        .landing-page-container {
+            position: relative;
+            width: 100%; /* Menggunakan 100% dari .wrapper (yaitu 1440px) */
+            height: 1531px; /* Tinggi sesuai Figma (Membuat konten bisa discroll) */
+            overflow: hidden; /* Mengatur overflow pada container 1440px */
+        }
+
+        /* Rectangle 19 - Background Gradient Merah Miring */
+        .background-gradient {
+            position: absolute;
+            width: 4000px;
+            height: 2200px;
+            left: -75px;
+            top: -22rem;
+            background: linear-gradient(171.72deg, #571313 6.61%, #1E1E1E 76.19%);
+            transform: rotate(38.76deg);
+            z-index: 1; /* Di bawah elemen lain */
+        }
+
+        /* Group 32 - Container untuk semua Kartu Buku/Film */
+        .cards-group {
+            position: absolute;
+            width: 2500px;
+            height: 1609.77px;
+            left: 550px; /* Menggeser ke kiri untuk efek miring */
+            top: -200px; /* Menggeser ke atas untuk efek miring */
+            opacity: 0.85;
+            z-index: 5;
+            transform: rotate(-26.14deg); /* Rotasi semua kartu ke arah yang sama */
+            pointer-events: none; /* Agar elemen di bawah bisa di klik jika diperlukan */
+        }
+
+        /* Styling dasar Kartu (Item Buku/Film) */
+        .card {
+            position: absolute;
+            background-color: #D9D9D9; /* Fallback color */
+            border-radius: 20px;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.4);
+            pointer-events: auto; /* Mengaktifkan kembali pointer events untuk kartu */
+        }
+
+        /* --- Posisi dan Gambar Kartu sesuai Figma --- */
+
+        /* Kartu 1: Oppenheimer */
+        .card-oppenheimer {
+            width: 350px;
+            height: 210px;
+            left: 650px;
+            top: 150px;
+            background-image: url('https://placehold.co/450x260/000000/FFFFFF?text=OPPENHEIMER'); 
+            z-index: 10;
+        }
+
+        /* Kartu 2: The Subtle Art */
+        .card-subtle {
+            width: 200px;
+            height: 260.19px;
+            left: 845px;
+            top: 655px;
+            background-image: url('https://placehold.co/210x260/000000/FFFFFF?text=SUBTLE+ART'); 
+            z-index: 12;
+        }
+        
+        /* Kartu 3: Atomic Habits */
+        .card-atomic {
+            width: 200px;
+            height: 260.19px;
+            left: 600px;
+            top: 655px;
+            background-image: url('https://placehold.co/200x260/000000/FFFFFF?text=ATOMIC'); 
+            z-index: 13;
+        }
+
+        /* Kartu 4: Avengers */
+        .card-avengers {
+            width: 350px;
+            height: 210px;
+            left: 1295px;
+            top: 400px;
+            background-image: url('https://placehold.co/450x260/000000/FFFFFF?text=AVENGERS'); 
+            z-index: 9;
+        }
+
+        /* Kartu 5: Loki */
+        .card-loki {
+            width: 350px;
+            height: 210px;
+            left: 1045px;
+            top: 150px;
+            background-image: url('https://placehold.co/450x260/000000/FFFFFF?text=LOKI'); 
+            z-index: 7;
+        }
+        
+        /* Kartu 6: Ant-Man */
+        .card-antman {
+            width: 350px;
+            height: 210px;
+            left: 505px;
+            top: 400px;
+            background-image: url('https://placehold.co/450x260/000000/FFFFFF?text=ANTMAN'); 
+            z-index: 11;
+        }
+        
+        /* Kartu 7: Ratatouille */
+        .card-ratatouille {
+            width: 350px;
+            height: 210px;
+            left: 900px;
+            top: 400px;
+            background-image: url('https://placehold.co/450x260/000000/FFFFFF?text=RATATOUILLE'); 
+            z-index: 8;
+        }
+
+        .card-pirate{
+            width: 350px;
+            height: 210px;
+            top: -95px;
+            left: 715px;
+        }
+        
+        .card-pom{
+            width: 200px;
+            height: 260.19px;
+            left: 1090px;
+            top: 655px;
+        }
+        /* Kartu Merah Kecil Kiri Bawah */
+        .card-red-small-left {
+            width: 82.14px;
+            height: 260.19px;
+            left:470px;
+            top: 655px;
+            background: #C10D0D;
+            border-radius: 20px;
+            z-index: 14;
+        }
+        
+        /* Kartu Merah Kecil Kiri Atas */
+        .card-red-small-top {
+            width: 150px;
+            height: 200px;
+            left: 520px;
+            top: -85px;
+            background: #C10D0D;
+            border-radius: 15px;
+            z-index: 6;
+        }
+
+
+        /* --- Elemen Utama UI --- */
+
+        /* Header / Navigasi */
+        .header {
+            position: absolute;
+            top: 40px;
+            right: 80px; /* Disesuaikan agar tombol pas di kanan */
+            z-index: 20;
+            display: flex;
+            gap: 90px;
+        }
+
+        .nav-link {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 30px;
+            line-height: 52px;
+            color: #FFFFFF;
+            text-decoration: none;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            color: #C10D0D; /* Efek hover */
+        }
+
+        /* Logo Utama di tengah-kiri */
+        /* FIX: Mengganti teks dengan gambar logo */
+        .main-logo-container {
+            position: absolute;
+            left: 16rem;
+            top: 26rem;
+            z-index: 15;
+            /* Ukuran container disesuaikan agar gambar logo memiliki area yang sama dengan teks sebelumnya */
+            width: 200px; 
+            height: 23px;
+            /* Menghapus styling teks sebelumnya */
+        }
+
+        .main-logo-container img {
+            width: 300%;
+            height: 800%;
+            object-fit: fill; /* Memastikan logo pas tanpa terpotong */
+            transform-origin: top left;
+            margin-left: -9.56rem;
+            margin-top: -28rem;
+        }
+        
+        /* Tombol Explore More */
+        .explore-button {
+            font-family: 'Inter';
+            position: absolute;
+            width: 260px; /* Disesuaikan dari lebar 82.14px dan tinggi 260.19px yang dirotasi */
+            height: 82px;
+            left: 7.2rem;
+            top: 28rem; /* Disesuaikan dari top 596.82px */
+            background: #C21B16;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            cursor: pointer;
+            z-index: 15;
+            transition: background 0.2s, transform 0.2s;
+            pointer-events: auto; /* Memastikan tombol bisa diklik */
+        }
+
+        .explore-button:hover {
+            background: #AA0000;
+            transform: scale(1.05);
+        }
+
+        .explore-button span {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 30px;
+            line-height: 52px;
+            color: #F6F6F6;
+        }
+
+        /* --- Footer Section --- */
+        .footer-section {
+            position: absolute;
+            top: 1299px; /* Posisi footer dimulai dari sini */
+            width: 100%;
+            height: 232px;
+            z-index: 20;
+        }
+
+        /* Line 1 (Garis pemisah) */
+        .footer-line {
+            width: 100%; /* Disesuaikan agar penuh */
+            height: 0;
+            border-top: 1px solid #655C5C;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        /* Konten Footer Bawah */
+        .footer-content {
+            padding-top: 25px; /* Spasi dari garis */
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-left: 53px;
+            padding-right: 50px;
+        }
+
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            width: 350px;
+        }
+        
+        .footer-logo {
+            background-image: url('/images/revuekecil.png'); 
+            width: 9rem;
+            height: 3rem;
+            margin-top: -0.8rem;
+            background-size: contain; 
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .footer-description {
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 18px;
+            margin-bottom: 2rem;
+            margin-top: 0.2rem;
+            width: 276px;
+        }
+        
+        .footer-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            font-size: 18px;
+            line-height: 28px;
+            padding: -20px 0px 30px 53px;
+            
+        }
+        
+        .follow-us-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            margin-top: -0.5rem;
+        }
+        
+        .social-link {
+            color: #FFFFFF;
+            text-decoration: none;
+            margin-bottom: 3px;
+            transition: color 0.2s;
+        }
+
+        .social-link:hover {
+            color: #C10D0D;
+        }
+        
+        .footer-line2{
+            width: 100%; /* Disesuaikan agar penuh */
+            height: 0;
+            border-top: 1px solid #655C5C;
+            position: absolute;
+            left: 0;
+            bottom: 3.4rem;
+        }
+
+        .tulisan{
+            position: absolute;
+            bottom: -1rem;
+            right : 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px 10px 53px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 20px;
+        }
+        .footer-bottom {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px 5px 53px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 13px;
+        }
+        
+        /* Media Query untuk memastikan body tidak melebihi 1440px */
+        @media (min-width: 1441px) {
+             /* Body tidak perlu diubah, .wrapper yang mengatur max-width */
+        }
+    </style>
 </head>
 <body>
-    <div class="landing-page">
-        <!-- Gradient Background -->
-        <div class="gradient-bg"></div>
+    <!-- Tambahkan wrapper untuk membatasi lebar tampilan maksimum ke 1440px -->
+    <div class="wrapper">
+        <!-- Container Utama Sesuai Ukuran 1440px Figma -->
+        <div class="landing-page-container">
 
-        <!-- Auth Buttons -->
-        <div class="auth-buttons">
-            <a href="{{ route('register') }}" class="signup-btn">Sign Up</a>
-            <a href="{{ route('login') }}" class="login-btn">Log in</a>
-        </div>
+            <!-- Latar Belakang Gradient Merah Miring (Rectangle 19) -->
+            <div class="background-gradient"></div>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Logo Besar -->
-            <img src="{{ asset('images/LOGO_REVUE.png') }}" alt="Revue Logo" class="logo-main">
+            <!-- Header / Navigasi (Sign Up dan Log In) -->
+           <header class="header">
+            <a href="{{ route('register') }}" class="nav-link">Sign Up</a>
+            <a href="{{ route('login') }}" class="nav-link">Log In</a>
+            </header>
 
-            <!-- Explore Button -->
-            <a href="{{ route('items.index') }}" class="explore-btn">
+            <!-- Logo Utama (LOGO REVUE 1) -->
+            <!-- FIX: Mengganti teks dengan elemen gambar -->
+            <div class="main-logo-container">
+                <!-- Menggunakan logo yang Anda sebutkan, revue.png -->
+                <img src="/images/revuekecil.png" alt="Revue Logo" onerror="this.src='https://placehold.co/350x120/AA0000/FFFFFF?text=REVUE+LOGO'" />
+            </div>
+
+            <!-- Tombol Explore More -->
+            <a href="{{ route('login') }}" class="explore-button">
                 <span>Explore More</span>
             </a>
-        </div>
 
-        <!-- Card Group Images -->
-        <div class="card-group">
-            <!-- Row 1 - Top -->
-            <div class="card card-top-1" style="background-image: url('{{ asset('images/pirate.jpg') }}');"></div>
-            <div class="card card-top-2 red-accent"></div>
-            <div class="card card-top-3" style="background-image: url('{{ asset('images/oppenheimer.jpg') }}');"></div>
-            <div class="card card-top-4" style="background-image: url('{{ asset('images/loki.jpg') }}');"></div>
-            <div class="card card-top-5 red-accent"></div>
-            
-            <!-- Row 2 - Middle -->
-            <div class="card card-mid-1 red-accent"></div>
-            <div class="card card-mid-2" style="background-image: url('{{ asset('images/ant.jpg') }}');"></div>
-            <div class="card card-mid-3" style="background-image: url('{{ asset('images/the.jpg') }}');"></div>
-            
-            <!-- Row 3 - Bottom -->
-            <div class="card card-bot-1 red-accent"></div>
-            <div class="card card-bot-2" style="background-image: url('{{ asset('images/avenger.jpg') }}');"></div>
-            <div class="card card-bot-3" style="background-image: url('{{ asset('images/atomic.jpg') }}');"></div>
-            <div class="card card-bot-4" style="background-image: url('{{ asset('images/rat.jpg') }}');"></div>
+            <!-- Grup Kartu (Group 32) -->
+            <div class="cards-group">
+                <!-- Dummy Rectangles Merah Kecil -->
+                <div class="card-red-small-top card"></div>
+                <div class="card-red-small-left card"></div>
+                
+                <!-- Kartu Film/Buku -->
+                <!-- Mengganti placeholder dengan nama file yang Anda sebutkan -->
+                <div class="card card-loki" style="background-image: url('/images/loki.jpg');"></div>
+                <div class="card card-oppenheimer" style="background-image: url('/images/oppenheimer.jpg');"></div>
+                <div class="card card-avengers" style="background-image: url('/images/rat.jpg');"></div>
+                <div class="card card-ratatouille" style="background-image: url('/images/avenger.jpg');"></div>
+                <div class="card card-antman" style="background-image: url('/images/ant.jpg');"></div>
+                <div class="card card-atomic" style="background-image: url('/images/atomic.jpg');"></div>
+                <div class="card card-subtle" style="background-image: url('/images/hebat.jpg');"></div>
+                <div class="card card-pom" style="background-image: url('/images/pom.jpg');"></div>
+                <div class="card card-pirate" style="background-image: url('/images/pirate.jpg');"></div>
+                <!-- Catatan: Beberapa kartu di Figma memiliki background #AA0000 atau #D9D9D9 yang tidak ditampilkan di sini untuk fokus pada kartu gambar yang dominan. -->
+            </div>
+
+            <!-- Footer Section (Posisi Absolute di Bagian Bawah Kontainer) -->
+            <footer class="footer-section">
+                <div class="footer-line"></div>
+                <div class="footer-content">
+                    <div class="footer-left">
+                        <div class="footer-logo"></div>
+                        <p class="footer-description">
+                            Revue adalah platform review buku dan film yang memudahkan pengguna untuk menilai, menulis ulasan, dan mengatur daftar tontonan atau bacaan secara personal.
+                        </p>
+                    </div>
+                    <div class="footer-right">
+                        <p class="follow-us-title">Follow Us</p>
+                        <a href="https://instagram.com/deuphanide" class="social-link" target="_blank">@deuphanide</a>
+                        <a href="https://instagram.com/just.alfii" class="social-link" target="_blank">@just.alfii</a>
+                        <a href="https://instagram.com/rakapaksisp" class="social-link" target="_blank">@rakapaksisp</a>
+
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-line2"></div>
+                    <div class="tulisan">
+                    <p>Copyright © 2025 by Kelompok 7 PAW TI-A</p>
+                    <p>TI'24 Fakultas Ilmu Komputer Universitas Brawijaya</p>
+                    </div>
+                    
+                </div>
+            </footer>
+
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-left">
-                <img src="{{ asset('images/LOGO_REVUE.png') }}" alt="Revue Logo" class="logo-footer">
-                <p class="footer-desc">Revue adalah platform review buku dan film yang memudahkan pengguna untuk menilai, menulis ulasan, dan mengatur daftar tontonan atau bacaan secara personal.</p>
-            </div>
-
-            <div class="footer-right">
-                <p class="follow-title">Follow Us</p>
-                <p class="social-handle">@deuphanide</p>
-                <p class="social-handle">@just.alfii</p>
-                <p class="social-handle">@rakapaksisp</p>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p class="copyright">Copyright © 2025 by Kelompok 7 PAW TI-A</p>
-            <p class="university">Fakultas Ilmu Komputer Universitas Brawijaya</p>
-        </div>
-    </footer>
 </body>
 </html>
