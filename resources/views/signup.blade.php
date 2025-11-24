@@ -273,8 +273,7 @@
     <div class="title">Create Account</div>
     <div class="subtitle">Join our community of reviewers</div>
 
-<form action="{{ route('register.post') }}" method="POST">
-    @csrf
+<form method="POST" action="{{ route('register') }}"> @csrf
     <div class="form-box">
 
         <label>Username</label>
@@ -294,7 +293,7 @@
 
         <div class="login-link-box">
             Already have an account?
-            <a href="{{ url('/login') }}" class="nav-link">Log in here</a>
+                <a href="{{ route('login') }}">Login here</a>
         </div>
     </div>
 </form>

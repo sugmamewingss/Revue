@@ -325,12 +325,11 @@ label {
     <div class="title">Welcome Back</div>
     <div class="subtitle">Log in to your account</div>
 
-<form action="{{ route('login.post') }}" method="POST">
-    @csrf
-
+<form method="POST" action="{{ route('login.post') }}" style="border: 1px solid red; padding: 20px;">
+    @csrf
     <div class="form-box">
 
-        @if (session('success'))
+        <!-- @if (session('success'))
             <script>
                 alert("{{ session('success') }}");
             </script>
@@ -340,7 +339,7 @@ label {
             <div class="error-alert">
                 {{ $errors->first('login_error') }}
             </div>
-        @endif
+        @endif -->
 
         <label>Email</label>
         <input type="email" name="email" class="input" required>
@@ -357,7 +356,7 @@ label {
 
         <div class="register-text">
             Don’t have an account?
-            <a href="{{ url('/signup') }}" class="nav-link">Register here</a>
+        <a href="{{ route('register') }}" class="nav-link">Register here</a>
         </div>
 
     </div>

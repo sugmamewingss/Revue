@@ -24,12 +24,12 @@ public function register(Request $request) {
     ]);
 
     User::create([
-    'name' => $request->username,   // OK
-    'username' => $request->username, // INI WAJIB ADA
-    'email' => $request->email,
-    'password' => Hash::make($request->password),
-]);
-
+        'name' => $request->username,
+        'username' => $request->username,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => 'user',
+    ]);
 
     return redirect()->route('login')->with('success', 'Your account has been created successfully!');
 }
@@ -57,7 +57,8 @@ public function register(Request $request) {
     }
 
     $request->session()->regenerate();
-    return redirect()->route('home');
+    // GANTI 'home' dengan 'homepage'
+    return redirect()->route('homepage');
 }
 
 
