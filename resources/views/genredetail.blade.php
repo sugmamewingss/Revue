@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REVUE - Books</title>
+    <!-- Menggunakan nama genre yang dipilih sebagai judul halaman -->
+    <title>REVUE - {{ $selectedGenre->name ?? 'Katalog Genre' }}</title>
     <style>
                         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
 
@@ -157,12 +158,13 @@
         }
 
       .footer-section {
-            position: absolute;
-            top: 2150px; /* Posisi footer dimulai dari sini */
+            position: relative;
+            margin-top: auto;
             width: 100%;
             height: 232px;
             z-index: 20;
         }
+
 
         /* Line 1 (Garis pemisah) */
         .footer-line {
@@ -305,121 +307,122 @@
                 gap: 30px;
             }
         }
+
+        
     </style>
 </head>
 <body>
-    <!-- Header -->
+    
+    <!-- === KOPAS HEADER DARI HOMEPAGE KE SINI === -->
     <header>
-        <div class="logo"></div>
+        <div class="logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}')"></div> 
+        
         <nav>
-            <a href="homepage.html">Home</a>
-            <a href="books.html">Books</a>
-            <a href="movies.html">Movie</a>
-            <a href="genre.html">Genre</a>
+            <a href="{{ route('homepage') }}" class="nav-link">Home</a>
+            <a href="{{ route('books.index') }}" class="nav-link">Books</a> 
+            <a href="{{ route('movies.index') }}" class="nav-link">Movie</a>
+            <a href="{{ route('genre.index') }}" class="nav-link" style="color: #ff0000;">Genre</a> <!-- Aktif -->
+            <a href="{{ route('user.mylist') }}" class="nav-link">My List</a>
         </nav>
+        
         <div class="search-container">
             <input type="text" class="search-box" placeholder="Search titles, authors...">
-            <div class="user-icon">
-                <a href="user.html" class="user-icon">
+            
+            <a href="{{ route('user.profile') }}" class="user-icon" title="Profil Saya">
                 <svg viewBox="0 0 24 24">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 
-                            1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 
-                            1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
-                </a>
-            </div>
+            </a>
+            
+            <form action="{{ route('logout') }}" method="POST" style="display:inline; margin-left: 20px;">
+                @csrf
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
         </div>
     </header>
+    
+    <!-- FORM FILTER - Menggunakan method GET (Filter akan diterapkan pada hasil Item) -->
+    <form method="GET" action="{{ route('genre.items', $selectedGenre->id) }}">
+        <div class="filters">
+            
+            <!-- 1. FILTER SORTING (Default) -->
+            <div class="filter-group">
+                <label>Sort:</label>
+                <select name="sort">
+                    <option value="">Select</option>
+                    <option value="title_asc">Title A-Z</option>
+                    <option value="title_desc">Title Z-A</option>
+                    <option value="year_desc">Year (Newest)</option>
+                    <option value="year_asc">Year (Oldest)</option>
+                </select>
+            </div>
+            
+            <!-- Tambahkan Group Filter lainnya jika diperlukan, misalnya Year -->
+            <button type="submit" style="display:none;">Apply Filters</button>
+        </div> 
+    </form>
 
-    <!-- Filters -->
-    <div class="filters">
-        <div class="filter-group">
-            <label>Sort:</label>
-            <select>
-                <option>Select</option>
-                <option>Title A-Z</option>
-                <option>Title Z-A</option>
-                <option>Year (Newest)</option>
-                <option>Year (Oldest)</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>Genre:</label>
-            <select>
-                <option>Select</option>
-                <option>Fiction</option>
-                <option>Non-Fiction</option>
-                <option>Mystery</option>
-                <option>Romance</option>
-                <option>Sci-Fi</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>Year:</label>
-            <select>
-                <option>Select</option>
-                <option>2024</option>
-                <option>2023</option>
-                <option>2022</option>
-                <option>2021</option>
-                <option>2020</option>
-            </select>
-        </div>
-    </div>
+    <div class="content">
+        <!-- Judul Halaman Katalog yang Dinamis -->
+        <section class="books-section">
+            <div class="section-header">
+                <!-- JUDUL DINAMIS -->
+                <h1 class="section-title">Semua Item dalam Genre: {{ $selectedGenre->name ?? 'Semua' }}</h1>
+                <p style="color:#aaa;">Menampilkan Buku dan Film</p>
+            </div>
+            
+            <!-- Grid Katalog Item -->
+            <div class="catalog-grid"> 
+                @forelse ($items as $item)
+                    <!-- Menghubungkan ke halaman detail item -->
+                    <a href="{{ route('item.detail', $item->id) }}" 
+                       class="card" 
+                       title="{{ $item->title }} ({{ $item->type }})" 
+                       style="background-image: url('{{ asset('covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
+                        {{-- Opsional: Tampilkan tipe item (Book/Movie) di sudut kartu --}}
+                        <div style="position:absolute; top:5px; right:5px; background:rgba(0,0,0,0.7); color:white; padding: 2px 6px; font-size:10px; border-radius:5px;">
+                            {{ strtoupper($item->type) }}
+                        </div>
+                    </a>
+                @empty
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 0; color: #aaa;">
+                        <p>Maaf, tidak ada Item (Buku/Film) yang ditemukan dalam genre <b>{{ $selectedGenre->name ?? 'ini' }}</b>.</p>
+                    </div>
+                @endforelse
+            </div>
+        </section>
+        
+    </div> 
 
-    <!-- Books Section -->
-    <section class="books-section">
-        <h2 class="section-title">Books</h2>
-        <div class="books-grid">
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
+    <!-- === FOOTER === -->
+    <footer class="footer-section">
+        <div class="footer-line"></div>
+        <div class="footer-content">
+            <div class="footer-left">
+                <!-- Logo Footer -->
+                <div class="footer-logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}');"></div>
+                <p class="footer-description">
+                    Revue adalah platform review buku dan film yang memudahkan pengguna untuk menilai, menulis ulasan, dan mengatur daftar tontonan atau bacaan secara personal.
+                </p>
+            </div>
+            <div class="footer-right">
+                <p class="follow-us-title">Follow Us</p>
+                <a href="#" class="social-link">@deuphanide</a>
+                <a href="#" class="social-link">@just.alfii</a>
+                <a href="#" class="social-link">@rakapaksisp</a>
+            </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-     <footer class="footer-section">
-                <div class="footer-line"></div>
-                <div class="footer-content">
-                    <div class="footer-left">
-                        <div class="footer-logo"></div>
-                        <p class="footer-description">
-                            Revue adalah platform review buku dan film yang memudahkan pengguna untuk menilai, menulis ulasan, dan mengatur daftar tontonan atau bacaan secara personal.
-                        </p>
-                    </div>
-                    <div class="footer-right">
-                        <p class="follow-us-title">Follow Us</p>
-                        <a href="#" class="social-link">@deuphanide</a>
-                        <a href="#" class="social-link">@just.alfii</a>
-                        <a href="#" class="social-link">@rakapaksisp</a>
-                    </div>
-                </div>
-                
-                <div class="footer-bottom">
-                    <div class="footer-line2"></div>
-                    <div class="tulisan">
-                    <p>Copyright © 2025 by Kelompok 7 PAW TI-A</p>
-                    <p>TI'24 Fakultas Ilmu Komputer Universitas Brawijaya</p>
-                    </div>
-                    
-                </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-line2"></div>
+            <div class="tulisan">
+                <p>Copyright © 2025 by Kelompok 7 PAW TI-A</p>
+                <p>TI'24 Fakultas Ilmu Komputer Universitas Brawijaya</p>
+            </div>
+        </div>
     </footer>
+
 </body>
 </html>

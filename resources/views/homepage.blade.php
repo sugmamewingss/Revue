@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REVUE - Home</title>
-     <style>
+    <!-- ... (Semua kode CSS Anda) ... -->
+    <style>
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
 
         * {
@@ -179,11 +180,42 @@
             fill: white;
         }
 
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 20px;
-        }
+        /* Pastikan ini ada di CSS Anda */
+.cards-grid {
+    display: grid;
+    /* Ganti repeat(5, 1fr) jika Anda ingin scrolling */
+    /* Gunakan grid-auto-flow: column untuk mengatur item secara horizontal */
+    grid-auto-flow: column; 
+    grid-template-rows: minmax(0, 1fr); /* Membatasi tinggi ke satu baris */
+    grid-template-columns: repeat(var(--card-count, 5), minmax(200px, 1fr)); /* Atur lebar minimal card */
+    
+    overflow-x: auto; /* Memungkinkan scrolling horizontal */
+    scroll-snap-type: x mandatory; /* Membuat scroll berhenti di item tertentu */
+    gap: 20px;
+    padding-bottom: 20px; /* Jaga agar bayangan card tidak terpotong */
+}
+
+/* Sembunyikan scrollbar di Webkit/Chrome/Safari */
+.cards-grid::-webkit-scrollbar {
+    display: none;
+}
+.cards-grid {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Agar card menempel saat digeser */
+.cards-grid .card {
+    scroll-snap-align: start;
+    flex-shrink: 0; /* Agar card tidak menyusut */
+}
+
+/* PERBAIKAN: Tombol View More seharusnya di luar cards-grid dan tidak position:absolute jika ada scrolling */
+/* Tombol View More hanya akan menjadi LINK ke halaman utama (Books/Movies) */
+.view-more {
+    /* Ganti logika position: absolute jika Anda ingin tombolnya di dalam viewport normal */
+    /* Jika Anda ingin tombolnya MENGGESER, Anda perlu JS */
+}
 
         .cards-grid.two-rows {
             grid-template-rows: repeat(2, 1fr);
@@ -247,7 +279,6 @@
         }
         
         .footer-logo {
-            background-image: url('css/img/revuekecil.png'); 
             width: 9rem;
             height: 3rem;
             margin-top: -0.8rem;
@@ -369,8 +400,8 @@
 </head>
 <body>
     <header>
-
-        <div class="logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}')"></div>        
+        <div class="logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}')"></div> 
+        
         <nav>
             <a href="{{ route('homepage') }}" class="nav-link">Home</a>
             <a href="{{ url('/books') }}" class="nav-link">Books</a> 
@@ -387,51 +418,169 @@
                 </svg>
             </a>
             
-            <form action="{{ route('logout') }}" method="POST" style="display:inline; margin-left: 20px;">
-                @csrf
-                <button type="submit" class="logout-btn">
-                    Logout
-                </button>
-            </form>
+            
         </div>
     </header>
 
+    <!-- FORM FILTER - Menggunakan method GET -->
     <form method="GET" action="{{ route('homepage') }}">
         <div class="filters">
+            
+            <!-- 1. FILTER SORTING -->
             <div class="filter-group">
                 <label>Sort:</label>
                 <select name="sort">
+                    {{-- Nilai yang dipilih dipertahankan dengan 'selected' --}}
                     <option value="">Select</option>
-                    <option value="title_asc">Title A-Z</option>
-                    <option value="title_desc">Title Z-A</option>
-                    <option value="year_desc">Year (Newest)</option>
-                    <option value="year_asc">Year (Oldest)</option>
+                    <option value="title_asc" {{ $selectedSort == 'title_asc' ? 'selected' : '' }}>Title A-Z</option>
+                    <option value="title_desc" {{ $selectedSort == 'title_desc' ? 'selected' : '' }}>Title Z-A</option>
+                    <option value="year_desc" {{ $selectedSort == 'year_desc' ? 'selected' : '' }}>Year (Newest)</option>
+                    <option value="year_asc" {{ $selectedSort == 'year_asc' ? 'selected' : '' }}>Year (Oldest)</option>
                 </select>
             </div>
+            
+            <!-- 2. FILTER GENRE (Dinamis dari DB) -->
+            <div class="filter-group">
+                <label>Genre:</label>
+                <select name="genre_id"> 
+                    <option value="">Select</option>
+                    @isset($genres)
+                        @foreach ($genres as $genre)
+                            <option value="{{ $genre->id }}" {{ $selectedGenre == $genre->id ? 'selected' : '' }}>
+                                {{ $genre->name }}
+                            </option>
+                        @endforeach
+                    @endisset
+                </select>
+            </div>
+
+            <!-- 3. FILTER YEAR (Dinamis Statis) -->
+            <div class="filter-group">
+                <label>Year:</label>
+                <select name="year"> 
+                    <option value="">Select</option>
+                    @php
+                        $currentYear = date('Y');
+                        $startYear = $currentYear - 25;
+                    @endphp
+                    @for ($year = $currentYear; $year >= $startYear; $year--)
+                        <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
+                            {{ $year }}
+                        </option>
+                    @endfor
+                </select>
+            </div>
+            
             <button type="submit" style="display:none;">Apply Filters</button>
-        </div>
+            
+        </div> 
     </form>
 
-
     <div class="content">
+        <!-- New Arrival Section -->
         <section class="category-section">
-    <div class="section-header">
-        <h2 class="section-title">New Arrival</h2>
-    </div>
-    
-    <div class="cards-grid two-rows"> 
-        @for ($i = 0; $i < 10; $i++)
-            <div class="card"></div>
-        @endfor
-    </div>
-</section>
+            <div class="section-header">
+                <h2 class="section-title">New Arrival</h2>
+            </div>
+            
+            <div class="cards-grid two-rows"> 
+                {{-- Menggunakan data aktual yang dikirim dari Controller --}}
+                @forelse ($newArrivals as $item)
+                    <div class="card" title="{{ $item->title }}">
+                        {{-- Placeholder image atau cover_image di sini --}}
+                    </div>
+                @empty
+                    @for ($i = 0; $i < 10; $i++)
+                        <div class="card"></div> {{-- Tampilkan placeholder jika kosong --}}
+                    @endfor
+                @endforelse
+            </div>
+        </section>
 
-        </div>
+        <!-- 2025's Best Section (Dapat dikloning dari New Arrival) -->
+        <section class="category-section">
+            <div class="section-header">
+                <h2 class="section-title">2025's Best</h2>
+            </div>
+            <div class="cards-grid">
+                @for ($i = 0; $i < 5; $i++)
+                    <div class="card"></div>
+                @endfor
+            </div>
+            <!-- <div class="view-more">
+                 <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            </div> -->
+        </section>
 
-    <footer>
-        <div class="footer-logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}');"></div>
-        <p>Copyright © 2025 by Kelompok 7 PAW TI-A</p>
+         <!-- Books Section -->
+        <section class="category-section">
+            <div class="section-header">
+                <h2 class="section-title">Books</h2>
+            </div>
+            <div class="cards-grid">
+                @forelse ($booksSection as $item)
+                    <div class="card" title="{{ $item->title }}" style="background-image: url('{{ asset('covers/' . $item->cover_image) }}');"></div>
+                @empty
+                    @for ($i = 0; $i < 5; $i++) <div class="card"></div> @endfor
+                @endforelse
+            </div>
+            <!-- LINK VIEW MORE -->
+            <a href="{{ url('/books') }}" class="view-more" title="Lihat Lebih Banyak Buku">
+                 <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            </a>
+        </section>
+
+        <!-- Movies Section -->
+        <section class="category-section">
+            <div class="section-header">
+                <h2 class="section-title">Movies</h2>
+            </div>
+            <div class="cards-grid">
+                @forelse ($moviesSection as $item)
+                    <div class="card" title="{{ $item->title }}" style="background-image: url('{{ asset('covers/' . $item->cover_image) }}');"></div>
+                @empty
+                    @for ($i = 0; $i < 5; $i++) <div class="card"></div> @endfor
+                @endforelse
+            </div>
+            <!-- LINK VIEW MORE -->
+            <a href="{{ url('/movies') }}" class="view-more" title="Lihat Lebih Banyak Film">
+                 <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            </a>
+        </section>
+        
+    </div> 
+
+    <footer class="footer-section">
+                <div class="footer-line"></div>
+                <div class="footer-content">
+                    <div class="footer-left">
+                    <div class="footer-logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}');"></div>
+                        <p class="footer-description">
+                            Revue adalah platform review buku dan film yang memudahkan pengguna untuk menilai, menulis ulasan, dan mengatur daftar tontonan atau bacaan secara personal.
+                        </p>
+                    </div>
+                    <div class="footer-right">
+                        <p class="follow-us-title">Follow Us</p>
+                        <a href="#" class="social-link">@deuphanide</a>
+                        <a href="#" class="social-link">@just.alfii</a>
+                        <a href="#" class="social-link">@rakapaksisp</a>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-line2"></div>
+                    <div class="tulisan">
+                    <p>Copyright © 2025 by Kelompok 7 PAW TI-A</p>
+                    <p>TI'24 Fakultas Ilmu Komputer Universitas Brawijaya</p>
+                    </div>
+                    
+                </div>
     </footer>
 
 </body>
+
+
+
 </html>
+
+

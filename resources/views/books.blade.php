@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REVUE - Books</title>
+    <title>REVUE - Books Catalog</title>
     <style>
                         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
 
@@ -157,12 +157,13 @@
         }
 
       .footer-section {
-            position: absolute;
-            top: 2150px; /* Posisi footer dimulai dari sini */
+            position: relative;
+            margin-top: auto;
             width: 100%;
             height: 232px;
             z-index: 20;
         }
+
 
         /* Line 1 (Garis pemisah) */
         .footer-line {
@@ -305,101 +306,120 @@
                 gap: 30px;
             }
         }
+
+        
     </style>
 </head>
 <body>
-    <!-- Header -->
+    
+    <!-- === KOPAS HEADER DARI HOMEPAGE KE SINI === -->
     <header>
-        <div class="logo"></div>
+        <div class="logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}')"></div> 
+        
         <nav>
-            <a href="homepage.html">Home</a>
-            <a href="books.html">Books</a>
-            <a href="movies.html">Movie</a>
-            <a href="genre.html">Genre</a>
+            <a href="{{ route('homepage') }}" class="nav-link">Home</a>
+            <a href="{{ url('/books') }}" class="nav-link">Books</a> 
+            <a href="{{ url('/movies') }}" class="nav-link">Movie</a>
+            <a href="{{ url('/genre') }}" class="nav-link">Genre</a>
         </nav>
+        
         <div class="search-container">
             <input type="text" class="search-box" placeholder="Search titles, authors...">
-            <div class="user-icon">
-                <a href="user.html" class="user-icon">
+            
+            <a href="{{ url('/user/profile') }}" class="user-icon">
                 <svg viewBox="0 0 24 24">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 
-                            1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 
-                            1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
-                </a>
-            </div>
+            </a>
+            
+            
         </div>
     </header>
+    
+    <!-- FORM FILTER - Menggunakan method GET -->
+    <form method="GET" action="{{ route('homepage') }}">
+        <div class="filters">
+            
+            <!-- 1. FILTER SORTING -->
+            <div class="filter-group">
+                <label>Sort:</label>
+                <select name="sort">
+                    {{-- Nilai yang dipilih dipertahankan dengan 'selected' --}}
+                    <option value="">Select</option>
+                    <option value="title_asc" {{ $selectedSort == 'title_asc' ? 'selected' : '' }}>Title A-Z</option>
+                    <option value="title_desc" {{ $selectedSort == 'title_desc' ? 'selected' : '' }}>Title Z-A</option>
+                    <option value="year_desc" {{ $selectedSort == 'year_desc' ? 'selected' : '' }}>Year (Newest)</option>
+                    <option value="year_asc" {{ $selectedSort == 'year_asc' ? 'selected' : '' }}>Year (Oldest)</option>
+                </select>
+            </div>
+            
+            <!-- 2. FILTER GENRE (Dinamis dari DB) -->
+            <div class="filter-group">
+                <label>Genre:</label>
+                <select name="genre_id"> 
+                    <option value="">Select</option>
+                    @isset($genres)
+                        @foreach ($genres as $genre)
+                            <option value="{{ $genre->id }}" {{ $selectedGenre == $genre->id ? 'selected' : '' }}>
+                                {{ $genre->name }}
+                            </option>
+                        @endforeach
+                    @endisset
+                </select>
+            </div>
 
-    <!-- Filters -->
-    <div class="filters">
-        <div class="filter-group">
-            <label>Sort:</label>
-            <select>
-                <option>Select</option>
-                <option>Title A-Z</option>
-                <option>Title Z-A</option>
-                <option>Year (Newest)</option>
-                <option>Year (Oldest)</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>Genre:</label>
-            <select>
-                <option>Select</option>
-                <option>Fiction</option>
-                <option>Non-Fiction</option>
-                <option>Mystery</option>
-                <option>Romance</option>
-                <option>Sci-Fi</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>Year:</label>
-            <select>
-                <option>Select</option>
-                <option>2024</option>
-                <option>2023</option>
-                <option>2022</option>
-                <option>2021</option>
-                <option>2020</option>
-            </select>
-        </div>
-    </div>
+            <!-- 3. FILTER YEAR (Dinamis Statis) -->
+            <div class="filter-group">
+                <label>Year:</label>
+                <select name="year"> 
+                    <option value="">Select</option>
+                    @php
+                        $currentYear = date('Y');
+                        $startYear = $currentYear - 25;
+                    @endphp
+                    @for ($year = $currentYear; $year >= $startYear; $year--)
+                        <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
+                            {{ $year }}
+                        </option>
+                    @endfor
+                </select>
+            </div>
+            
+            <button type="submit" style="display:none;">Apply Filters</button>
+            
+        </div> 
+    </form>
 
-    <!-- Books Section -->
-    <section class="books-section">
-        <h2 class="section-title">Books</h2>
-        <div class="books-grid">
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-            <div class="book-card"></div>
-        </div>
-    </section>
+    <div class="content">
+        <!-- Judul Halaman Katalog -->
+        <section class="books-section">
+            <div class="section-header">
+                <h1 class="section-title">All Books</h1>
+            </div>
+            
+            <!-- Grid Katalog Buku -->
+            <div class="catalog-grid"> 
+                @forelse ($allBooks as $item)
+                    <!-- Menghubungkan ke halaman detail item -->
+                    <a href="{{ url('/item/' . $item->id) }}" class="card" title="{{ $item->title }}" style="background-image: url('{{ asset('covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
+                        {{-- Nama Item, Rating, dll. bisa ditambahkan di sini --}}
+                    </a>
+                @empty
+                    <!-- KOREKSI: Tampilkan pesan jika tidak ada buku, HILANGKAN LOOP PLACEHOLDER -->
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px 0; color: #aaa;">
+                        <p>Maaf, tidak ada buku yang ditemukan sesuai kriteria filter Anda.</p>
+                        {{-- Jika database kosong, pesan ini akan muncul --}}
+                    </div>
+                @endforelse
+            </div>
+        </section>
+        
 
-    <!-- Footer -->
-     <footer class="footer-section">
+    <footer class="footer-section">
                 <div class="footer-line"></div>
                 <div class="footer-content">
                     <div class="footer-left">
-                        <div class="footer-logo"></div>
+                    <div class="footer-logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}');"></div>
                         <p class="footer-description">
                             Revue adalah platform review buku dan film yang memudahkan pengguna untuk menilai, menulis ulasan, dan mengatur daftar tontonan atau bacaan secara personal.
                         </p>
@@ -421,5 +441,6 @@
                     
                 </div>
     </footer>
+
 </body>
 </html>
