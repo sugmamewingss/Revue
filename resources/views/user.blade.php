@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVUE - My Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+ header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: #0d0d0d;
+            border-bottom: 1px solid #333;
+        }
+
+        .logo {
+            height: 40px;
+        }
+        
+        .logo img {
+            height: 100%;
+            width: auto;
+        }
+
+        nav {
+            display: flex;
+            gap: 40px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff0000;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 8px 15px;
+            color: #ffffff;
+            width: 200px;
+            margin-right: 20px;
+        }
+
+        .user-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #ff0000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .user-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .profile-section {
+            padding: 50px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 30px;
+            border-left: 4px solid #ff0000;
+            padding-left: 15px;
+        }
+
+        .profile-content {
+            display: flex;
+            gap: 50px;
+            align-items: flex-start;
+        }
+
+        .profile-image {
+            width: 220px;
+            height: 220px;
+            background-color: #d3d3d3;
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
+        .profile-form {
+            flex: 1;
+            max-width: 700px;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 80%;
+            background-color: #d3d3d3;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 20px;
+            font-size: 16px;
+            color: #333;
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .list-section {
+            padding: 50px;
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .list-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .list-card {
+            background-color: #d3d3d3;
+            border-radius: 10px;
+            aspect-ratio: 2/3;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .list-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .view-all-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: auto;
+            transition: background-color 0.3s;
+        }
+
+        .view-all-btn:hover {
+            background-color: #cc0000;
+        }
+
+        .view-all-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        
+
+        .footer-section {
+            position: absolute;
+            top: 1200px; /* Posisi footer dimulai dari sini */
+            width: 100%;
+            height: 232px;
+            z-index: 20;
+        }
+
+        /* Line 1 (Garis pemisah) */
+        .footer-line {
+            width: 100%; /* Disesuaikan agar penuh */
+            height: 0;
+            border-top: 1px solid #655C5C;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        /* Konten Footer Bawah */
+        .footer-content {
+            padding-top: 25px; /* Spasi dari garis */
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-left: 53px;
+            padding-right: 50px;
+        }
+
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            width: 350px;
+        }
+        
+        .footer-logo {
+            background-image: url('/images/revuekecil.png'); 
+            width: 9rem;
+            height: 3rem;
+            margin-top: -0.8rem;
+            margin-bottom: 0.2rem;
+            background-size: contain; 
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .footer-description {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 18px;
+            margin-bottom: 2rem;
+            margin-top: 0.2rem;
+            width: 276px;
+        }
+        
+        .footer-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            font-size: 18px;
+            line-height: 28px;
+            padding: -20px 0px 30px 53px;
+            
+        }
+        
+        .follow-us-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            margin-top: -0.5rem;
+        }
+        
+        .social-link {
+            color: #FFFFFF;
+            text-decoration: none;
+            margin-bottom: 3px;
+            transition: color 0.2s;
+        }
+
+        .social-link:hover {
+            color: #C10D0D;
+        }
+        
+        .footer-line2{
+            width: 100%; /* Disesuaikan agar penuh */
+            height: 0;
+            border-top: 1px solid #655C5C;
+            position: absolute;
+            left: 0;
+            bottom: 3.2rem;
+            
+        }
+
+        .tulisan{
+            position: absolute;
+            bottom: -1.2rem;
+            right : 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px 10px 53px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 20px;
+        }
+        .footer-bottom {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px 5px 53px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+
+        @media (max-width: 1200px) {
+            .list-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header, .profile-section, .list-section, footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .profile-content {
+                flex-direction: column;
+            }
+
+            .list-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            nav {
+                gap: 20px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/revuekecil.png" alt="REVUE">
+        </div>
+        <nav>
+            <a href="{{ route('homepage') }}">Home</a>
+            <a href="{{ route('books.index') }}">Books</a>
+            <a href="{{ route('movies.index') }}">Movie</a>
+            <a href="{{ route('genre.index') }}">Genre</a>
+
+        </nav>
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Search titles, authors...">
+            <div class="user-icon">
+                <a href="{{ route('user.page') }}" class="user-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 
+                            1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 
+                            1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="profile-section">
+        <h2 class="section-title">My Profile</h2>
+        <div class="profile-content">
+            <div class="profile-image"></div>
+            <div class="profile-form">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" value="{{ $user->name }}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" value="{{ $user->email }}" readonly>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="list-section">
+        <div class="list-header">
+            <h2 class="section-title">My List</h2>
+        </div>
+        <div class="list-grid">
+        @foreach($user->userList ?? [] as $item)
+        <div class="list-card">
+            <!-- render detail koleksi misal cover, judul -->
+            <img src="{{ asset('covers/' . $item->coverimage) }}" alt="{{ $item->title }}">
+            <p>{{ $item->title }}</p>
+        </div>
+        @endforeach
+        <!-- Placeholder jika kosong -->
+        @if(empty($user->userList) || count($user->userList) == 0)
+        <p style="color:#aaa;">Belum ada koleksi.</p>
+        @endif
+        </div>
+
+        <button class="view-all-btn" onclick="location.href='{{ route('user.mylist') }}'">
+            View All
+        </button>
+
+    </section>
+
+    <footer class="footer-section">
+                <div class="footer-line"></div>
+                <div class="footer-content">
+                    <div class="footer-left">
+                        <div class="footer-logo"></div>
+                        <p class="footer-description">
+                            Revue adalah platform review buku dan film yang memudahkan pengguna untuk menilai, menulis ulasan, dan mengatur daftar tontonan atau bacaan secara personal.
+                        </p>
+                    </div>
+                    <div class="footer-right">
+                        <p class="follow-us-title">Follow Us</p>
+                        <a href="#" class="social-link">@deuphanide</a>
+                        <a href="#" class="social-link">@just.alfii</a>
+                        <a href="#" class="social-link">@rakapaksisp</a>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-line2"></div>
+                    <div class="tulisan">
+                    <p>Copyright © 2025 by Kelompok 7 PAW TI-A</p>
+                    <p>TI'24 Fakultas Ilmu Komputer Universitas Brawijaya</p>
+                    </div>
+                    
+                </div>
+    </footer>
+</body>
+</html>
