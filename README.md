@@ -1,66 +1,174 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+---
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# **📱Revue — Social Review Platform (Laravel Web App)**
 
-## About Laravel
+Revue adalah aplikasi web berbasis Laravel yang dikembangkan sebagai platform komunitas untuk menulis, membaca, dan mengelola ulasan serta rating buku maupun film. Aplikasi ini dirancang responsif, mudah diinstal, dan cocok untuk mahasiswa, komunitas, serta pengguna umum yang ingin berbagi rekomendasi secara personal dan interaktif.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🎨 **Desain Figma Bisa Dilihat Disini!**
+Link: https://www.figma.com/design/VkQ3iz3qT775RdANxI33uf/REVUE_KELOMPOK-7?node-id=0-1&t=Ppo0IQj8rnlrxMlV-1
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🚀 **Fitur Utama**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### **1. Autentikasi Custom**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+* Registrasi & login dengan validasi form.
+* Notifikasi sukses/gagal.
+* Tampilan UI mengikuti desain Figma (landing page, login, register).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### **2. Manajemen Profil Pengguna**
 
-## Laravel Sponsors
+* Edit profil dan preferensi.
+* Mengatur genre favorit.
+* Mengelola koleksi buku/film pribadi.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### **3. CRUD Ulasan & Koleksi**
 
-### Premium Partners
+* Tambah, baca, edit, dan hapus ulasan.
+* Mendukung ulasan untuk buku maupun film.
+* Rating personal untuk setiap item.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### **4. Dashboard Aktivitas**
 
-## Contributing
+* Menampilkan daftar ulasan pengguna.
+* Menunjukkan perkembangan koleksi dan aktivitas terbaru.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### **5. UI & UX**
 
-## Code of Conduct
+* Blade template untuk modularisasi tampilan.
+* Custom CSS untuk gaya visual profesional.
+* Responsif di berbagai perangkat.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### **6. Footer Interaktif**
 
-## Security Vulnerabilities
+* Tautan langsung ke Instagram developer.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 🧱 **Teknologi & Arsitektur**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+* **Laravel Framework** (MVC Architecture)
+* **MySQL/MariaDB** (Relational Database)
+* **Blade Template Engine**
+* **Custom CSS**
+* **Resource Controller CRUD**
+* **Figma** sebagai dasar desain UI
+
+---
+
+## 📂 **Struktur Proyek (Ringkas)**
+
+```
+/app
+    /Http
+        /Controllers
+        /Middleware
+/resources
+    /views
+        /auth
+        /components
+        /dashboard
+        /reviews
+/public
+    /css
+    /js
+/database
+    /migrations
+/routes
+    web.php
+```
+
+---
+
+## ⚙️ **Instalasi & Setup**
+
+### 1. Clone repository
+
+```bash
+git clone https://github.com/username/revue.git
+cd revue
+```
+
+### 2. Install dependencies
+
+```bash
+composer install
+npm install && npm run build
+```
+
+### 3. Konfigurasi environment
+
+Duplikat file `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Sesuaikan:
+
+* DB_DATABASE
+* DB_USERNAME
+* DB_PASSWORD
+
+### 4. Generate key
+
+```bash
+php artisan key:generate
+```
+
+### 5. Migrasi database
+
+```bash
+php artisan migrate
+```
+
+### 6. Jalankan server
+
+```bash
+php artisan serve
+```
+
+Aplikasi dapat diakses melalui
+**[http://localhost:8000](http://localhost:8000)**
+
+---
+
+## 🧪 **Fitur Pengembangan**
+
+* Mudah dikembangkan berkat pola MVC.
+* Resource Controller mempermudah CRUD yang terstruktur.
+* Relational database memungkinkan relasi item–genre–review–user.
+* Foldering rapi untuk perluasan fitur di masa mendatang.
+
+---
+
+## 🧑‍💻 **Kontribusi**
+
+Kontribusi sangat terbuka!
+Silakan:
+
+1. Fork repository
+2. Buat branch baru
+3. Buat pull request
+
+---
+
+## 📎 **Kontak Developer**
+
+Instagram: **@deuphanide**
+Email: **ratnadevanida08@gmail.com**
+Instagram: **@just.alfii**
+Email: **alfiperdiansyah@gmail.com**
+Instagram: **@rakapaksisp**
+Email: **rakapsatryaputra@gmail.com**
+
+---
+
+## 📜 **Lisensi**
+
+Proyek ini dirilis dengan lisensi **Copyright © 2025 by Kelompok 7 PAW TI-A**.
+
+---
