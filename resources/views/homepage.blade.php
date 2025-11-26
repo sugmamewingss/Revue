@@ -410,6 +410,14 @@
         </nav>
         
         <div class="search-container">
+            @if (Auth::check() && Auth::user()->role === 'admin')
+            <a href="{{ route('admin.genre.index') }}" class="nav-link" style="color: #4CAF50; margin-right: 20px; font-weight: bold;">
+                Admin Panel
+            </a>
+            <a href="{{ route('admin.item.create') }}" class="nav-link" style="color: #4CAF50; margin-right: 20px;">
+                + Tambah Item
+            </a>
+        @endif
             <input type="text" class="search-box" placeholder="Search titles, authors...">
             
             <a href="{{ url('/user/profile') }}" class="user-icon">
@@ -418,10 +426,30 @@
                 </svg>
             </a>
             
-            
         </div>
+        <div class="content">
+    
+        
     </header>
 
+    <!-- Container utama Content Anda (Biasanya ini adalah container yang dapat di-scroll) -->
+<div class="content"> 
+
+    <!-- DISPLAY ALERT SUKSES DARI SESSIONS -->
+    @if (session('success'))
+        <div style="background: #28a745; color: white; padding: 15px 50px; border-radius: 5px; margin-top: 20px; margin-bottom: 20px; margin-left: 50px; margin-right: 50px;">
+            <strong>Sukses!</strong> {{ session('success') }}
+        </div>
+    @endif
+    
+    <!-- DISPLAY ALERT GAGAL DARI SESSIONS -->
+    @if (session('error'))
+        <div style="background: #C10D0D; color: white; padding: 15px 50px; border-radius: 5px; margin-top: 20px; margin-bottom: 20px; margin-left: 50px; margin-right: 50px;">
+            <strong>GAGAL!</strong> {{ session('error') }}
+        </div>
+    @endif
+
+    <!-- END ALERT SESI -->
     <!-- FORM FILTER - Menggunakan method GET -->
     <form method="GET" action="{{ route('homepage') }}">
         <div class="filters">
@@ -549,6 +577,13 @@
         </section>
         
     </div> 
+
+    <form action="{{ route('logout') }}" method="POST" id="logout-form" style="position:fixed; bottom: 0; left: 0; padding: 10px; background: red; z-index: 9999;">
+    @csrf
+    <button type="submit" style="color: white; border: none; background: none; cursor: pointer;">
+        Klik Di Sini Untuk FORCE LOGOUT
+    </button>
+</form>
 
     <footer class="footer-section">
                 <div class="footer-line"></div>

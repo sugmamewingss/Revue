@@ -319,28 +319,32 @@
         
         <nav>
             <a href="{{ route('homepage') }}" class="nav-link">Home</a>
-            <a href="{{ route('books.index') }}" class="nav-link">Books</a> 
-            <a href="{{ route('movies.index') }}" class="nav-link">Movie</a>
-            <a href="{{ route('genre.index') }}" class="nav-link" style="color: #ff0000;">Genre</a> <!-- Aktif -->
-            <a href="{{ route('user.mylist') }}" class="nav-link">My List</a>
+            <a href="{{ url('/books') }}" class="nav-link">Books</a> 
+            <a href="{{ url('/movies') }}" class="nav-link">Movie</a>
+            <a href="{{ url('/genre') }}" class="nav-link">Genre</a>
         </nav>
         
         <div class="search-container">
+            @if (Auth::check() && Auth::user()->role === 'admin')
+            <a href="{{ route('admin.genre.index') }}" class="nav-link" style="color: #4CAF50; margin-right: 20px; font-weight: bold;">
+                Admin Panel
+            </a>
+            <a href="{{ route('admin.item.create') }}" class="nav-link" style="color: #4CAF50; margin-right: 20px;">
+                + Tambah Item
+            </a>
+        @endif
             <input type="text" class="search-box" placeholder="Search titles, authors...">
             
-            <a href="{{ route('user.profile') }}" class="user-icon" title="Profil Saya">
+            <a href="{{ url('/user/profile') }}" class="user-icon">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
             </a>
             
-            <form action="{{ route('logout') }}" method="POST" style="display:inline; margin-left: 20px;">
-                @csrf
-                <button type="submit" class="logout-btn">
-                    Logout
-                </button>
-            </form>
+            
         </div>
+
+        
     </header>
     
     <!-- FORM FILTER - Menggunakan method GET (Filter akan diterapkan pada hasil Item) -->

@@ -13,19 +13,19 @@ class BookController extends Controller
      */
     public function index(Request $request)
     {
-        // Ambil semua Genre untuk dropdown filter
+        // 1. Pengambilan Data Dasar (Untuk Filter Dropdown)
         $genres = Genre::all(); 
 
-        // Ambil parameter filter dari request
+        // 2. Pengambilan Filter Input dari URL (Query Parameter)
         $sort = $request->query('sort');
         $genreId = $request->query('genre_id');
         $year = $request->query('year');
-        $search = $request->query('search'); // Tambahkan variabel search jika ada
+        $search = $request->query('search'); // Variabel search
 
-        // Query Dasar: Hanya ambil item bertipe 'book'
-        $itemsQuery = Item::query()->where('type', 'book');
+        // 3. Query Dasar: Hanya ambil item bertipe 'book'
+        $itemsQuery = Item::query()->where('type', 'book'); // <--- FILTER KRITIS UNTUK BOOKS
 
-        // --- 1. Implementasi Filter ---
+        // --- 4. Implementasi Logika Filtering ---
         
         // Filter Berdasarkan Genre
         if ($genreId) {
@@ -39,14 +39,14 @@ class BookController extends Controller
             $itemsQuery->where('release_year', $year);
         }
 
-        // Filter Berdasarkan Pencarian (Jika diperlukan)
+        // Filter Berdasarkan Pencarian
         if ($search) {
             $itemsQuery->where('title', 'like', '%' . $search . '%')
-                       ->orWhere('author_or_director', 'like', '%' . $search . '%');
+                         ->orWhere('author_or_director', 'like', '%' . $search . '%');
         }
 
 
-        // --- 2. Implementasi Sorting ---
+        // --- 5. Implementasi Logika Sorting ---
         
         if ($sort === 'title_asc') {
             $itemsQuery->orderBy('title', 'asc');
@@ -61,10 +61,10 @@ class BookController extends Controller
              $itemsQuery->orderBy('release_year', 'desc');
         }
         
-        // Ambil semua hasil (kita akan menampilkannya di grid besar, bukan paginasi)
+        // Ambil semua hasil
         $allBooks = $itemsQuery->get(); 
 
-        // Melewatkan data ke View
+        // 6. Melewatkan data ke View
         $data = [
             'genres' => $genres,
             'allBooks' => $allBooks,

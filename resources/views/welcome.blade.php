@@ -191,9 +191,9 @@
         <div class="background-gradient"></div>
 
         <header class="header">
-    <a href="{{ route('register') }}" class="nav-link">Sign Up</a> 
-    <a href="{{ route('login') }}" class="nav-link">Log In</a>
-</header>
+        <a href="{{ route('register') }}" class="nav-link">Sign Up</a> 
+        <a href="{{ route('login') }}" class="nav-link">Log In</a>
+        </header>
 
         <div class="main-logo-container">
             <img src="{{ asset('assets/LOGO-REVUE.png') }}" alt="Revue Logo">

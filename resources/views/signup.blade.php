@@ -301,7 +301,7 @@
     <footer class="footer-section">
                 <div class="footer-line"></div>
                 <div class="footer-content">
-                    <div class="footer-left">
+                    <div class="footer-left">SZS
                         <div class="footer-logo"></div>
                         <p class="footer-description">
                             Revue adalah platform review buku dan film yang memudahkan pengguna untuk menilai, menulis ulasan, dan mengatur daftar tontonan atau bacaan secara personal.

@@ -318,12 +318,20 @@
         
         <nav>
             <a href="{{ route('homepage') }}" class="nav-link">Home</a>
-            <a href="{{ route('books.index') }}" class="nav-link">Books</a> 
-            <a href="{{ url('movies.index') }}" class="nav-link">Movie</a>
+            <a href="{{ url('/books') }}" class="nav-link">Books</a> 
+            <a href="{{ url('/movies') }}" class="nav-link">Movie</a>
             <a href="{{ url('/genre') }}" class="nav-link">Genre</a>
         </nav>
         
         <div class="search-container">
+            @if (Auth::check() && Auth::user()->role === 'admin')
+            <a href="{{ route('admin.genre.index') }}" class="nav-link" style="color: #4CAF50; margin-right: 20px; font-weight: bold;">
+                Admin Panel
+            </a>
+            <a href="{{ route('admin.item.create') }}" class="nav-link" style="color: #4CAF50; margin-right: 20px;">
+                + Tambah Item
+            </a>
+        @endif
             <input type="text" class="search-box" placeholder="Search titles, authors...">
             
             <a href="{{ url('/user/profile') }}" class="user-icon">
@@ -332,8 +340,10 @@
                 </svg>
             </a>
             
-            
         </div>
+        <div class="content">
+    
+        
     </header>
     
     <!-- FORM FILTER - Menggunakan method GET -->

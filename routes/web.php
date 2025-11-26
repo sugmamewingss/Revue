@@ -5,60 +5,63 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\GenreController;
-
-// Landing page (opsional)
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// =========================
-// SIGNUP (REGISTER)
-// =========================
-// GANTI:
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
-Route::get('/signup', [AuthController::class, 'showRegister'])->name('register');
-
-// MENJADI:
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login'); // Hapus ->middleware('guest')
-Route::get('/signup', [AuthController::class, 'showRegister'])->name('register'); // Hapus ->middleware('guest')
-// =========================
-// LOGOUT
-// =========================
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\AdminController; 
+// WAJIB: Import Class Middleware yang akan digunakan secara langsung
+use App\Http\Middleware\OnlyAdmin; 
 
 // =========================
-// LOGIN (Rute POST)
+// AUTHENTICATION (Login, Register, Logout)
 // =========================
-// PASTIKAN BARIS INI ADA PERSIS SEPERTI INI:
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-
-use App\Http\Controllers\CatalogController; 
-// ... (Pastikan ini ada di bagian atas file)
-
-// =========================
-// HALAMAN SETELAH LOGIN (HOMEPAGE)
-// =========================
-
-// GANTI rute yang mungkin menggunakan closure function() {} lama
-// PASTIKAN SEMUA AKSES KE HOMEPAGE MENGGUNAKAN CONTROLLER
-Route::get('/homepage', [CatalogController::class, 'index'])
-    ->middleware('auth')
-    ->name('homepage');
-
-    // Asumsi Anda menggunakan CatalogController untuk homepage
+// Route utama: Mengarah ke Homepage jika sudah login, ke Welcome jika belum
 Route::get('/', [CatalogController::class, 'index'])->name('homepage');
 
-// === ROUTE BARU UNTUK HALAMAN BOOKS ===
-    Route::get('/books', [BookController::class, 'index'])->name('books.index');
+// Login GET dan POST
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
-     Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
-// Tambahkan route lain di sini (login, logout, admin, dll.)
-// ...
-// --- GENRE ---
-    // 1. Menampilkan Daftar Semua Genre (genre.blade.php)
-    Route::get('/genre', [GenreController::class, 'index'])->name('genre.index');
+// Sign Up GET dan POST
+Route::get('/signup', [AuthController::class, 'showRegister'])->name('register')->middleware('guest');
+Route::post('/signup', [AuthController::class, 'register'])->name('register.post'); // Solusi Error MethodNotAllowed
 
-    // 2. Menampilkan Item yang Difilter oleh ID Genre (Setelah Card Genre Diklik)
-    // Rute ini menerima ID dari URL, misalnya /genre/1
-    Route::get('/genre/{genreId}/items', [GenreController::class, 'showItemsByGenre'])
-        ->name('genre.items');
+// Rute yang butuh otentikasi
+Route::middleware('auth')->group(function () {
+    // LOGOUT
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Rute Profil User dan My List
+    Route::get('/user/profile', function() {
+        return "Halaman Profil User - Tombol Logout ada di sini";
+    })->name('user.profile');
+    
+    Route::get('/user/mylist', function() {
+        return "Halaman My List";
+    })->name('user.mylist');
+    
+    Route::get('/item/{itemId}', [CatalogController::class, 'showItemDetail'])->name('item.detail');
+
+    // ===============================================
+    // ADMIN ROUTES (MENGGUNAKAN FQCN BUKAN ALIAS)
+    // ===============================================
+    // MIDDELWARE KINI MENGGUNAKAN NAMA CLASS LANGSUNG (OnlyAdmin::class)
+    Route::middleware(OnlyAdmin::class)->prefix('admin')->group(function () { 
+        
+        // --- GENRE CRUD ---
+        Route::get('/genre', [AdminController::class, 'index'])->name('admin.genre.index');
+        Route::post('/genre', [AdminController::class, 'store'])->name('admin.genre.store'); 
+        Route::get('/genre/{genre}/edit', [AdminController::class, 'edit'])->name('admin.genre.edit'); 
+        Route::put('/genre/{genre}', [AdminController::class, 'update'])->name('admin.genre.update'); 
+        Route::delete('/genre/{genre}', [AdminController::class, 'destroy'])->name('admin.genre.destroy'); 
+
+        // --- ITEM CRUD (Kerangka Awal) ---
+        Route::get('/item/create', [AdminController::class, 'createItem'])->name('admin.item.create'); 
+        Route::post('/item', [AdminController::class, 'storeItem'])->name('admin.item.store'); 
+    });
+
+});
+
+// CATALOG VIEW (PUBLIC/GUEST)
+Route::get('/books', [BookController::class, 'index'])->name('books.index');
+Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
+Route::get('/genre', [GenreController::class, 'index'])->name('genre.index');
+Route::get('/genre/{genreId}/items', [GenreController::class, 'showItemsByGenre'])->name('genre.items');

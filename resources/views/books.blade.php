@@ -137,25 +137,23 @@
             padding-left: 15px;
         }
 
-        .books-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 20px;
+        .catalog-grid { 
+            display: grid; 
+            grid-template-columns: repeat(6, 1fr); /* 6 kolom di desktop */
+            gap: 20px; 
         }
-
-        .book-card {
-            background-color: #d3d3d3;
-            border-radius: 10px;
-            aspect-ratio: 2/3;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+        .card { 
+            background-color: #d3d3d3; 
+            border-radius: 10px; 
+            aspect-ratio: 2/3; 
+            cursor: pointer; 
+            transition: transform 0.3s, box-shadow 0.3s; 
+            text-decoration: none; /* Card adalah link */
+            display: block;
         }
-
-        .book-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3);
-        }
-
+        .card:hover { transform: translateY(-5px); box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3); }
+        /* ======================================================= */
+        
       .footer-section {
             position: relative;
             margin-top: auto;
@@ -324,6 +322,14 @@
         </nav>
         
         <div class="search-container">
+            @if (Auth::check() && Auth::user()->role === 'admin')
+            <a href="{{ route('admin.genre.index') }}" class="nav-link" style="color: #4CAF50; margin-right: 20px; font-weight: bold;">
+                Admin Panel
+            </a>
+            <a href="{{ route('admin.item.create') }}" class="nav-link" style="color: #4CAF50; margin-right: 20px;">
+                + Tambah Item
+            </a>
+        @endif
             <input type="text" class="search-box" placeholder="Search titles, authors...">
             
             <a href="{{ url('/user/profile') }}" class="user-icon">
@@ -332,8 +338,10 @@
                 </svg>
             </a>
             
-            
         </div>
+        <div class="content">
+    
+        
     </header>
     
     <!-- FORM FILTER - Menggunakan method GET -->
@@ -394,25 +402,30 @@
         <!-- Judul Halaman Katalog -->
         <section class="books-section">
             <div class="section-header">
-                <h1 class="section-title">All Books</h1>
+                <h1 class="section-title">Semua Buku</h1>
             </div>
             
             <!-- Grid Katalog Buku -->
+            <!-- PERBAIKAN: Menggunakan catalog-grid -->
             <div class="catalog-grid"> 
                 @forelse ($allBooks as $item)
                     <!-- Menghubungkan ke halaman detail item -->
-                    <a href="{{ url('/item/' . $item->id) }}" class="card" title="{{ $item->title }}" style="background-image: url('{{ asset('covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
+                    <a href="{{ route('item.detail', $item->id) }}" 
+                       class="card" 
+                       title="{{ $item->title }}" 
+                       style="background-image: url('{{ asset('covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
                         {{-- Nama Item, Rating, dll. bisa ditambahkan di sini --}}
                     </a>
                 @empty
-                    <!-- KOREKSI: Tampilkan pesan jika tidak ada buku, HILANGKAN LOOP PLACEHOLDER -->
+                    <!-- Pesan jika tidak ada buku ditemukan -->
                     <div style="grid-column: 1 / -1; text-align: center; padding: 40px 0; color: #aaa;">
                         <p>Maaf, tidak ada buku yang ditemukan sesuai kriteria filter Anda.</p>
-                        {{-- Jika database kosong, pesan ini akan muncul --}}
                     </div>
                 @endforelse
             </div>
         </section>
+        
+    </div> 
         
 
     <footer class="footer-section">
