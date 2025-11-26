@@ -57,4 +57,20 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function public() {
+    $user = auth()->user(); // atau sesuaikan user mana yang ditampilkan
+    return view('user', compact('user'));
+    }
+
+    public function showProfile() {
+    $user = auth()->user();
+    return view('user', compact('user'));
+    }
+
+    public function mylist() {
+    $user = auth()->user();
+    return view('mylist', compact('user'));
+    }
+
 }
