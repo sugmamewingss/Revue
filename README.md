@@ -189,6 +189,13 @@ Link:
 
 ---
 
+## 🎬 **Review Fitur pada Revue!**
+
+Link:
+👉 https://drive.google.com/file/d/1Rt4_s-nnZM45RWlzEOHV1wlyJ8X1QIvr/view?usp=sharing
+
+---
+
 ## 📎 **Kontak Developer**
 
 **Instagram:** @deuphanide
