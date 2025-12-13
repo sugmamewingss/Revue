@@ -4,6 +4,7 @@ use Illuminate\Support\Str;
 
 return [
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Default Database Connection Name
@@ -33,6 +34,10 @@ return [
     |
     */
 
+=======
+    'default' => env('DB_CONNECTION', 'sqlite'),
+
+>>>>>>> Stashed changes
     'connections' => [
 
         'sqlite' => [
@@ -89,12 +94,11 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
-            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
-            // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
     ],
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Migration Repository Table
@@ -119,6 +123,13 @@ return [
     |
     */
 
+=======
+    'migrations' => [
+        'table' => 'migrations',
+        'update_date_on_publish' => true,
+    ],
+
+>>>>>>> Stashed changes
     'redis' => [
 
         'client' => env('REDIS_CLIENT', 'phpredis'),
@@ -145,7 +156,5 @@ return [
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_CACHE_DB', '1'),
         ],
-
     ],
-
 ];

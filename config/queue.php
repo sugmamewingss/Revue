@@ -2,6 +2,7 @@
 
 return [
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Default Queue Connection Name
@@ -28,6 +29,10 @@ return [
     |
     */
 
+=======
+    'default' => env('QUEUE_CONNECTION', 'database'),
+
+>>>>>>> Stashed changes
     'connections' => [
 
         'sync' => [
@@ -71,6 +76,7 @@ return [
             'after_commit' => false,
         ],
 
+<<<<<<< Updated upstream
     ],
 
     /*
@@ -84,10 +90,34 @@ return [
     |
     */
 
+=======
+        'deferred' => [
+            'driver' => 'deferred',
+        ],
+
+        'background' => [
+            'driver' => 'background',
+        ],
+
+        'failover' => [
+            'driver' => 'failover',
+            'connections' => [
+                'database',
+                'deferred',
+            ],
+        ],
+
+    ],
+
+    'batching' => [
+        'database' => env('DB_CONNECTION', 'sqlite'),
+        'table' => 'job_batches',
+    ],
+
+>>>>>>> Stashed changes
     'failed' => [
         'driver' => env('QUEUE_FAILED_DRIVER', 'database-uuids'),
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
     ],
-
 ];

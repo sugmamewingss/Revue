@@ -2,6 +2,7 @@
 
 return [
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Third Party Services
@@ -19,6 +20,10 @@ return [
         'secret' => env('MAILGUN_SECRET'),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
         'scheme' => 'https',
+=======
+    'postmark' => [
+        'key' => env('POSTMARK_API_KEY'),
+>>>>>>> Stashed changes
     ],
 
     'postmark' => [
@@ -31,4 +36,13 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+<<<<<<< Updated upstream
+=======
+    'slack' => [
+        'notifications' => [
+            'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
+            'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
+        ],
+    ],
+>>>>>>> Stashed changes
 ];

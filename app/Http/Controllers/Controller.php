@@ -9,5 +9,9 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
+<<<<<<< Updated upstream
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+=======
+    
+>>>>>>> Stashed changes
 }

@@ -4,6 +4,7 @@ use Illuminate\Support\Str;
 
 return [
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Default Session Driver
@@ -32,9 +33,15 @@ return [
     */
 
     'lifetime' => env('SESSION_LIFETIME', 120),
+=======
+    'driver' => env('SESSION_DRIVER', 'database'),
+
+    'lifetime' => (int) env('SESSION_LIFETIME', 120),
+>>>>>>> Stashed changes
 
     'expire_on_close' => false,
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Session Encryption
@@ -59,21 +66,15 @@ return [
     |
     */
 
-    'files' => storage_path('framework/sessions'),
+=======
+    'encrypt' => env('SESSION_ENCRYPT', false),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Session Database Connection
-    |--------------------------------------------------------------------------
-    |
-    | When using the "database" or "redis" session drivers, you may specify a
-    | connection that should be used to manage these sessions. This should
-    | correspond to a connection in your database configuration options.
-    |
-    */
+>>>>>>> Stashed changes
+    'files' => storage_path('framework/sessions'),
 
     'connection' => env('SESSION_CONNECTION'),
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Session Database Table
@@ -100,21 +101,15 @@ return [
     |
     */
 
-    'store' => env('SESSION_STORE'),
+=======
+    'table' => env('SESSION_TABLE', 'sessions'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Session Sweeping Lottery
-    |--------------------------------------------------------------------------
-    |
-    | Some session drivers must manually sweep their storage location to get
-    | rid of old sessions from storage. Here are the chances that it will
-    | happen on a given request. By default, the odds are 2 out of 100.
-    |
-    */
+>>>>>>> Stashed changes
+    'store' => env('SESSION_STORE'),
 
     'lottery' => [2, 100],
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Session Cookie Name
@@ -126,11 +121,14 @@ return [
     |
     */
 
+=======
+>>>>>>> Stashed changes
     'cookie' => env(
         'SESSION_COOKIE',
         Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
     ),
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Session Cookie Path
@@ -155,21 +153,15 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+=======
+    'path' => env('SESSION_PATH', '/'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | HTTPS Only Cookies
-    |--------------------------------------------------------------------------
-    |
-    | By setting this option to true, session cookies will only be sent back
-    | to the server if the browser has a HTTPS connection. This will keep
-    | the cookie from being sent to you when it can't be done securely.
-    |
-    */
+>>>>>>> Stashed changes
+    'domain' => env('SESSION_DOMAIN'),
 
     'secure' => env('SESSION_SECURE_COOKIE'),
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | HTTP Access Only
@@ -197,5 +189,12 @@ return [
     */
 
     'same_site' => 'lax',
+=======
+    'http_only' => env('SESSION_HTTP_ONLY', true),
+
+    'same_site' => env('SESSION_SAME_SITE', 'lax'),
+
+    'partitioned' => env('SESSION_PARTITIONED_COOKIE', false),
+>>>>>>> Stashed changes
 
 ];

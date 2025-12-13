@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+<<<<<<< Updated upstream
     public function showLogin()
     {
         return view('auth.login');
@@ -19,6 +20,45 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
+=======
+    public function showRegister() {
+        return view('signup');
+    }
+
+public function register(Request $request) {
+
+    $request->validate([
+        'username' => 'required|max:50',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|min:8|confirmed'
+    ]);
+
+    User::create([
+        'name' => $request->username,
+        'username' => $request->username,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => 'user',
+    ]);
+
+    return redirect()->route('login')->with('success', 'Your account has been created successfully!');
+}
+
+    public function showLogin() {
+        return view('login');
+    }
+
+    public function login(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
+
+    if (!Auth::attempt($request->only('email', 'password'), $request->remember)) {
+        return back()->withErrors([
+            'login_error' => 'Email atau password salah'
+>>>>>>> Stashed changes
         ]);
         
         if (Auth::attempt($credentials, $request->filled('remember'))) {
@@ -30,6 +70,7 @@ class AuthController extends Controller
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
     }
+<<<<<<< Updated upstream
     
     public function showRegister()
     {
@@ -60,6 +101,15 @@ class AuthController extends Controller
     
     public function logout(Request $request)
     {
+=======
+
+    $request->session()->regenerate();
+    return redirect()->route('homepage');
+}
+
+
+    public function logout(Request $request) {
+>>>>>>> Stashed changes
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

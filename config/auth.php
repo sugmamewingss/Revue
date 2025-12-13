@@ -2,6 +2,7 @@
 
 return [
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
@@ -13,11 +14,14 @@ return [
     |
     */
 
+=======
+>>>>>>> Stashed changes
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
     ],
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
@@ -35,6 +39,8 @@ return [
     |
     */
 
+=======
+>>>>>>> Stashed changes
     'guards' => [
         'web' => [
             'driver' => 'session',
@@ -42,6 +48,7 @@ return [
         ],
     ],
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -59,18 +66,16 @@ return [
     |
     */
 
+=======
+>>>>>>> Stashed changes
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords
@@ -86,6 +91,8 @@ return [
     |
     */
 
+=======
+>>>>>>> Stashed changes
     'passwords' => [
         'users' => [
             'provider' => 'users',
@@ -95,6 +102,7 @@ return [
         ],
     ],
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Password Confirmation Timeout
@@ -107,5 +115,8 @@ return [
     */
 
     'password_timeout' => 10800,
+=======
+    'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
+>>>>>>> Stashed changes
 
 ];

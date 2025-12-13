@@ -2,6 +2,7 @@
 
 return [
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Default Mailer
@@ -33,6 +34,10 @@ return [
     |
     */
 
+=======
+    'default' => env('MAIL_MAILER', 'log'),
+
+>>>>>>> Stashed changes
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
@@ -49,8 +54,13 @@ return [
             'transport' => 'ses',
         ],
 
+<<<<<<< Updated upstream
         'mailgun' => [
             'transport' => 'mailgun',
+=======
+        'postmark' => [
+            'transport' => 'postmark',
+>>>>>>> Stashed changes
         ],
 
         'postmark' => [
@@ -80,6 +90,7 @@ return [
         ],
     ],
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Global "From" Address
@@ -91,10 +102,13 @@ return [
     |
     */
 
+=======
+>>>>>>> Stashed changes
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
+<<<<<<< Updated upstream
 
     /*
     |--------------------------------------------------------------------------
@@ -115,4 +129,6 @@ return [
         ],
     ],
 
+=======
+>>>>>>> Stashed changes
 ];

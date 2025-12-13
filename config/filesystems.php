@@ -2,6 +2,7 @@
 
 return [
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Default Filesystem Disk
@@ -28,6 +29,10 @@ return [
     |
     */
 
+=======
+    'default' => env('FILESYSTEM_DISK', 'local'),
+
+>>>>>>> Stashed changes
     'disks' => [
 
         'local' => [
@@ -42,6 +47,14 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
+        ],
+        'public_assets' => [
+            'driver' => 'local',
+            'root' => public_path('assets/covers'),
+            'url' => env('APP_URL').'/assets/covers',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
         ],
 
         's3' => [
@@ -58,19 +71,7 @@ return [
 
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Symbolic Links
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the symbolic links that will be created when the
-    | `storage:link` Artisan command is executed. The array keys should be
-    | the locations of the links and the values should be their targets.
-    |
-    */
-
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
-
 ];

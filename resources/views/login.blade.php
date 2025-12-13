@@ -1,0 +1,369 @@
+<?php
+
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Revue – Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: #1E1E1E;
+    color: #D9D9D9;
+    font-family: "Inter", sans-serif;
+    overflow-x: hidden;
+}
+
+.wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.bg-gradient {
+    position: absolute;
+    width: 2600px;
+    height: 1500px;
+    left: -550px;
+    top: -900px;
+    background: linear-gradient(171.72deg, #571313 6.61%, #1E1E1E 76.19%);
+    transform: rotate(27.55deg);
+    z-index: 1;
+}
+
+.logo {
+
+    position: absolute;
+    top: -5.8rem;
+    left: 41.8%;
+    width: 250px;
+    margin-bottom: 1rem;
+    height: 120px;
+    background-image:url("{{ asset('assets/revuekecil.png') }}");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left center;
+    z-index: 5;
+}
+
+.title {
+    position: relative;
+    margin-top: 200px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    z-index: 5;
+}
+
+.subtitle {
+    position: relative;
+    margin-top: -5px;
+    text-align: center;
+    font-size: 16px;
+    z-index: 5;
+}
+
+.form-box {
+    position: relative;
+    width: 390px;
+    max-width: 95%;
+    margin: 40px auto 0 auto;
+    background: #313032;
+    border-radius: 13px;
+    padding: 35px 30px;
+    z-index: 5;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.input {
+    width: 100%;
+    height: 42px;
+    background: #313032;
+    border: 1px solid #5E5E5E;
+    border-radius: 8px;
+    padding: 0 12px;
+    color: #D9D9D9;
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+
+.checkbox-area {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+.btn {
+    width: 100%;
+    height: 46px;
+    border-radius: 10px;
+    background: #9F0202;
+    color: #D9D9D9;
+    font-weight: 700;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    background: #7c0000;
+}
+
+.register-text {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.register-text a {
+    color: #D9D9D9;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.register-text a:hover {
+    color: #9F0202;
+}
+
+
+    .footer-section {
+            position: absolute;
+            top: 1000px;
+            width: 100%;
+            height: 232px;
+            z-index: 20;
+        }
+
+        .footer-line {
+            width: 100%;
+            height: 0;
+            border-top: 1px solid #655C5C;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        .footer-content {
+            padding-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-left: 53px;
+            padding-right: 50px;
+        }
+
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            width: 350px;
+        }
+        
+        .footer-logo {
+            background-image: url('css/img/revuekecil.png'); 
+            width: 9rem;
+            height: 3rem;
+            margin-top: -0.8rem;
+            margin-bottom: 0.2rem;
+            background-size: contain; 
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .footer-description {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 18px;
+            margin-bottom: 2rem;
+            margin-top: 0.2rem;
+            width: 276px;
+        }
+        
+        .footer-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            font-size: 18px;
+            line-height: 28px;
+            padding: -20px 0px 30px 53px;
+            
+        }
+        
+        .follow-us-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            margin-top: -0.5rem;
+        }
+        
+        .social-link {
+            color: #FFFFFF;
+            text-decoration: none;
+            margin-bottom: 3px;
+            transition: color 0.2s;
+        }
+
+        .social-link:hover {
+            color: #C10D0D;
+        }
+        
+        .footer-line2{
+            width: 100%;
+            height: 0;
+            border-top: 1px solid #655C5C;
+            position: absolute;
+            left: 0;
+            bottom: 3.2rem;
+            
+        }
+
+        .tulisan{
+            position: absolute;
+            bottom: -1.2rem;
+            right : 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px 10px 53px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 20px;
+        }
+        .footer-bottom {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px 5px 53px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+@media (max-width: 1400px) {
+    .bg-gradient {
+        width: 2200px;
+        left: -450px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .logo {
+        width: 200px;
+    }
+
+    .title {
+        margin-top: 130px;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+    .footer-right { text-align: center; }
+    .footer-left { text-align: center; }
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 26px;
+    }
+    .form-box {
+        padding: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <div class="bg-gradient"></div>
+
+    <div class="logo"></div>
+
+    <div class="title">Welcome Back</div>
+    <div class="subtitle">Log in to your account</div>
+
+<form method="POST" action="{{ route('login.post') }}" style="border: 1px solid red; padding: 20px;">
+    @csrf
+    <div class="form-box">
+
+        <label>Email</label>
+        <input type="email" name="email" class="input" required>
+
+        <label>Password</label>
+        <input type="password" name="password" class="input" required>
+
+        <div class="checkbox-area">
+            <input type="checkbox" id="remember" name="remember">
+            <label for="remember">Remember me</label>
+        </div>
+
+        <button type="submit" class="btn">Login</button>
+
+        <div class="register-text">
+            Don’t have an account?
+        <a href="{{ route('register') }}" class="nav-link">Register here</a>
+        </div>
+
+    </div>
+</form>
+
+
+
+    <footer class="footer-section">
+                <div class="footer-line"></div>
+                <div class="footer-content">
+                    <div class="footer-left">
+                        <div class="footer-logo"></div>
+                        <p class="footer-description">
+                            Revue adalah platform review buku dan film yang memudahkan pengguna untuk menilai, menulis ulasan, dan mengatur daftar tontonan atau bacaan secara personal.
+                        </p>
+                    </div>
+                    <div class="footer-right">
+                        <p class="follow-us-title">Follow Us</p>
+                        <a href="https://instagram.com/deuphanide" class="social-link" target="_blank">@deuphanide</a>
+                        <a href="https://instagram.com/just.alfii" class="social-link" target="_blank">@just.alfii</a>
+                        <a href="https://instagram.com/rakapaksisp" class="social-link" target="_blank">@rakapaksisp</a>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-line2"></div>
+                    <div class="tulisan">
+                    <p>Copyright © 2025 by Kelompok 7 PAW TI-A</p>
+                    <p>TI'24 Fakultas Ilmu Komputer Universitas Brawijaya</p>
+                    </div>
+                    
+                </div>
+    </footer>
+</div>
+
+</body>
+</html>

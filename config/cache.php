@@ -4,6 +4,7 @@ use Illuminate\Support\Str;
 
 return [
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Default Cache Store
@@ -30,6 +31,10 @@ return [
     |         "memcached", "redis", "dynamodb", "octane", "null"
     |
     */
+=======
+    'default' => env('CACHE_STORE', 'database'),
+
+>>>>>>> Stashed changes
 
     'stores' => [
 
@@ -62,7 +67,6 @@ return [
                 env('MEMCACHED_PASSWORD'),
             ],
             'options' => [
-                // Memcached::OPT_CONNECT_TIMEOUT => 2000,
             ],
             'servers' => [
                 [
@@ -94,6 +98,7 @@ return [
 
     ],
 
+<<<<<<< Updated upstream
     /*
     |--------------------------------------------------------------------------
     | Cache Key Prefix
@@ -106,5 +111,8 @@ return [
     */
 
     'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache_'),
+=======
+    'prefix' => env('CACHE_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')).'-cache-'),
+>>>>>>> Stashed changes
 
 ];

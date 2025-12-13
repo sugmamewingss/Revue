@@ -5,6 +5,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
+<<<<<<< Updated upstream
+=======
+    use HasFactory;
+
+    protected $table = 'items';
+    public $timestamps = false;
+    
+>>>>>>> Stashed changes
     protected $fillable = [
         'title',
         'type',
@@ -14,7 +22,11 @@ class Item extends Model
         'description',
     ];
 
+<<<<<<< Updated upstream
     public function genres()
+=======
+    public function reviews(): HasMany
+>>>>>>> Stashed changes
     {
         return $this->belongsToMany(Genre::class, 'item_genres');
     }
@@ -24,6 +36,7 @@ class Item extends Model
         return $this->hasMany(Review::class);
     }
 
+<<<<<<< Updated upstream
     public function averageRating()
     {
         return $this->reviews()->avg('rating');
@@ -32,5 +45,16 @@ class Item extends Model
     public function totalReviews()
     {
         return $this->reviews()->count();
+=======
+    public function savedByUsers()
+{
+    return $this->belongsToMany(
+        User::class,
+        'user_lists',
+        'item_id',
+        'user_id'
+    )->withPivot(['status', 'personal_score'])
+     ->withTimestamps();
+>>>>>>> Stashed changes
     }
 }

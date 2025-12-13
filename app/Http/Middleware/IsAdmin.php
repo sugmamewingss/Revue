@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class IsAdmin
 {
+<<<<<<< Updated upstream
     public function handle(Request $request, Closure $next)
     {
         if (!auth()->check()) {
@@ -15,6 +16,16 @@ class IsAdmin
         
         if (!auth()->user()->isAdmin()) {
             abort(403, 'Unauthorized access.');
+=======
+    public function handle(Request $request, Closure $next): Response
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('homepage')->with('error', 'Akses ditolak. Hanya Admin yang diizinkan.');
+>>>>>>> Stashed changes
         }
         
         return $next($request);
