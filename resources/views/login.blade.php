@@ -12,7 +12,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-/* RESET */
 *, *::before, *::after { box-sizing: border-box; }
 body {
     margin: 0;
@@ -22,14 +21,12 @@ body {
     overflow-x: hidden;
 }
 
-/* WRAPPER */
 .wrapper {
     position: relative;
     width: 100%;
     min-height: 100vh;
 }
 
-/* BACKGROUND GRADIENT */
 .bg-gradient {
     position: absolute;
     width: 2600px;
@@ -41,7 +38,6 @@ body {
     z-index: 1;
 }
 
-/* LOGO */
 .logo {
 
     position: absolute;
@@ -57,7 +53,6 @@ body {
     z-index: 5;
 }
 
-/* TITLE */
 .title {
     position: relative;
     margin-top: 200px;
@@ -75,7 +70,6 @@ body {
     z-index: 5;
 }
 
-/* FORM BOX */
 .form-box {
     position: relative;
     width: 390px;
@@ -131,7 +125,6 @@ label {
     background: #7c0000;
 }
 
-/* LINK REGISTER */
 .register-text {
     margin-top: 15px;
     text-align: center;
@@ -151,15 +144,14 @@ label {
 
     .footer-section {
             position: absolute;
-            top: 1000px; /* Posisi footer dimulai dari sini */
+            top: 1000px;
             width: 100%;
             height: 232px;
             z-index: 20;
         }
 
-        /* Line 1 (Garis pemisah) */
         .footer-line {
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -167,9 +159,8 @@ label {
             top: 0;
         }
         
-        /* Konten Footer Bawah */
         .footer-content {
-            padding-top: 25px; /* Spasi dari garis */
+            padding-top: 25px;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -231,7 +222,7 @@ label {
         }
         
         .footer-line2{
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -265,9 +256,6 @@ label {
             font-size: 13px;
         }
 
-/* --------- RESPONSIVE ADJUSTMENTS --------- */
-
-/* Layar 1400px ke bawah */
 @media (max-width: 1400px) {
     .bg-gradient {
         width: 2200px;
@@ -275,7 +263,6 @@ label {
     }
 }
 
-/* Layar 1024px ke bawah */
 @media (max-width: 1024px) {
     .logo {
         width: 200px;
@@ -286,7 +273,6 @@ label {
     }
 }
 
-/* Layar tablet */
 @media (max-width: 768px) {
     .footer-content {
         flex-direction: column;
@@ -302,7 +288,6 @@ label {
     }
 }
 
-/* Layar HP (opsional jika kamu mau full mobile) */
 @media (max-width: 480px) {
     .title {
         font-size: 26px;
@@ -328,18 +313,6 @@ label {
 <form method="POST" action="{{ route('login.post') }}" style="border: 1px solid red; padding: 20px;">
     @csrf
     <div class="form-box">
-
-        <!-- @if (session('success'))
-            <script>
-                alert("{{ session('success') }}");
-            </script>
-        @endif
-
-        @if ($errors->has('login_error'))
-            <div class="error-alert">
-                {{ $errors->first('login_error') }}
-            </div>
-        @endif -->
 
         <label>Email</label>
         <input type="email" name="email" class="input" required>
@@ -375,9 +348,9 @@ label {
                     </div>
                     <div class="footer-right">
                         <p class="follow-us-title">Follow Us</p>
-                        <a href="#" class="social-link">@deuphanide</a>
-                        <a href="#" class="social-link">@just.alfii</a>
-                        <a href="#" class="social-link">@rakapaksisp</a>
+                        <a href="https://instagram.com/deuphanide" class="social-link" target="_blank">@deuphanide</a>
+                        <a href="https://instagram.com/just.alfii" class="social-link" target="_blank">@just.alfii</a>
+                        <a href="https://instagram.com/rakapaksisp" class="social-link" target="_blank">@rakapaksisp</a>
                     </div>
                 </div>
                 

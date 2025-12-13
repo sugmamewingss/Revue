@@ -17,7 +17,21 @@
         .back-link { color: #D9D9D9; text-decoration: none; padding: 8px 15px; border: 1px solid #555; border-radius: 5px; transition: background 0.3s; }
         .back-link:hover { background: #1a1a1a; }
 
-        /* Form Styling */
+        .admin-actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        }
+
+        .admin-actions .back-link:last-child {
+    background: #C10D0D;
+    border-color: #C10D0D;
+}
+
+.admin-actions .back-link:last-child:hover {
+    background: #AA0000;
+}
+
         .form-add-genre { background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
         .form-add-genre h2 { color: #D9D9D9; border-bottom: 1px solid #555; padding-bottom: 10px; margin-bottom: 15px; }
         .form-group { margin-bottom: 15px; }
@@ -26,7 +40,6 @@
         .btn-submit { background: #C10D0D; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; transition: background 0.3s; }
         .btn-submit:hover { background: #AA0000; }
         
-        /* Table Styling */
         .genre-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         .genre-table th, .genre-table td { border: 1px solid #333; padding: 12px; text-align: left; }
         .genre-table th { background: #1a1a1a; color: #ff0000; }
@@ -36,16 +49,24 @@
         .btn-edit:hover { background: #0056b3; }
         .btn-delete:hover { background: #AA0000; }
 
-        /* Alert/Errors */
         .alert-success { background: #28a745; color: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
         .alert-danger { background: #C10D0D; color: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
     </style>
 </head>
+
+
 <body>
     <div class="admin-wrapper">
         <div class="admin-header">
-            <h1>Panel Admin: Pengelolaan Genre</h1>
-            <a href="{{ route('homepage') }}" class="back-link">Kembali ke Homepage</a>
+            <h1>Panel Admin: Kelola Genre</h1>
+            <div  class="admin-actions">
+                <a href="{{ route('homepage') }}" class="back-link">Kembali ke Homepage</a>
+            <a href="{{ route('admin.item.index') }}" class="back-link">
+            Kelola Item
+            </a>
+
+            </div>
+            
         </div>
 
         @if (session('success'))
@@ -58,11 +79,9 @@
             </div>
         @endif
 
-        <!-- Form Tambah Genre -->
         <div class="form-add-genre">
             <h2>{{ isset($editingGenre) ? 'Edit Genre: ' . $editingGenre->name : 'Tambah Genre Baru' }}</h2>
             
-            <!-- Form ini menangani CREATE dan UPDATE (jika editingGenre ada) -->
             <form action="{{ isset($editingGenre) ? route('admin.genre.update', $editingGenre->id) : route('admin.genre.store') }}" 
                   method="POST">
                 @csrf
@@ -74,7 +93,6 @@
                     <label for="name">Nama Genre</label>
                     <input type="text" id="name" name="name" 
                            value="{{ old('name', $editingGenre->name ?? '') }}" required>
-                    <!-- Tampilkan error validasi spesifik -->
                     @error('name')
                         <small style="color: #ffcccc; display: block; margin-top: 5px;">{{ $message }}</small>
                     @enderror
@@ -90,7 +108,6 @@
             </form>
         </div>
 
-        <!-- Daftar Genre yang Ada -->
         <h2>Daftar Semua Genre</h2>
         <table class="genre-table">
             <thead>
@@ -106,10 +123,8 @@
                         <td>{{ $genre->id }}</td>
                         <td>{{ $genre->name }}</td>
                         <td>
-                            <!-- Tombol Edit (Mengarah ke route yang sama dengan parameter ID) -->
                             <a href="{{ route('admin.genre.edit', $genre->id) }}" class="btn-edit">Edit</a>
                             
-                            <!-- Tombol Delete (Menggunakan Form DELETE) -->
                             <form action="{{ route('admin.genre.destroy', $genre->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -125,5 +140,6 @@
             </tbody>
         </table>
     </div>
+
 </body>
 </html>

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REVUE - Daftar Genre</title>
     <style>
-        /* [START CSS TEMPLATE] */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,7 +22,6 @@
         .logout-btn { border: none; background: none; cursor: pointer; color: #ffffff; font-size: 16px; font-family: 'Poppins'; text-decoration: none; transition: color 0.3s; padding: 0; }
         .logout-btn:hover { color: #ff0000; }
 
-        /* FILTERS & GENRE SPECIFIC */
         .filters { display: flex; gap: 30px; padding: 30px 50px; background-color: #0d0d0d; margin: 20px 50px; border-radius: 10px; border: 1px solid #333; }
         .genre-section { padding: 0 50px 50px; margin-top: 20px;} /* Margin atas tambahan */
         .section-title { font-size: 28px; margin-bottom: 30px; border-left: 4px solid #ff0000; padding-left: 15px; }
@@ -46,7 +44,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            text-decoration: none; /* Penting untuk link */
+            text-decoration: none;
             color: #ffffff;
         }
 
@@ -64,10 +62,8 @@
             z-index: 20;
         }
 
-
-        /* Line 1 (Garis pemisah) */
         .footer-line {
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -75,9 +71,8 @@
             top: 0;
         }
         
-        /* Konten Footer Bawah */
         .footer-content {
-            padding-top: 25px; /* Spasi dari garis */
+            padding-top: 25px;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -139,7 +134,7 @@
         }
         
         .footer-line2{
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -173,15 +168,12 @@
             font-size: 13px;
         }
 
-        
-        /* Tambahkan CSS responsive dari template Anda di sini */
         @media (max-width: 1200px) { .genre-grid { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 768px) { .genre-grid { grid-template-columns: repeat(2, 1fr); } }
     </style>
 </head>
 <body>
     
-    <!-- === KOPAS HEADER DARI HOMEPAGE KE SINI === -->
     <header>
         <div class="logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}')"></div> 
         
@@ -205,29 +197,21 @@
         </div>
     </header>
     
-    <!-- FORM FILTER (DIBUAT KOSONG) -->
-    
-    
     <div class="content">
-        <section class="genre-section">
-            <h2 class="section-title">Semua Kategori Genre</h2>
-            
-            <div class="genre-grid">
-                @forelse ($genres as $genre)
-                    {{-- Setiap kartu adalah tautan ke halaman katalog item yang difilter oleh genre ini --}}
-                    <a href="{{ route('genre.items', $genre->id) }}" class="genre-card">
-                        {{ $genre->name }}
-                    </a>
-                @empty
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px 0; color: #aaa;">
-                        <p>Tidak ada kategori genre yang ditemukan.</p>
-                    </div>
-                @endforelse
-            </div>
-        </section>
-    </div>
+    <section class="genre-section">
+        <h2 class="section-title">Semua Kategori Genre</h2>
 
-    <!-- === KOPAS FOOTER DARI HOMEPAGE KE SINI === -->
+        <div class="genre-grid">
+            @foreach ($genres as $genre)
+                <div class="genre-card">
+                    {{ $genre->name }}
+                </div>
+            @endforeach
+        </div>
+
+    </section>
+</div>
+
     <footer class="footer-section">
                 <div class="footer-line"></div>
                 <div class="footer-content">
@@ -239,9 +223,9 @@
                     </div>
                     <div class="footer-right">
                         <p class="follow-us-title">Follow Us</p>
-                        <a href="#" class="social-link">@deuphanide</a>
-                        <a href="#" class="social-link">@just.alfii</a>
-                        <a href="#" class="social-link">@rakapaksisp</a>
+                        <a href="https://instagram.com/deuphanide" class="social-link" target="_blank">@deuphanide</a>
+                        <a href="https://instagram.com/just.alfii" class="social-link" target="_blank">@just.alfii</a>
+                        <a href="https://instagram.com/rakapaksisp" class="social-link" target="_blank">@rakapaksisp</a>
                     </div>
                 </div>
                 

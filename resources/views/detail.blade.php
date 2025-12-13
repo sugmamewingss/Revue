@@ -17,7 +17,6 @@
             color: #ffffff;
         }
 
-        /* Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -84,7 +83,6 @@
             fill: white;
         }
 
-        /* Filters */
         .filters {
             display: flex;
             gap: 30px;
@@ -116,12 +114,10 @@
             min-width: 150px;
         }
 
-        /* Content */
         .content {
             padding: 0 50px 50px;
         }
 
-        /* Movie Detail Section */
         .movie-detail {
             margin-bottom: 50px;
         }
@@ -174,7 +170,6 @@
             min-height: 200px;
         }
 
-        /* Reviews Section */
         .reviews-section {
             margin-bottom: 50px;
         }
@@ -186,7 +181,6 @@
             min-height: 300px;
         }
 
-        /* Footer */
         footer {
             background-color: #0d0d0d;
             padding: 20px 50px;
@@ -252,7 +246,6 @@
             color: #666;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             header, .filters, .content, footer {
                 padding-left: 20px;
@@ -285,7 +278,6 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <div class="logo">
             <img src="revuekecil.png" alt="REVUE" onerror="this.parentElement.innerHTML='<div style=\'color:#ff0000;font-size:32px;font-weight:bold;\'>REVUE</div>'">
@@ -306,7 +298,6 @@
         </div>
     </header>
 
-    <!-- Filters -->
     <div class="filters">
         <div class="filter-group">
             <label>Sort:</label>
@@ -342,9 +333,7 @@
         </div>
     </div>
 
-    <!-- Content -->
     <div class="content">
-        <!-- Movie Detail Section -->
         <section class="movie-detail">
             <h2 class="section-title">Nama Film</h2>
             
@@ -359,14 +348,12 @@
             </div>
         </section>
 
-        <!-- Reviews Section -->
         <section class="reviews-section">
             <h2 class="section-title">Reviews</h2>
             <div class="reviews-box"></div>
         </section>
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-left">
@@ -379,9 +366,9 @@
             </div>
             <div class="footer-links">
                 <div class="footer-links-title">Follow Us</div>
-                <a href="#">@dusjufandse</a>
-                <a href="#">@justalfii</a>
-                <a href="#">@rakapakisip</a>
+                <a href="https://instagram.com/deuphanide" class="social-link" target="_blank">@deuphanide</a>
+                <a href="https://instagram.com/just.alfii" class="social-link" target="_blank">@just.alfii</a>
+                <a href="https://instagram.com/rakapaksisp" class="social-link" target="_blank">@rakapaksisp</a>
             </div>
         </div>
         <div class="footer-bottom">

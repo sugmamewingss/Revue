@@ -11,66 +11,66 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
+    public function showProfile()
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = Auth::user();
+
+        $myListPreview = $user->myListItems()
+            ->latest('user_lists.created_at')
+            ->take(5)
+            ->get();
+
+        return view('user', compact('user', 'myListPreview'));
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->user()->fill($request->validated());
+    public function mylist(Request $request)
+{
+    $user = Auth::user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+    $genres = \App\Models\Genre::all();
 
-        $request->user()->save();
+    $sort = $request->query('sort');
+    $genreId = $request->query('genre_id');
+    $year = $request->query('year');
+    $search = $request->query('search');
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    $query = $user->myListItems()
+        ->with('genres')
+        ->withAvg('reviews', 'rating');
+
+    if ($search) {
+        $query->where('title', 'like', '%' . $search . '%');
     }
 
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+    if ($genreId) {
+        $query->whereHas('genres', function ($q) use ($genreId) {
+            $q->where('genres.id', $genreId);
+        });
     }
 
-    public function public() {
-    $user = auth()->user(); // atau sesuaikan user mana yang ditampilkan
-    return view('user', compact('user'));
+    if ($year) {
+        $query->where('release_year', $year);
     }
 
-    public function showProfile() {
-    $user = auth()->user();
-    return view('user', compact('user'));
+    if ($sort === 'rating_desc') {
+        $query->orderByDesc('reviews_avg_rating');
+    } elseif ($sort === 'title_asc') {
+        $query->orderBy('title');
+    } else {
+        $query->latest('user_lists.created_at');
     }
 
-    public function mylist() {
-    $user = auth()->user();
-    return view('mylist', compact('user'));
-    }
+    $myListItems = $query->get();
+
+    return view('mylist', compact(
+        'user',
+        'myListItems',
+        'genres',
+        'sort',
+        'genreId',
+        'year',
+        'search'
+    ));
+}
 
 }

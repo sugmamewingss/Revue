@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REVUE - Home</title>
-    <!-- ... (Semua kode CSS Anda) ... -->
     <style>
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
 
@@ -20,7 +19,6 @@
             color: #ffffff;
         }
 
-        /* Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -97,7 +95,6 @@
             fill: white;
         }
 
-        /* Filters */
         .filters {
             display: flex;
             gap: 30px;
@@ -130,7 +127,6 @@
             min-width: 150px;
         }
 
-        /* Content Section */
         .content {
             padding: 0 50px 50px;
         }
@@ -144,6 +140,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 3.5rem;
             margin-bottom: 30px;
         }
 
@@ -180,68 +177,45 @@
             fill: white;
         }
 
-        /* Pastikan ini ada di CSS Anda */
 .cards-grid {
     display: grid;
-    /* Ganti repeat(5, 1fr) jika Anda ingin scrolling */
-    /* Gunakan grid-auto-flow: column untuk mengatur item secara horizontal */
-    grid-auto-flow: column; 
-    grid-template-rows: minmax(0, 1fr); /* Membatasi tinggi ke satu baris */
-    grid-template-columns: repeat(var(--card-count, 5), minmax(200px, 1fr)); /* Atur lebar minimal card */
-    
-    overflow-x: auto; /* Memungkinkan scrolling horizontal */
-    scroll-snap-type: x mandatory; /* Membuat scroll berhenti di item tertentu */
+    grid-auto-flow: column;
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-columns: repeat(var(--card-count, 5), minmax(200px, 1fr));
+
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
     gap: 20px;
-    padding-bottom: 20px; /* Jaga agar bayangan card tidak terpotong */
+    padding-bottom: 20px;
 }
 
-/* Sembunyikan scrollbar di Webkit/Chrome/Safari */
 .cards-grid::-webkit-scrollbar {
     display: none;
 }
+
 .cards-grid {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-/* Agar card menempel saat digeser */
 .cards-grid .card {
     scroll-snap-align: start;
-    flex-shrink: 0; /* Agar card tidak menyusut */
+    flex-shrink: 0;
 }
 
-/* PERBAIKAN: Tombol View More seharusnya di luar cards-grid dan tidak position:absolute jika ada scrolling */
-/* Tombol View More hanya akan menjadi LINK ke halaman utama (Books/Movies) */
-.view-more {
-    /* Ganti logika position: absolute jika Anda ingin tombolnya di dalam viewport normal */
-    /* Jika Anda ingin tombolnya MENGGESER, Anda perlu JS */
+.card {
+    background-color: #d3d3d3;
+    border-radius: 10px;
+    aspect-ratio: 2/3;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-        .cards-grid.two-rows {
-            grid-template-rows: repeat(2, 1fr);
-        }
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3);
+}
 
-        .card {
-            background-color: #d3d3d3;
-            border-radius: 10px;
-            aspect-ratio: 2/3;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3);
-        }
-        
-
-        /* .footer-section {
-            position: absolute;
-            top: 2900px;
-            width: 100%;
-            height: 232px;
-            z-index: 20;
-        } */
         .footer-section {
             position: relative;
             margin-top: auto;
@@ -250,9 +224,8 @@
             z-index: 20;
         }
 
-        /* Line 1 (Garis pemisah) */
         .footer-line {
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -260,9 +233,8 @@
             top: 0;
         }
         
-        /* Konten Footer Bawah */
         .footer-content {
-            padding-top: 25px; /* Spasi dari garis */
+            padding-top: 25px;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -323,7 +295,7 @@
         }
         
         .footer-line2{
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -357,7 +329,6 @@
             font-size: 13px;
         }
 
-        /* Responsive */
         @media (max-width: 1200px) {
             .cards-grid {
                 grid-template-columns: repeat(4, 1fr);
@@ -425,150 +396,96 @@
             </a>
             
         </div>
-        <div class="content">
+        
     
         
     </header>
 
-    <!-- Container utama Content Anda (Biasanya ini adalah container yang dapat di-scroll) -->
 <div class="content"> 
 
-    <!-- DISPLAY ALERT SUKSES DARI SESSIONS -->
     @if (session('success'))
         <div style="background: #28a745; color: white; padding: 15px 50px; border-radius: 5px; margin-top: 20px; margin-bottom: 20px; margin-left: 50px; margin-right: 50px;">
             <strong>Sukses!</strong> {{ session('success') }}
         </div>
     @endif
     
-    <!-- DISPLAY ALERT GAGAL DARI SESSIONS -->
     @if (session('error'))
         <div style="background: #C10D0D; color: white; padding: 15px 50px; border-radius: 5px; margin-top: 20px; margin-bottom: 20px; margin-left: 50px; margin-right: 50px;">
             <strong>GAGAL!</strong> {{ session('error') }}
         </div>
     @endif
 
-    <!-- END ALERT SESI -->
-    <!-- FORM FILTER - Menggunakan method GET -->
-    <form method="GET" action="{{ route('homepage') }}">
-        <div class="filters">
-            
-            <!-- 1. FILTER SORTING -->
-            <div class="filter-group">
-                <label>Sort:</label>
-                <select name="sort">
-                    {{-- Nilai yang dipilih dipertahankan dengan 'selected' --}}
-                    <option value="">Select</option>
-                    <option value="title_asc" {{ $selectedSort == 'title_asc' ? 'selected' : '' }}>Title A-Z</option>
-                    <option value="title_desc" {{ $selectedSort == 'title_desc' ? 'selected' : '' }}>Title Z-A</option>
-                    <option value="year_desc" {{ $selectedSort == 'year_desc' ? 'selected' : '' }}>Year (Newest)</option>
-                    <option value="year_asc" {{ $selectedSort == 'year_asc' ? 'selected' : '' }}>Year (Oldest)</option>
-                </select>
-            </div>
-            
-            <!-- 2. FILTER GENRE (Dinamis dari DB) -->
-            <div class="filter-group">
-                <label>Genre:</label>
-                <select name="genre_id"> 
-                    <option value="">Select</option>
-                    @isset($genres)
-                        @foreach ($genres as $genre)
-                            <option value="{{ $genre->id }}" {{ $selectedGenre == $genre->id ? 'selected' : '' }}>
-                                {{ $genre->name }}
-                            </option>
-                        @endforeach
-                    @endisset
-                </select>
-            </div>
-
-            <!-- 3. FILTER YEAR (Dinamis Statis) -->
-            <div class="filter-group">
-                <label>Year:</label>
-                <select name="year"> 
-                    <option value="">Select</option>
-                    @php
-                        $currentYear = date('Y');
-                        $startYear = $currentYear - 25;
-                    @endphp
-                    @for ($year = $currentYear; $year >= $startYear; $year--)
-                        <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
-                            {{ $year }}
-                        </option>
-                    @endfor
-                </select>
-            </div>
-            
-            <button type="submit" style="display:none;">Apply Filters</button>
-            
-        </div> 
-    </form>
-
     <div class="content">
-        <!-- New Arrival Section -->
-        <section class="category-section">
+        <section class="section">
             <div class="section-header">
                 <h2 class="section-title">New Arrival</h2>
             </div>
-            
-            <div class="cards-grid two-rows"> 
-                {{-- Menggunakan data aktual yang dikirim dari Controller --}}
+            <div class="cards-grid">
                 @forelse ($newArrivals as $item)
-                    <div class="card" title="{{ $item->title }}">
-                        {{-- Placeholder image atau cover_image di sini --}}
-                    </div>
+                    <a href="{{ route('item.detail', $item->id) }}" 
+                       class="card" 
+                       title="{{ $item->title }}" 
+                       style="background-image: url('{{ asset('assets/covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
+                    </a>
                 @empty
-                    @for ($i = 0; $i < 10; $i++)
-                        <div class="card"></div> {{-- Tampilkan placeholder jika kosong --}}
-                    @endfor
+                    <div style="grid-column: 1 / -1; text-align: center; color: #aaa;">No new arrivals found.</div>
                 @endforelse
             </div>
         </section>
 
-        <!-- 2025's Best Section (Dapat dikloning dari New Arrival) -->
         <section class="category-section">
             <div class="section-header">
                 <h2 class="section-title">2025's Best</h2>
+                <a href="{{ route('homepage', ['year' => date('Y') + 1]) }}" class="gada"></a>
             </div>
             <div class="cards-grid">
-                @for ($i = 0; $i < 5; $i++)
-                    <div class="card"></div>
-                @endfor
+                @forelse ($bestOf2025 as $item)
+                    <a href="{{ route('item.detail', $item->id) }}" 
+                       class="card" 
+                       title="{{ $item->title }}" 
+                       style="background-image: url('{{ asset('assets/covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
+                    </a>
+                @empty
+                    <div style="grid-column: 1 / -1; text-align: center; color: #aaa;">No upcoming releases for 2025 found.</div>
+                @endforelse
             </div>
-            <!-- <div class="view-more">
-                 <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
-            </div> -->
         </section>
 
-         <!-- Books Section -->
         <section class="category-section">
             <div class="section-header">
                 <h2 class="section-title">Books</h2>
             </div>
             <div class="cards-grid">
                 @forelse ($booksSection as $item)
-                    <div class="card" title="{{ $item->title }}" style="background-image: url('{{ asset('covers/' . $item->cover_image) }}');"></div>
+                    <a href="{{ route('item.detail', $item->id) }}" 
+                       class="card" 
+                       title="{{ $item->title }}" 
+                       style="background-image: url('{{ asset('assets/covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
+                    </a>
                 @empty
-                    @for ($i = 0; $i < 5; $i++) <div class="card"></div> @endfor
+                    <div style="grid-column: 1 / -1; text-align: center; color: #aaa;">No books found.</div>
                 @endforelse
             </div>
-            <!-- LINK VIEW MORE -->
             <a href="{{ url('/books') }}" class="view-more" title="Lihat Lebih Banyak Buku">
                  <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
             </a>
         </section>
 
-        <!-- Movies Section -->
         <section class="category-section">
             <div class="section-header">
                 <h2 class="section-title">Movies</h2>
             </div>
             <div class="cards-grid">
                 @forelse ($moviesSection as $item)
-                    <div class="card" title="{{ $item->title }}" style="background-image: url('{{ asset('covers/' . $item->cover_image) }}');"></div>
+                    <a href="{{ route('item.detail', $item->id) }}" 
+                       class="card" 
+                       title="{{ $item->title }}" 
+                       style="background-image: url('{{ asset('assets/covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
+                    </a>
                 @empty
-                    @for ($i = 0; $i < 5; $i++) <div class="card"></div> @endfor
+                    <div style="grid-column: 1 / -1; text-align: center; color: #aaa;">No movies found.</div>
                 @endforelse
             </div>
-            <!-- LINK VIEW MORE -->
             <a href="{{ url('/movies') }}" class="view-more" title="Lihat Lebih Banyak Film">
                  <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
             </a>
@@ -594,9 +511,9 @@
                     </div>
                     <div class="footer-right">
                         <p class="follow-us-title">Follow Us</p>
-                        <a href="#" class="social-link">@deuphanide</a>
-                        <a href="#" class="social-link">@just.alfii</a>
-                        <a href="#" class="social-link">@rakapaksisp</a>
+                        <a href="https://instagram.com/deuphanide" class="social-link" target="_blank">@deuphanide</a>
+                        <a href="https://instagram.com/just.alfii" class="social-link" target="_blank">@just.alfii</a>
+                        <a href="https://instagram.com/rakapaksisp" class="social-link" target="_blank">@rakapaksisp</a>
                     </div>
                 </div>
                 

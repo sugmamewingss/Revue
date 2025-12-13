@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Menggunakan nama genre yang dipilih sebagai judul halaman -->
     <title>REVUE - {{ $selectedGenre->name ?? 'Katalog Genre' }}</title>
     <style>
                         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
@@ -20,7 +19,6 @@
             color: #ffffff;
         }
 
-        /* Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -93,7 +91,6 @@
             fill: white;
         }
 
-        /* Filters */
         .filters {
             display: flex;
             gap: 30px;
@@ -126,7 +123,6 @@
             min-width: 150px;
         }
 
-        /* Books Section */
         .books-section {
             padding: 0 50px 50px;
         }
@@ -165,10 +161,8 @@
             z-index: 20;
         }
 
-
-        /* Line 1 (Garis pemisah) */
         .footer-line {
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -176,9 +170,8 @@
             top: 0;
         }
         
-        /* Konten Footer Bawah */
         .footer-content {
-            padding-top: 25px; /* Spasi dari garis */
+            padding-top: 25px;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -240,7 +233,7 @@
         }
         
         .footer-line2{
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -274,8 +267,6 @@
             font-size: 13px;
         }
 
-
-        /* Responsive */
         @media (max-width: 1200px) {
             .books-grid {
                 grid-template-columns: repeat(4, 1fr);
@@ -313,7 +304,6 @@
 </head>
 <body>
     
-    <!-- === KOPAS HEADER DARI HOMEPAGE KE SINI === -->
     <header>
         <div class="logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}')"></div> 
         
@@ -341,51 +331,64 @@
                 </svg>
             </a>
             
-            
         </div>
 
-        
     </header>
     
-    <!-- FORM FILTER - Menggunakan method GET (Filter akan diterapkan pada hasil Item) -->
-    <form method="GET" action="{{ route('genre.items', $selectedGenre->id) }}">
-        <div class="filters">
-            
-            <!-- 1. FILTER SORTING (Default) -->
-            <div class="filter-group">
-                <label>Sort:</label>
-                <select name="sort">
-                    <option value="">Select</option>
-                    <option value="title_asc">Title A-Z</option>
-                    <option value="title_desc">Title Z-A</option>
-                    <option value="year_desc">Year (Newest)</option>
-                    <option value="year_asc">Year (Oldest)</option>
-                </select>
-            </div>
-            
-            <!-- Tambahkan Group Filter lainnya jika diperlukan, misalnya Year -->
-            <button type="submit" style="display:none;">Apply Filters</button>
-        </div> 
-    </form>
+<form method="GET" action="{{ route('genre.items', $selectedGenre) }}">
+    <div class="filters">
+
+        <div class="filter-group">
+            <label>Sort:</label>
+            <select name="sort" onchange="this.form.submit()">
+                <option value="">Select</option>
+                <option value="title_asc" {{ $selectedSort == 'title_asc' ? 'selected' : '' }}>
+                    Title A-Z
+                </option>
+                <option value="title_desc" {{ $selectedSort == 'title_desc' ? 'selected' : '' }}>
+                    Title Z-A
+                </option>
+                <option value="year_desc" {{ $selectedSort == 'year_desc' ? 'selected' : '' }}>
+                    Year (Newest)
+                </option>
+                <option value="year_asc" {{ $selectedSort == 'year_asc' ? 'selected' : '' }}>
+                    Year (Oldest)
+                </option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Year:</label>
+            <select name="year" onchange="this.form.submit()">
+                <option value="">Select</option>
+                @php $currentYear = date('Y'); @endphp
+                @for ($y = $currentYear; $y >= $currentYear - 25; $y--)
+                    <option value="{{ $y }}" {{ $selectedYear == $y ? 'selected' : '' }}>
+                        {{ $y }}
+                    </option>
+                @endfor
+            </select>
+        </div>
+
+    </div>
+</form>
+
+
+    
 
     <div class="content">
-        <!-- Judul Halaman Katalog yang Dinamis -->
         <section class="books-section">
             <div class="section-header">
-                <!-- JUDUL DINAMIS -->
                 <h1 class="section-title">Semua Item dalam Genre: {{ $selectedGenre->name ?? 'Semua' }}</h1>
                 <p style="color:#aaa;">Menampilkan Buku dan Film</p>
             </div>
             
-            <!-- Grid Katalog Item -->
-            <div class="catalog-grid"> 
+            <div class="books-grid"> 
                 @forelse ($items as $item)
-                    <!-- Menghubungkan ke halaman detail item -->
                     <a href="{{ route('item.detail', $item->id) }}" 
-                       class="card" 
+                       class="book-card" 
                        title="{{ $item->title }} ({{ $item->type }})" 
-                       style="background-image: url('{{ asset('covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
-                        {{-- Opsional: Tampilkan tipe item (Book/Movie) di sudut kartu --}}
+                       style="background-image: url('{{ asset('assets/covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
                         <div style="position:absolute; top:5px; right:5px; background:rgba(0,0,0,0.7); color:white; padding: 2px 6px; font-size:10px; border-radius:5px;">
                             {{ strtoupper($item->type) }}
                         </div>
@@ -400,12 +403,10 @@
         
     </div> 
 
-    <!-- === FOOTER === -->
     <footer class="footer-section">
         <div class="footer-line"></div>
         <div class="footer-content">
             <div class="footer-left">
-                <!-- Logo Footer -->
                 <div class="footer-logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}');"></div>
                 <p class="footer-description">
                     Revue adalah platform review buku dan film yang memudahkan pengguna untuk menilai, menulis ulasan, dan mengatur daftar tontonan atau bacaan secara personal.
@@ -413,9 +414,9 @@
             </div>
             <div class="footer-right">
                 <p class="follow-us-title">Follow Us</p>
-                <a href="#" class="social-link">@deuphanide</a>
-                <a href="#" class="social-link">@just.alfii</a>
-                <a href="#" class="social-link">@rakapaksisp</a>
+                <a href="https://instagram.com/deuphanide" class="social-link" target="_blank">@deuphanide</a>
+                <a href="https://instagram.com/just.alfii" class="social-link" target="_blank">@just.alfii</a>
+                <a href="https://instagram.com/rakapaksisp" class="social-link" target="_blank">@rakapaksisp</a>
             </div>
         </div>
         
