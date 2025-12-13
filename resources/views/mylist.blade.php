@@ -1,3 +1,9 @@
+@php
+    $selectedSort = $selectedSort ?? null;
+    $selectedGenre = $selectedGenre ?? null;
+    $selectedYear = $selectedYear ?? null;
+    $selectedSearch = $selectedSearch ?? null;
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REVUE - Books</title>
     <style>
-                        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
 
         * {
             margin: 0;
@@ -19,7 +25,6 @@
             color: #ffffff;
         }
 
-        /* Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -37,7 +42,7 @@
     background-repeat: no-repeat;
     background-position: center;
 }
-        
+
         .logo img {
             height: 100%;
             width: auto;
@@ -46,14 +51,15 @@
         nav {
             display: flex;
             gap: 40px;
+            left: 6rem;
         }
 
         nav a {
             color: #ffffff;
             text-decoration: none;
             font-size: 16px;
-            transition: color 0.3s;
             font-family: 'Poppins';
+            transition: color 0.3s;
         }
 
         nav a:hover {
@@ -63,6 +69,7 @@
         .search-container {
             display: flex;
             align-items: center;
+            font-family: 'Poppins';
         }
 
         .search-box {
@@ -92,7 +99,6 @@
             fill: white;
         }
 
-        /* Filters */
         .filters {
             display: flex;
             gap: 30px;
@@ -109,23 +115,30 @@
             gap: 15px;
         }
 
-        .filter-group label {
-            color: #ffffff;
-            font-size: 14px;
-            font-family: 'Poppins';
-        }
-
         .filter-group select {
             background-color: #2a2a2a;
             border: 1px solid #444;
             border-radius: 5px;
-            padding: 8px 30px 8px 15px;
-            color: #ffffff;
-            cursor: pointer;
-            min-width: 150px;
+            padding: 8px 15px;
+            color: white;
         }
+        
+        .clear-filter-btn {
+    background-color: transparent;
+    border: 1px solid #ff0000;
+    color: #ff0000;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
 
-        /* Movies Section */
+.clear-filter-btn:hover {
+    background-color: #ff0000;
+    color: white;
+}
+
         .movies-section {
             padding: 0 50px 50px;
         }
@@ -136,26 +149,29 @@
             border-left: 4px solid #ff0000;
             padding-left: 15px;
         }
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
 
-        .movies-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 20px;
-        }
+.movies-card {
+    width: 180px;
+    height: 260px;
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #1a1a1a;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-        .movie-card {
-            background-color: #d3d3d3;
-            border-radius: 10px;
-            aspect-ratio: 2/3;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+.movies-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+}
 
-        .movie-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3);
-        }
-
+        
         .footer-section {
             position: relative;
             margin-top: auto;
@@ -164,9 +180,8 @@
             z-index: 20;
         }
 
-        /* Line 1 (Garis pemisah) */
         .footer-line {
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -174,9 +189,8 @@
             top: 0;
         }
         
-        /* Konten Footer Bawah */
         .footer-content {
-            padding-top: 25px; /* Spasi dari garis */
+            padding-top: 25px;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -237,7 +251,7 @@
         }
         
         .footer-line2{
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -271,22 +285,19 @@
             font-size: 13px;
         }
 
-
-
-        /* Responsive */
         @media (max-width: 1200px) {
-            .books-grid {
+            .cards-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
         }
 
         @media (max-width: 768px) {
-            header, .filters, .books-section, footer {
+            header, .filters, .content, footer {
                 padding-left: 20px;
                 padding-right: 20px;
             }
 
-            .books-grid {
+            .cards-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
 
@@ -300,112 +311,140 @@
                 margin: 20px;
             }
 
-            .footer-content {
-                flex-direction: column;
-                gap: 30px;
+            .view-more {
+                position: static;
+                transform: none;
+                margin-left: auto;
+            }
+
+            .view-more:hover {
+                transform: scale(1.1);
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    
     <header>
-        <div class="logo"></div>
+        <div class="logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}')"></div> 
+        
         <nav>
             <a href="{{ route('homepage') }}" class="nav-link">Home</a>
             <a href="{{ url('/books') }}" class="nav-link">Books</a> 
             <a href="{{ url('/movies') }}" class="nav-link">Movie</a>
             <a href="{{ url('/genre') }}" class="nav-link">Genre</a>
         </nav>
+        
         <div class="search-container">
-            <input type="text" class="search-box" placeholder="Search titles, authors...">
-            <a href="{{ url('/user/profile') }}" class="user-icon">
+
+    @if (Auth::check() && Auth::user()->role === 'admin')
+        <a href="{{ route('admin.genre.index') }}" class="nav-link" style="color:#4CAF50; margin-right:20px;">
+            Admin Panel
+        </a>
+        <a href="{{ route('admin.item.create') }}" class="nav-link" style="color:#4CAF50; margin-right:20px;">
+            + Tambah Item
+        </a>
+    @endif
+
+    <form method="GET" action="{{ url()->current() }}">
+        <input
+            type="text"
+            name="search"
+            class="search-box"
+            placeholder="Search..."
+            value="{{ request('search') }}"
+        >
+    </form>
+
+    <a href="{{ url('/user/profile') }}" class="user-icon">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
             </a>
-            </div>
-        </div>
+
+</div>
+
     </header>
 
-    <!-- Filters -->
-    <div class="filters">
-        <div class="filter-group">
-            <label>Sort:</label>
-            <select>
-                <option>Select</option>
-                <option>Title A-Z</option>
-                <option>Title Z-A</option>
-                <option>Year (Newest)</option>
-                <option>Year (Oldest)</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>Genre:</label>
-            <select>
-                <option>Select</option>
-                <option>Fiction</option>
-                <option>Non-Fiction</option>
-                <option>Mystery</option>
-                <option>Romance</option>
-                <option>Sci-Fi</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>Year:</label>
-            <select>
-                <option>Select</option>
-                <option>2024</option>
-                <option>2023</option>
-                <option>2022</option>
-                <option>2021</option>
-                <option>2020</option>
-            </select>
-        </div>
-    </div>
+    <form method="GET" action="{{ url('/movies') }}">
+        <input type="hidden" name="search" value="{{ request('search') }}">
 
-    <!-- Books Section -->
+        <div class="filters">
+
+            <div class="filter-group">
+                <label>Sort:</label>
+                    <select name="sort" onchange="this.form.submit()">
+                    <option value="">Select</option>
+                    <option value="title_asc" {{ $selectedSort == 'title_asc' ? 'selected' : '' }}>Title A-Z</option>
+                    <option value="title_desc" {{ $selectedSort == 'title_desc' ? 'selected' : '' }}>Title Z-A</option>
+                    <option value="year_desc" {{ $selectedSort == 'year_desc' ? 'selected' : '' }}>Newest</option>
+                    <option value="year_asc" {{ $selectedSort == 'year_asc' ? 'selected' : '' }}>Oldest</option>
+                    <option value="rating_desc" {{ $selectedSort == 'rating_desc' ? 'selected' : '' }}>
+                    Highest Rating
+                </option>
+
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Genre:</label>
+                <select name="genre_id" onchange="this.form.submit()">
+                    <option value="">Select</option>
+                    @foreach ($genres as $genre)
+                        <option value="{{ $genre->id }}" {{ $selectedGenre == $genre->id ? 'selected' : '' }}>
+                            {{ $genre->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Year:</label>
+                <select name="year" onchange="this.form.submit()">
+                    <option value="">Select</option>
+                    @php
+                        $currentYear = date('Y');
+                    @endphp
+                    @for ($y = $currentYear; $y >= $currentYear - 25; $y--)
+                        <option value="{{ $y }}" {{ $selectedYear == $y ? 'selected' : '' }}>{{ $y }}</option>
+                    @endfor
+                </select>
+            </div>
+
+
+        </div>
+    </form>
+    
     <section class="movies-section">
-        <h2 class="section-title">My List</h2>
-        <div class="movies-grid">
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-            <div class="movie-card"></div>
-        </div>
-    </section>
+    <h2 class="section-title">My List</h2>
 
-    <!-- Footer -->
-     <footer class="footer-section">
+    <div class="movies-grid">
+        @forelse($myListItems as $item)
+            <div class="movies-card"
+                onclick="location.href='{{ route('item.detail', $item->id) }}'"
+                style="cursor:pointer;
+                background-image:url('{{ asset('assets/covers/' . $item->cover_image) }}');">
+            </div>
+        @empty
+            <p style="color:#aaa;">My List kamu masih kosong.</p>
+        @endforelse
+    </div>
+</section>
+
+    <footer class="footer-section">
                 <div class="footer-line"></div>
                 <div class="footer-content">
                     <div class="footer-left">
-                        <div class="footer-logo"></div>
+                <div class="footer-logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}');"></div>
                         <p class="footer-description">
                             Revue adalah platform review buku dan film yang memudahkan pengguna untuk menilai, menulis ulasan, dan mengatur daftar tontonan atau bacaan secara personal.
                         </p>
                     </div>
                     <div class="footer-right">
                         <p class="follow-us-title">Follow Us</p>
-                        <a href="#" class="social-link">@deuphanide</a>
-                        <a href="#" class="social-link">@just.alfii</a>
-                        <a href="#" class="social-link">@rakapaksisp</a>
+                        <a href="https://instagram.com/deuphanide" class="social-link" target="_blank">@deuphanide</a>
+                        <a href="https://instagram.com/just.alfii" class="social-link" target="_blank">@just.alfii</a>
+                        <a href="https://instagram.com/rakapaksisp" class="social-link" target="_blank">@rakapaksisp</a>
                     </div>
                 </div>
                 

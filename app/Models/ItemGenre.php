@@ -5,10 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-// Menggunakan BelongsTo, bukan Model, karena ini adalah tabel perantara (pivot)
 class ItemGenre extends Pivot 
 {
-    // Tabel pivot biasanya tidak memerlukan timestamps
     public $timestamps = false;
     protected $table = 'item_genres';
 
@@ -17,7 +15,6 @@ class ItemGenre extends Pivot
         'genre_id',
     ];
 
-    // Relasi opsional untuk referensi balik
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class);

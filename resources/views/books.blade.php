@@ -1,3 +1,11 @@
+@php
+    $selectedSort = $selectedSort ?? null;
+    $selectedGenre = $selectedGenre ?? null;
+    $selectedYear = $selectedYear ?? null;
+    $selectedSearch = $selectedSearch ?? null;
+@endphp
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REVUE - Books Catalog</title>
     <style>
-                        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
 
         * {
             margin: 0;
@@ -19,7 +27,6 @@
             color: #ffffff;
         }
 
-        /* Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -92,7 +99,6 @@
             fill: white;
         }
 
-        /* Filters */
         .filters {
             display: flex;
             gap: 30px;
@@ -125,7 +131,6 @@
             min-width: 150px;
         }
 
-        /* Books Section */
         .books-section {
             padding: 0 50px 50px;
         }
@@ -139,7 +144,7 @@
 
         .catalog-grid { 
             display: grid; 
-            grid-template-columns: repeat(6, 1fr); /* 6 kolom di desktop */
+            grid-template-columns: repeat(6, 1fr);
             gap: 20px; 
         }
         .card { 
@@ -148,11 +153,10 @@
             aspect-ratio: 2/3; 
             cursor: pointer; 
             transition: transform 0.3s, box-shadow 0.3s; 
-            text-decoration: none; /* Card adalah link */
+            text-decoration: none;
             display: block;
         }
         .card:hover { transform: translateY(-5px); box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3); }
-        /* ======================================================= */
         
       .footer-section {
             position: relative;
@@ -162,10 +166,8 @@
             z-index: 20;
         }
 
-
-        /* Line 1 (Garis pemisah) */
         .footer-line {
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -173,9 +175,8 @@
             top: 0;
         }
         
-        /* Konten Footer Bawah */
         .footer-content {
-            padding-top: 25px; /* Spasi dari garis */
+            padding-top: 25px;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -237,7 +238,7 @@
         }
         
         .footer-line2{
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -271,8 +272,6 @@
             font-size: 13px;
         }
 
-
-        /* Responsive */
         @media (max-width: 1200px) {
             .books-grid {
                 grid-template-columns: repeat(4, 1fr);
@@ -310,7 +309,6 @@
 </head>
 <body>
     
-    <!-- === KOPAS HEADER DARI HOMEPAGE KE SINI === -->
     <header>
         <div class="logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}')"></div> 
         
@@ -322,37 +320,42 @@
         </nav>
         
         <div class="search-container">
-            @if (Auth::check() && Auth::user()->role === 'admin')
-            <a href="{{ route('admin.genre.index') }}" class="nav-link" style="color: #4CAF50; margin-right: 20px; font-weight: bold;">
-                Admin Panel
-            </a>
-            <a href="{{ route('admin.item.create') }}" class="nav-link" style="color: #4CAF50; margin-right: 20px;">
-                + Tambah Item
-            </a>
-        @endif
-            <input type="text" class="search-box" placeholder="Search titles, authors...">
-            
-            <a href="{{ url('/user/profile') }}" class="user-icon">
+
+    @if (Auth::check() && Auth::user()->role === 'admin')
+        <a href="{{ route('admin.genre.index') }}" class="nav-link" style="color:#4CAF50; margin-right:20px;">
+            Admin Panel
+        </a>
+        <a href="{{ route('admin.item.create') }}" class="nav-link" style="color:#4CAF50; margin-right:20px;">
+            + Tambah Item
+        </a>
+    @endif
+
+    <form method="GET" action="{{ url()->current() }}">
+        <input
+            type="text"
+            name="search"
+            class="search-box"
+            placeholder="Search..."
+            value="{{ request('search') }}"
+        >
+    </form>
+
+    <a href="{{ url('/user/profile') }}" class="user-icon">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
             </a>
-            
-        </div>
-        <div class="content">
-    
-        
+
+</div>
+
     </header>
     
-    <!-- FORM FILTER - Menggunakan method GET -->
-    <form method="GET" action="{{ route('homepage') }}">
-        <div class="filters">
+<form method="GET" action="{{ url('/books') }}">
+    <div class="filters">
             
-            <!-- 1. FILTER SORTING -->
             <div class="filter-group">
                 <label>Sort:</label>
-                <select name="sort">
-                    {{-- Nilai yang dipilih dipertahankan dengan 'selected' --}}
+                <select name="sort" onchange="this.form.submit()">
                     <option value="">Select</option>
                     <option value="title_asc" {{ $selectedSort == 'title_asc' ? 'selected' : '' }}>Title A-Z</option>
                     <option value="title_desc" {{ $selectedSort == 'title_desc' ? 'selected' : '' }}>Title Z-A</option>
@@ -361,10 +364,9 @@
                 </select>
             </div>
             
-            <!-- 2. FILTER GENRE (Dinamis dari DB) -->
             <div class="filter-group">
                 <label>Genre:</label>
-                <select name="genre_id"> 
+                <select name="genre_id" onchange="this.form.submit()">
                     <option value="">Select</option>
                     @isset($genres)
                         @foreach ($genres as $genre)
@@ -376,10 +378,9 @@
                 </select>
             </div>
 
-            <!-- 3. FILTER YEAR (Dinamis Statis) -->
             <div class="filter-group">
                 <label>Year:</label>
-                <select name="year"> 
+                <select name="year" onchange="this.form.submit()">
                     <option value="">Select</option>
                     @php
                         $currentYear = date('Y');
@@ -399,25 +400,19 @@
     </form>
 
     <div class="content">
-        <!-- Judul Halaman Katalog -->
         <section class="books-section">
             <div class="section-header">
                 <h1 class="section-title">Semua Buku</h1>
             </div>
             
-            <!-- Grid Katalog Buku -->
-            <!-- PERBAIKAN: Menggunakan catalog-grid -->
             <div class="catalog-grid"> 
                 @forelse ($allBooks as $item)
-                    <!-- Menghubungkan ke halaman detail item -->
                     <a href="{{ route('item.detail', $item->id) }}" 
                        class="card" 
                        title="{{ $item->title }}" 
-                       style="background-image: url('{{ asset('covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
-                        {{-- Nama Item, Rating, dll. bisa ditambahkan di sini --}}
+                       style="background-image: url('{{ asset('assets/covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
                     </a>
                 @empty
-                    <!-- Pesan jika tidak ada buku ditemukan -->
                     <div style="grid-column: 1 / -1; text-align: center; padding: 40px 0; color: #aaa;">
                         <p>Maaf, tidak ada buku yang ditemukan sesuai kriteria filter Anda.</p>
                     </div>
@@ -439,9 +434,9 @@
                     </div>
                     <div class="footer-right">
                         <p class="follow-us-title">Follow Us</p>
-                        <a href="#" class="social-link">@deuphanide</a>
-                        <a href="#" class="social-link">@just.alfii</a>
-                        <a href="#" class="social-link">@rakapaksisp</a>
+                        <a href="https://instagram.com/deuphanide" class="social-link" target="_blank">@deuphanide</a>
+                        <a href="https://instagram.com/just.alfii" class="social-link" target="_blank">@just.alfii</a>
+                        <a href="https://instagram.com/rakapaksisp" class="social-link" target="_blank">@rakapaksisp</a>
                     </div>
                 </div>
                 

@@ -5,82 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REVUE - My Profile</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1a1a1a;
-            color: #ffffff;
-        }
- header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            background-color: #0d0d0d;
-            border-bottom: 1px solid #333;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #1a1a1a; color: #ffffff; }
 
-        .logo {
-            height: 40px;
-        }
-        
-        .logo img {
-            height: 100%;
-            width: auto;
-        }
-
-        nav {
-            display: flex;
-            gap: 40px;
-        }
-
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 16px;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #ff0000;
-        }
-
-        .search-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .search-box {
-            background-color: #2a2a2a;
-            border: 1px solid #444;
-            border-radius: 5px;
-            padding: 8px 15px;
-            color: #ffffff;
-            width: 200px;
-            margin-right: 20px;
-        }
-
-        .user-icon {
-            width: 40px;
-            height: 40px;
-            background-color: #ff0000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .user-icon svg {
-            width: 20px;
-            height: 20px;
-            fill: white;
-        }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background-color: #0d0d0d; border-bottom: 1px solid #333; }
+        .logo { width: 180px; height: 60px; background-size: contain; background-repeat: no-repeat; background-position: center; }
+        nav { display: flex; gap: 40px; }
+        nav a { color: #ffffff; text-decoration: none; font-size: 16px; font-family: 'Poppins'; transition: color 0.3s; }
+        nav a:hover { color: #ff0000; }
+        .search-container { display: flex; align-items: center; }
+        .search-box { background-color: #2a2a2a; border: 1px solid #444; border-radius: 5px; padding: 8px 15px; color: #ffffff; width: 200px; margin-right: 20px; }
+        .user-icon { width: 40px; height: 40px; background-color: #ff0000; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .user-icon svg { width: 20px; height: 20px; fill: white; }
+        .logout-btn { border: none; background: none; cursor: pointer; color: #ffffff; font-size: 16px; font-family: 'Poppins'; text-decoration: none; transition: color 0.3s; padding: 0; }
+        .logout-btn:hover { color: #ff0000; }
 
         .profile-section {
             padding: 50px;
@@ -100,12 +40,17 @@
         }
 
         .profile-image {
-            width: 220px;
-            height: 220px;
-            background-color: #d3d3d3;
-            border-radius: 10px;
-            flex-shrink: 0;
-        }
+    width: 220px;
+    height: 220px;
+    border-radius: 10px;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border: 2px solid #444;
+}
+
 
         .profile-form {
             flex: 1;
@@ -154,12 +99,42 @@
         }
 
         .list-card {
-            background-color: #d3d3d3;
-            border-radius: 10px;
-            aspect-ratio: 2/3;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+    position: relative;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 2 / 3;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+       .list-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+        .list-card p {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    padding: 10px;
+    margin: 0;
+
+    font-size: 14px;
+    color: #fff;
+
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.85),
+        rgba(0, 0, 0, 0)
+    );
+
+    pointer-events: none;
+}
 
         .list-card:hover {
             transform: translateY(-5px);
@@ -194,16 +169,15 @@
         
 
         .footer-section {
-            position: absolute;
-            top: 1200px; /* Posisi footer dimulai dari sini */
+            position: relative;
+            margin-top: auto;
             width: 100%;
             height: 232px;
             z-index: 20;
         }
 
-        /* Line 1 (Garis pemisah) */
         .footer-line {
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -211,9 +185,8 @@
             top: 0;
         }
         
-        /* Konten Footer Bawah */
         .footer-content {
-            padding-top: 25px; /* Spasi dari garis */
+            padding-top: 25px;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -228,7 +201,7 @@
         }
         
         .footer-logo {
-            background-image: url('/images/revuekecil.png'); 
+            background-image: url('css/img/revuekecil.png'); 
             width: 9rem;
             height: 3rem;
             margin-top: -0.8rem;
@@ -275,7 +248,7 @@
         }
         
         .footer-line2{
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -309,68 +282,44 @@
             font-size: 13px;
         }
 
-
-        @media (max-width: 1200px) {
-            .list-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            header, .profile-section, .list-section, footer {
-                padding-left: 20px;
-                padding-right: 20px;
-            }
-
-            .profile-content {
-                flex-direction: column;
-            }
-
-            .list-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            nav {
-                gap: 20px;
-            }
-
-            .footer-content {
-                flex-direction: column;
-                gap: 30px;
-            }
-        }
+        @media (max-width: 1200px) { .genre-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { .genre-grid { grid-template-columns: repeat(2, 1fr); } }
+    
     </style>
 </head>
 <body>
+    
     <header>
-        <div class="logo">
-            <img src="images/revuekecil.png" alt="REVUE">
-        </div>
+        <div class="logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}')"></div> 
+        
         <nav>
-            <a href="{{ route('homepage') }}">Home</a>
-            <a href="{{ route('books.index') }}">Books</a>
-            <a href="{{ route('movies.index') }}">Movie</a>
-            <a href="{{ route('genre.index') }}">Genre</a>
-
+            <a href="{{ route('homepage') }}" class="nav-link">Home</a>
+            <a href="{{ url('/books') }}" class="nav-link">Books</a> 
+            <a href="{{ url('/movies') }}" class="nav-link">Movie</a>
+            <a href="{{ url('/genre') }}" class="nav-link">Genre</a>
         </nav>
+        
         <div class="search-container">
             <input type="text" class="search-box" placeholder="Search titles, authors...">
-            <div class="user-icon">
-                <a href="{{ route('user.page') }}" class="user-icon">
+            
+            <a href="{{ url('/user/profile') }}" class="user-icon">
                 <svg viewBox="0 0 24 24">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 
-                            1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 
-                            1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
-                </a>
-            </div>
+            </a>
+            
+            
         </div>
     </header>
+    
 
     <section class="profile-section">
         <h2 class="section-title">My Profile</h2>
         <div class="profile-content">
-            <div class="profile-image"></div>
+            <div class="profile-image"
+     style="background-image: url('{{ asset('assets/pp.jpg') }}');">
+</div>
+
             <div class="profile-form">
                 <div class="form-group">
                     <label>Username</label>
@@ -385,43 +334,48 @@
     </section>
 
     <section class="list-section">
-        <div class="list-header">
-            <h2 class="section-title">My List</h2>
-        </div>
-        <div class="list-grid">
-        @foreach($user->userList ?? [] as $item)
-        <div class="list-card">
-            <!-- render detail koleksi misal cover, judul -->
-            <img src="{{ asset('covers/' . $item->coverimage) }}" alt="{{ $item->title }}">
-            <p>{{ $item->title }}</p>
-        </div>
-        @endforeach
-        <!-- Placeholder jika kosong -->
-        @if(empty($user->userList) || count($user->userList) == 0)
-        <p style="color:#aaa;">Belum ada koleksi.</p>
-        @endif
-        </div>
+    <div class="list-header">
+        <h2 class="section-title">My List</h2>
+    </div>
 
-        <button class="view-all-btn" onclick="location.href='{{ route('user.mylist') }}'">
+    <div class="list-grid">
+        @forelse($myListPreview as $item)
+            <div class="list-card"
+                 onclick="location.href='{{ route('item.detail', $item->id) }}'"
+                 style="cursor:pointer;">
+                 
+                <img src="{{ asset('assets/covers/' . $item->cover_image) }}"
+                     alt="{{ $item->title }}">
+
+                <p>{{ $item->title }}</p>
+            </div>
+        @empty
+            <p style="color:#aaa;">Belum ada item di My List.</p>
+        @endforelse
+    </div>
+
+    @if($myListPreview->count() > 0)
+        <button class="view-all-btn"
+            onclick="location.href='{{ route('user.mylist') }}'">
             View All
         </button>
-
-    </section>
+    @endif
+</section>
 
     <footer class="footer-section">
                 <div class="footer-line"></div>
                 <div class="footer-content">
                     <div class="footer-left">
-                        <div class="footer-logo"></div>
+                <div class="footer-logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}');"></div>
                         <p class="footer-description">
                             Revue adalah platform review buku dan film yang memudahkan pengguna untuk menilai, menulis ulasan, dan mengatur daftar tontonan atau bacaan secara personal.
                         </p>
                     </div>
                     <div class="footer-right">
                         <p class="follow-us-title">Follow Us</p>
-                        <a href="#" class="social-link">@deuphanide</a>
-                        <a href="#" class="social-link">@just.alfii</a>
-                        <a href="#" class="social-link">@rakapaksisp</a>
+                        <a href="https://instagram.com/deuphanide" class="social-link" target="_blank">@deuphanide</a>
+                        <a href="https://instagram.com/just.alfii" class="social-link" target="_blank">@just.alfii</a>
+                        <a href="https://instagram.com/rakapaksisp" class="social-link" target="_blank">@rakapaksisp</a>
                     </div>
                 </div>
                 

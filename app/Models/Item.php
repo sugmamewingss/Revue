@@ -12,10 +12,8 @@ class Item extends Model
     use HasFactory;
 
     protected $table = 'items';
-    // Karena skema Anda hanya memiliki created_at sebagai timestamp
     public $timestamps = false;
     
-    // Perbaikan KRITIS: Semua kolom yang di-submit dari form harus ada di sini.
     protected $fillable = [
         'title',                
         'type', 
@@ -25,11 +23,6 @@ class Item extends Model
         'description',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | RELATIONS
-    |--------------------------------------------------------------------------
-    */
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class, 'item_id');
@@ -45,5 +38,14 @@ class Item extends Model
         return $this->hasMany(UserList::class, 'item_id');
     }
 
-    // Accessors and other methods...
+    public function savedByUsers()
+{
+    return $this->belongsToMany(
+        User::class,
+        'user_lists',
+        'item_id',
+        'user_id'
+    )->withPivot(['status', 'personal_score'])
+     ->withTimestamps();
+    }
 }

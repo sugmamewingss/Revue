@@ -17,7 +17,6 @@
             color: #ffffff;
         }
 
-        /* Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -84,7 +83,6 @@
             fill: white;
         }
 
-        /* Filters */
         .filters {
             display: flex;
             gap: 30px;
@@ -116,7 +114,6 @@
             min-width: 150px;
         }
 
-        /* Movies Section */
         .movies-section {
             padding: 0 50px 50px;
         }
@@ -147,7 +144,6 @@
             box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3);
         }
 
-        /* Footer */
         footer {
             background-color: #0d0d0d;
             padding: 20px 50px;
@@ -204,7 +200,6 @@
             color: #666;
         }
 
-        /* Responsive */
         @media (max-width: 1200px) {
             .movies-grid {
                 grid-template-columns: repeat(4, 1fr);
@@ -234,16 +229,15 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <div class="logo">
             <img src="./revuekecil.png" alt="REVUE">
         </div>
         <nav>
-            <a href="{{ route('homepage') }}" class="nav-link">Home</a>
-            <a href="{{ url('/books') }}" class="nav-link">Books</a> 
-            <a href="{{ url('/movies') }}" class="nav-link">Movie</a>
-            <a href="{{ url('/genre') }}" class="nav-link">Genre</a>
+            <a href="#home">Home</a>
+            <a href="#books">Books</a>
+            <a href="#movie">Movie</a>
+            <a href="#genre">Genre</a>
         </nav>
         <div class="search-container">
             <input type="text" class="search-box" placeholder="Search titles, authors...">
@@ -255,7 +249,6 @@
         </div>
     </header>
 
-    <!-- Filters -->
     <div class="filters">
         <div class="filter-group">
             <label>Sort:</label>
@@ -291,7 +284,6 @@
         </div>
     </div>
 
-    <!-- Movies Section -->
     <section class="movies-section">
         <h2 class="section-title">Movies</h2>
         <div class="movies-grid">
@@ -318,7 +310,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div>
@@ -331,9 +322,9 @@
             </div>
             <div class="footer-links">
                 <span style="color: #fff; font-weight: bold; margin-bottom: 5px;">Follow Us</span>
-                <a href="#">@dusjufandse</a>
-                <a href="#">@justalffi</a>
-                <a href="#">@rakapakpip</a>
+                <a href="https://instagram.com/deuphanide" class="social-link" target="_blank">@deuphanide</a>
+                <a href="https://instagram.com/just.alfii" class="social-link" target="_blank">@just.alfii</a>
+                <a href="https://instagram.com/rakapaksisp" class="social-link" target="_blank">@rakapaksisp</a>
             </div>
         </div>
         <div class="footer-bottom">

@@ -25,7 +25,6 @@
         min-height: 80vh;
     }
 
-    /* GRADIENT */
     .bg-gradient {
         position: absolute;
         width: 2000px;
@@ -37,7 +36,6 @@
         z-index: 1;
     }
 
-    /* LOGO */
     .logo {
         position: absolute;
         margin-left: 41%;
@@ -50,7 +48,6 @@
         z-index: 5;
     }
 
-    /* TITLE */
     .title {
         position: absolute;
         top: 160px;
@@ -70,7 +67,6 @@
         z-index: 5;
     }
 
-    /* FORM CARD */
     .form-box {
         position: absolute;
         width: 390px;
@@ -143,15 +139,14 @@
 
     .footer-section {
             position: absolute;
-            top: 1299px; /* Posisi footer dimulai dari sini */
+            top: 1299px;
             width: 100%;
             height: 232px;
             z-index: 20;
         }
 
-        /* Line 1 (Garis pemisah) */
         .footer-line {
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;
@@ -159,9 +154,8 @@
             top: 0;
         }
         
-        /* Konten Footer Bawah */
         .footer-content {
-            padding-top: 25px; /* Spasi dari garis */
+            padding-top: 25px;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -222,7 +216,7 @@
         }
         
         .footer-line2{
-            width: 100%; /* Disesuaikan agar penuh */
+            width: 100%;
             height: 0;
             border-top: 1px solid #655C5C;
             position: absolute;

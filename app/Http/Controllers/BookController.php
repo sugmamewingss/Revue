@@ -8,74 +8,52 @@ use App\Models\Item;
 
 class BookController extends Controller
 {
-    /**
-     * Menampilkan semua item dengan type 'book' dengan filter dan sorting.
-     */
     public function index(Request $request)
     {
-        // 1. Pengambilan Data Dasar (Untuk Filter Dropdown)
-        $genres = Genre::all(); 
+        $genres = Genre::all();
 
-        // 2. Pengambilan Filter Input dari URL (Query Parameter)
         $sort = $request->query('sort');
         $genreId = $request->query('genre_id');
         $year = $request->query('year');
-        $search = $request->query('search'); // Variabel search
+        $search = $request->query('search');
 
-        // 3. Query Dasar: Hanya ambil item bertipe 'book'
-        $itemsQuery = Item::query()->where('type', 'book'); // <--- FILTER KRITIS UNTUK BOOKS
+        $query = Item::where('type', 'book')
+            ->withAvg('reviews', 'rating');
 
-        // --- 4. Implementasi Logika Filtering ---
-        
-        // Filter Berdasarkan Genre
         if ($genreId) {
-            $itemsQuery->whereHas('genres', function ($query) use ($genreId) {
-                $query->where('genre_id', $genreId);
+            $query->whereHas('genres', function ($q) use ($genreId) {
+                $q->where('genre_id', $genreId);
             });
         }
-        
-        // Filter Berdasarkan Tahun
+
         if ($year) {
-            $itemsQuery->where('release_year', $year);
+            $query->where('release_year', $year);
         }
 
-        // Filter Berdasarkan Pencarian
         if ($search) {
-            $itemsQuery->where('title', 'like', '%' . $search . '%')
-                         ->orWhere('author_or_director', 'like', '%' . $search . '%');
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('author_or_director', 'like', "%{$search}%");
+            });
         }
 
+        match ($sort) {
+            'title_asc'   => $query->orderBy('title', 'asc'),
+            'title_desc'  => $query->orderBy('title', 'desc'),
+            'year_asc'    => $query->orderBy('release_year', 'asc'),
+            'year_desc'   => $query->orderBy('release_year', 'desc'),
+            'rating_desc' => $query->orderByDesc('reviews_avg_rating'),
+            default       => $query->orderBy('release_year', 'desc'),
+        };
 
-        // --- 5. Implementasi Logika Sorting ---
-        
-        if ($sort === 'title_asc') {
-            $itemsQuery->orderBy('title', 'asc');
-        } elseif ($sort === 'title_desc') {
-            $itemsQuery->orderBy('title', 'desc');
-        } elseif ($sort === 'year_desc') {
-            $itemsQuery->orderBy('release_year', 'desc');
-        } elseif ($sort === 'year_asc') {
-            $itemsQuery->orderBy('release_year', 'asc');
-        } else {
-             // Default sorting: Tahun terbaru
-             $itemsQuery->orderBy('release_year', 'desc');
-        }
-        
-        // Ambil semua hasil
-        $allBooks = $itemsQuery->get(); 
-
-        // 6. Melewatkan data ke View
-        $data = [
+        return view('books', [
+            'allBooks' => $query->get(),
             'genres' => $genres,
-            'allBooks' => $allBooks,
-            
-            // Variabel terpilih untuk mempertahankan status filter di Blade
-            'selectedSort' => $sort, 
+            'selectedSort' => $sort,
             'selectedGenre' => $genreId,
             'selectedYear' => $year,
             'selectedSearch' => $search,
-        ];
-
-        return view('books', $data);
+        ]);
     }
+
 }

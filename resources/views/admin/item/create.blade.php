@@ -1,5 +1,4 @@
 <?php
-// Form untuk membuat Item (Buku atau Film)
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -40,18 +39,15 @@
             <a href="{{ route('admin.genre.index') }}" class="back-link">Kelola Genre</a>
         </div>
         
-        <!-- Pesan Error Global -->
         @if ($errors->any())
             <div style="background:#C10D0D; padding: 15px; border-radius:5px; margin-bottom: 20px;">
                 <strong>Gagal!</strong> Harap periksa kembali input Anda.
             </div>
         @endif
 
-        <!-- Form Item Creation -->
         <form action="{{ route('admin.item.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             
-            <!-- 1. Tipe Item (Buku atau Film) -->
             <div class="form-group">
                 <label for="type">Tipe Item</label>
                 <select id="type" name="type" required>
@@ -61,50 +57,42 @@
                 @error('type') <span class="error-message">{{ $message }}</span> @enderror
             </div>
 
-            <!-- 2. Judul -->
             <div class="form-group">
                 <label for="title">Judul Item</label>
                 <input type="text" id="title" name="title" value="{{ old('title') }}" required>
                 @error('title') <span class="error-message">{{ $message }}</span> @enderror
             </div>
 
-            <!-- 3. Sutradara / Penulis -->
             <div class="form-group">
                 <label for="author_or_director">Penulis / Sutradara</label>
                 <input type="text" id="author_or_director" name="author_or_director" value="{{ old('author_or_director') }}">
                 @error('author_or_director') <span class="error-message">{{ $message }}</span> @enderror
             </div>
             
-            <!-- 4. Tahun Rilis -->
             <div class="form-group">
                 <label for="release_year">Tahun Rilis</label>
                 <input type="number" id="release_year" name="release_year" value="{{ old('release_year') }}" required min="1800" max="{{ date('Y') + 1 }}">
                 @error('release_year') <span class="error-message">{{ $message }}</span> @enderror
             </div>
             
-            <!-- 5. Deskripsi -->
             <div class="form-group">
                 <label for="description">Deskripsi / Sinopsis</label>
                 <textarea id="description" name="description">{{ old('description') }}</textarea>
                 @error('description') <span class="error-message">{{ $message }}</span> @enderror
             </div>
             
-            <!-- 6. Cover Image (File Upload) -->
             <div class="form-group">
                 <label for="cover_image">Cover Image (Poster)</label>
-                <!-- ATTRIBUTE accept="image/*" WAJIB UNTUK FILE UPLOAD GAMBAR -->
                 <input type="file" id="cover_image" name="cover_image" accept="image/*" required>
                 @error('cover_image') <span class="error-message">{{ $message }}</span> @enderror
                 <small style="color:#aaa; display:block; margin-top:5px;">File harus berupa gambar (JPEG, PNG, dll.)</small>
             </div>
             
-            <!-- 7. Pilihan Genre (Many-to-Many Relation) -->
             <div class="form-group">
                 <label>Pilih Genre (Minimal 1)</label>
                 <div class="checkbox-group">
                     @forelse ($genres as $genre)
                         <label>
-                            <!-- Name array WAJIB untuk multiple selection -->
                             <input type="checkbox" name="genres[]" value="{{ $genre->id }}"
                                 {{ in_array($genre->id, old('genres', [])) ? 'checked' : '' }}>
                             {{ $genre->name }}

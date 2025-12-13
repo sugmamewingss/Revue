@@ -42,7 +42,6 @@
             z-index: 1;
         }
 
-        /* NAVIGATION */
         .header {
             position: absolute;
             top: 40px;
@@ -60,7 +59,6 @@
         }
         .nav-link:hover { color: #C10D0D; }
 
-        /* LOGO */
         .main-logo-container {
             position: absolute;
             left: 7.2rem;
@@ -78,7 +76,6 @@
             margin-top: -28rem;
         }
 
-        /* BUTTON */
         .explore-button {
             position: absolute;
             width: 260px;
@@ -102,7 +99,6 @@
             color: #F6F6F6;
         }
 
-        /* CARDS GROUP */
         .cards-group {
             position: absolute;
             width: 2930.72px;
@@ -132,7 +128,6 @@
         .card-red-small-left { width:82.14px;height:260.19px;left:758px;top:974px;background:#C10D0D; }
         .card-red-small-top  { width:170.81px;height:260.19px;left:520px;top:65px;background:#C10D0D; }
 
-        /* FOOTER */
         .footer-section {
             position: absolute;
             top: 1299px;
@@ -225,10 +220,10 @@
                     </p>
                 </div>
                 <div class="footer-right">
-                    <p>Follow Us</p>
-                    <a>@deuphanide</a>
-                    <a>@just.alfii</a>
-                    <a>@rakapaksisp</a>
+                    <p class="follow-us-title">Follow Us</p>
+                    <a href="https://instagram.com/deuphanide" class="social-link" target="_blank">@deuphanide</a>
+                    <a href="https://instagram.com/just.alfii" class="social-link" target="_blank">@just.alfii</a>
+                    <a href="https://instagram.com/rakapaksisp" class="social-link" target="_blank">@rakapaksisp</a>
                 </div>
             </div>
             <div class="footer-bottom">

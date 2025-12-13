@@ -9,12 +9,10 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    // Show signup page
     public function showRegister() {
         return view('signup');
     }
 
-    // Process signup
 public function register(Request $request) {
 
     $request->validate([
@@ -34,14 +32,10 @@ public function register(Request $request) {
     return redirect()->route('login')->with('success', 'Your account has been created successfully!');
 }
 
-
-
-    // Show login page
     public function showLogin() {
         return view('login');
     }
 
-    // Process login
     public function login(Request $request)
 {
     $request->validate([
@@ -49,7 +43,6 @@ public function register(Request $request) {
         'password' => 'required'
     ]);
 
-    // Coba login
     if (!Auth::attempt($request->only('email', 'password'), $request->remember)) {
         return back()->withErrors([
             'login_error' => 'Email atau password salah'
@@ -57,12 +50,10 @@ public function register(Request $request) {
     }
 
     $request->session()->regenerate();
-    // GANTI 'home' dengan 'homepage'
     return redirect()->route('homepage');
 }
 
 
-    // Logout
     public function logout(Request $request) {
         Auth::logout();
         $request->session()->invalidate();
