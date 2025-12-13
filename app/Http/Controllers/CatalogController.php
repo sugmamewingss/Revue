@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Genre; 
 use App\Models\Item; 
+use App\Models\Review;
 
 class CatalogController extends Controller
 {
@@ -19,8 +20,7 @@ class CatalogController extends Controller
         $year = $request->query('year');
         
         // 3. Query Dasar Item
-        $itemsQuery = Item::query();
-        
+        $itemsQuery = Item::query()->orderBy('created_at', 'desc');        
         // --- Implementasi Logika Filtering ---
         
         // Filter Berdasarkan Genre (Jika genreId dipilih)
@@ -65,7 +65,7 @@ class CatalogController extends Controller
         // NOTE: Untuk '2025\'s Best', kita asumsikan item rilis tahun depan
         $bestOf2025 = (clone $itemsQuery)->where('release_year', date('Y') + 1)->limit(5)->get();
 
-
+            
         // 6. Melewatkan Data ke View
         $data = [
             'genres' => $genres,
@@ -83,6 +83,58 @@ class CatalogController extends Controller
         return view('homepage', $data);
     }
     
+    public function showItemDetail($itemId)
+{
+    $item = Item::with(['genres', 'reviews.user'])->findOrFail($itemId);
+
+    return view('itemdetail', compact('item'));
+}
+
+public function storeReview(Request $request, $itemId)
+{
+    $request->validate([
+        'rating' => 'required|integer|min:1|max:5',
+        'review_text' => 'nullable|string|max:1000',
+    ]);
+
+    // Insert review
+    Review::create([
+        'item_id' => $itemId,
+        'user_id' => auth()->id(),
+        'rating'  => $request->rating,
+        'review_text' => $request->review_text,
+    ]);
+
+    // Update average rating item
+    $avg = Review::where('item_id', $itemId)->avg('rating');
+    Item::where('id', $itemId)->update(['rating' => $avg]);
+
+    return back()->with('success', 'Review submitted!');
+}
+
+
+public function storeRating(Request $request, $itemId)
+{
+    $request->validate([
+        'rating' => 'required|integer|min:1|max:5',
+    ]);
+
+    // Simpan rating sebagai review tanpa teks
+    Review::create([
+        'item_id'     => $itemId,
+        'user_id'     => $request->user()->id,
+        'rating'      => $request->rating,
+        'review_text' => null,
+    ]);
+
+    // Hitung rata-rata rating terbaru
+    $avg = Review::where('item_id', $itemId)->avg('rating');
+
+    Item::where('id', $itemId)->update(['rating' => $avg]);
+
+    return back()->with('success', 'Rating submitted!');
+}
+
     // Tempat untuk metode Detail Item Show
     // public function showItemDetail($itemId) {}
 }

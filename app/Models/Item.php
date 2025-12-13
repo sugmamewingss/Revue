@@ -45,5 +45,17 @@ class Item extends Model
         return $this->hasMany(UserList::class, 'item_id');
     }
 
+    public function savedByUsers()
+{
+    return $this->belongsToMany(
+        User::class,
+        'user_lists',
+        'item_id',
+        'user_id'
+    )->withPivot(['status', 'personal_score'])
+     ->withTimestamps();
+}
+
+
     // Accessors and other methods...
 }

@@ -47,6 +47,16 @@ return [
             'report' => false,
         ],
 
+        // [DISK BARU] SOLUSI XAMPP: Akses langsung ke public/assets/covers
+        'public_assets' => [
+            'driver' => 'local',
+            'root' => public_path('assets/covers'), // <--- MENUNJUK LANGSUNG KE PUBLIC
+            'url' => env('APP_URL').'/assets/covers',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

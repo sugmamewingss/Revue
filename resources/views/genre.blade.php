@@ -209,23 +209,19 @@
     
     
     <div class="content">
-        <section class="genre-section">
-            <h2 class="section-title">Semua Kategori Genre</h2>
-            
-            <div class="genre-grid">
-                @forelse ($genres as $genre)
-                    {{-- Setiap kartu adalah tautan ke halaman katalog item yang difilter oleh genre ini --}}
-                    <a href="{{ route('genre.items', $genre->id) }}" class="genre-card">
-                        {{ $genre->name }}
-                    </a>
-                @empty
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px 0; color: #aaa;">
-                        <p>Tidak ada kategori genre yang ditemukan.</p>
-                    </div>
-                @endforelse
-            </div>
-        </section>
-    </div>
+    <section class="genre-section">
+        <h2 class="section-title">Semua Kategori Genre</h2>
+
+        <div class="genre-grid">
+            @foreach ($genres as $genre)
+                <div class="genre-card">
+                    {{ $genre->name }}
+                </div>
+            @endforeach
+        </div>
+
+    </section>
+</div>
 
     <!-- === KOPAS FOOTER DARI HOMEPAGE KE SINI === -->
     <footer class="footer-section">

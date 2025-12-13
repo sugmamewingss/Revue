@@ -347,26 +347,49 @@
         
     </header>
     
-    <!-- FORM FILTER - Menggunakan method GET (Filter akan diterapkan pada hasil Item) -->
-    <form method="GET" action="{{ route('genre.items', $selectedGenre->id) }}">
-        <div class="filters">
-            
-            <!-- 1. FILTER SORTING (Default) -->
-            <div class="filter-group">
-                <label>Sort:</label>
-                <select name="sort">
-                    <option value="">Select</option>
-                    <option value="title_asc">Title A-Z</option>
-                    <option value="title_desc">Title Z-A</option>
-                    <option value="year_desc">Year (Newest)</option>
-                    <option value="year_asc">Year (Oldest)</option>
-                </select>
-            </div>
-            
-            <!-- Tambahkan Group Filter lainnya jika diperlukan, misalnya Year -->
-            <button type="submit" style="display:none;">Apply Filters</button>
-        </div> 
-    </form>
+ <!-- FORM FILTER - GET -->
+<form method="GET" action="{{ route('genre.items', $selectedGenre) }}">
+    <div class="filters">
+
+        <!-- FILTER SORT -->
+        <div class="filter-group">
+            <label>Sort:</label>
+            <select name="sort" onchange="this.form.submit()">
+                <option value="">Select</option>
+                <option value="title_asc" {{ $selectedSort == 'title_asc' ? 'selected' : '' }}>
+                    Title A-Z
+                </option>
+                <option value="title_desc" {{ $selectedSort == 'title_desc' ? 'selected' : '' }}>
+                    Title Z-A
+                </option>
+                <option value="year_desc" {{ $selectedSort == 'year_desc' ? 'selected' : '' }}>
+                    Year (Newest)
+                </option>
+                <option value="year_asc" {{ $selectedSort == 'year_asc' ? 'selected' : '' }}>
+                    Year (Oldest)
+                </option>
+            </select>
+        </div>
+
+        <!-- FILTER YEAR -->
+        <div class="filter-group">
+            <label>Year:</label>
+            <select name="year" onchange="this.form.submit()">
+                <option value="">Select</option>
+                @php $currentYear = date('Y'); @endphp
+                @for ($y = $currentYear; $y >= $currentYear - 25; $y--)
+                    <option value="{{ $y }}" {{ $selectedYear == $y ? 'selected' : '' }}>
+                        {{ $y }}
+                    </option>
+                @endfor
+            </select>
+        </div>
+
+    </div>
+</form>
+
+
+    
 
     <div class="content">
         <!-- Judul Halaman Katalog yang Dinamis -->
@@ -378,13 +401,13 @@
             </div>
             
             <!-- Grid Katalog Item -->
-            <div class="catalog-grid"> 
+            <div class="books-grid"> 
                 @forelse ($items as $item)
                     <!-- Menghubungkan ke halaman detail item -->
                     <a href="{{ route('item.detail', $item->id) }}" 
-                       class="card" 
+                       class="book-card" 
                        title="{{ $item->title }} ({{ $item->type }})" 
-                       style="background-image: url('{{ asset('covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
+                       style="background-image: url('{{ asset('assets/covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
                         {{-- Opsional: Tampilkan tipe item (Book/Movie) di sudut kartu --}}
                         <div style="position:absolute; top:5px; right:5px; background:rgba(0,0,0,0.7); color:white; padding: 2px 6px; font-size:10px; border-radius:5px;">
                             {{ strtoupper($item->type) }}

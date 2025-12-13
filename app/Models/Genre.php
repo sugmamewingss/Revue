@@ -20,6 +20,10 @@ class Genre extends Model
     protected $fillable = [
         'name',
     ];
+public function items()
+{
+    return $this->belongsToMany(Item::class, 'item_genres', 'genre_id', 'item_id');
+}
 
     // Karena tabel genres di skema Anda tidak memiliki kolom created_at atau updated_at
     public $timestamps = false; 

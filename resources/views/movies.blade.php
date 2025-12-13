@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REVUE - Books Catalog</title>
+    <title>REVUE - Movie Catalog</title>
+
     <style>
-                        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
 
         * {
             margin: 0;
@@ -14,12 +15,12 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #1a1a1a;
-            color: #ffffff;
+            color: white;
         }
 
-        /* Header */
+        /* ================= HEADER ================= */
         header {
             display: flex;
             justify-content: space-between;
@@ -29,18 +30,12 @@
             border-bottom: 1px solid #333;
         }
 
-.logo {
-    width: 180px;
-    height: 60px;
-    background-image: url("css/img/revuekecil.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-        
-        .logo img {
-            height: 100%;
-            width: auto;
+        .logo {
+            width: 180px;
+            height: 60px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
         nav {
@@ -49,15 +44,14 @@
         }
 
         nav a {
-            color: #ffffff;
+            color: white;
             text-decoration: none;
             font-size: 16px;
             transition: color 0.3s;
-            font-family: 'Poppins';
         }
 
         nav a:hover {
-            color: #ff0000;
+            color: red;
         }
 
         .search-container {
@@ -70,7 +64,7 @@
             border: 1px solid #444;
             border-radius: 5px;
             padding: 8px 15px;
-            color: #ffffff;
+            color: white;
             width: 200px;
             margin-right: 20px;
         }
@@ -78,12 +72,11 @@
         .user-icon {
             width: 40px;
             height: 40px;
-            background-color: #ff0000;
+            background-color: red;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
         }
 
         .user-icon svg {
@@ -92,7 +85,7 @@
             fill: white;
         }
 
-        /* Filters */
+        /* ================= FILTERS ================= */
         .filters {
             display: flex;
             gap: 30px;
@@ -109,23 +102,31 @@
             gap: 15px;
         }
 
-        .filter-group label {
-            color: #ffffff;
-            font-size: 14px;
-            font-family: 'Poppins';
-        }
-
         .filter-group select {
             background-color: #2a2a2a;
             border: 1px solid #444;
             border-radius: 5px;
-            padding: 8px 30px 8px 15px;
-            color: #ffffff;
-            cursor: pointer;
-            min-width: 150px;
+            padding: 8px 15px;
+            color: white;
         }
+        
+        .clear-filter-btn {
+    background-color: transparent;
+    border: 1px solid #ff0000;
+    color: #ff0000;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
 
-        /* Books Section */
+.clear-filter-btn:hover {
+    background-color: #ff0000;
+    color: white;
+}
+
+        /* ================= MOVIE GRID ================= */
         .movie-section {
             padding: 0 50px 50px;
         }
@@ -133,10 +134,11 @@
         .section-title {
             font-size: 28px;
             margin-bottom: 30px;
-            border-left: 4px solid #ff0000;
+            border-left: 4px solid red;
             padding-left: 15px;
         }
 
+        /* FIX PALING PENTING */
         .movie-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -144,19 +146,21 @@
         }
 
         .movie-card {
-            background-color: #d3d3d3;
             border-radius: 10px;
-            aspect-ratio: 2/3;
+            aspect-ratio: 2 / 3;
             cursor: pointer;
+            background-size: cover;
+            background-position: center;
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .movie-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3);
+            box-shadow: 0px 8px 25px rgba(255, 0, 0, 0.25);
         }
 
-      .footer-section {
+        /* ================= FOOTER (DIBIARKAN) ================= */
+            .footer-section {
             position: relative;
             margin-top: auto;
             width: 100%;
@@ -307,12 +311,13 @@
             }
         }
 
-        
     </style>
+
 </head>
+
 <body>
-    
-    <!-- === KOPAS HEADER DARI HOMEPAGE KE SINI === -->
+
+    <!-- ================= HEADER ================= -->
     <header>
         <div class="logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}')"></div> 
         
@@ -324,107 +329,108 @@
         </nav>
         
         <div class="search-container">
-            @if (Auth::check() && Auth::user()->role === 'admin')
-            <a href="{{ route('admin.genre.index') }}" class="nav-link" style="color: #4CAF50; margin-right: 20px; font-weight: bold;">
-                Admin Panel
-            </a>
-            <a href="{{ route('admin.item.create') }}" class="nav-link" style="color: #4CAF50; margin-right: 20px;">
-                + Tambah Item
-            </a>
-        @endif
-            <input type="text" class="search-box" placeholder="Search titles, authors...">
-            
-            <a href="{{ url('/user/profile') }}" class="user-icon">
+
+    @if (Auth::check() && Auth::user()->role === 'admin')
+        <a href="{{ route('admin.genre.index') }}" class="nav-link" style="color:#4CAF50; margin-right:20px;">
+            Admin Panel
+        </a>
+        <a href="{{ route('admin.item.create') }}" class="nav-link" style="color:#4CAF50; margin-right:20px;">
+            + Tambah Item
+        </a>
+    @endif
+
+    <form method="GET" action="{{ url()->current() }}">
+        <input
+            type="text"
+            name="search"
+            class="search-box"
+            placeholder="Search..."
+            value="{{ request('search') }}"
+        >
+    </form>
+
+    <a href="{{ url('/user/profile') }}" class="user-icon">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
             </a>
-            
-        </div>
-        <div class="content">
-    
+
+</div>
+
+        
         
     </header>
-    
-    <!-- FORM FILTER - Menggunakan method GET -->
-    <form method="GET" action="{{ route('homepage') }}">
+
+
+    <!-- ================= FILTERS ================= -->
+    <form method="GET" action="{{ url('/movies') }}">
+        <input type="hidden" name="search" value="{{ request('search') }}">
+
         <div class="filters">
-            
-            <!-- 1. FILTER SORTING -->
+
             <div class="filter-group">
                 <label>Sort:</label>
-                <select name="sort">
-                    {{-- Nilai yang dipilih dipertahankan dengan 'selected' --}}
+                    <select name="sort" onchange="this.form.submit()">
                     <option value="">Select</option>
                     <option value="title_asc" {{ $selectedSort == 'title_asc' ? 'selected' : '' }}>Title A-Z</option>
                     <option value="title_desc" {{ $selectedSort == 'title_desc' ? 'selected' : '' }}>Title Z-A</option>
-                    <option value="year_desc" {{ $selectedSort == 'year_desc' ? 'selected' : '' }}>Year (Newest)</option>
-                    <option value="year_asc" {{ $selectedSort == 'year_asc' ? 'selected' : '' }}>Year (Oldest)</option>
-                </select>
-            </div>
-            
-            <!-- 2. FILTER GENRE (Dinamis dari DB) -->
-            <div class="filter-group">
-                <label>Genre:</label>
-                <select name="genre_id"> 
-                    <option value="">Select</option>
-                    @isset($genres)
-                        @foreach ($genres as $genre)
-                            <option value="{{ $genre->id }}" {{ $selectedGenre == $genre->id ? 'selected' : '' }}>
-                                {{ $genre->name }}
-                            </option>
-                        @endforeach
-                    @endisset
+                    <option value="year_desc" {{ $selectedSort == 'year_desc' ? 'selected' : '' }}>Newest</option>
+                    <option value="year_asc" {{ $selectedSort == 'year_asc' ? 'selected' : '' }}>Oldest</option>
+                    <option value="rating_desc" {{ $selectedSort == 'rating_desc' ? 'selected' : '' }}>
+                    Highest Rating
+                </option>
+
                 </select>
             </div>
 
-            <!-- 3. FILTER YEAR (Dinamis Statis) -->
+            <div class="filter-group">
+                <label>Genre:</label>
+                <select name="genre_id" onchange="this.form.submit()">
+                    <option value="">Select</option>
+                    @foreach ($genres as $genre)
+                        <option value="{{ $genre->id }}" {{ $selectedGenre == $genre->id ? 'selected' : '' }}>
+                            {{ $genre->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="filter-group">
                 <label>Year:</label>
-                <select name="year"> 
+                <select name="year" onchange="this.form.submit()">
                     <option value="">Select</option>
                     @php
                         $currentYear = date('Y');
-                        $startYear = $currentYear - 25;
                     @endphp
-                    @for ($year = $currentYear; $year >= $startYear; $year--)
-                        <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
-                            {{ $year }}
-                        </option>
+                    @for ($y = $currentYear; $y >= $currentYear - 25; $y--)
+                        <option value="{{ $y }}" {{ $selectedYear == $y ? 'selected' : '' }}>{{ $y }}</option>
                     @endfor
                 </select>
             </div>
-            
-            <button type="submit" style="display:none;">Apply Filters</button>
-            
-        </div> 
+
+
+        </div>
     </form>
 
-    <div class="content">
-        <!-- Judul Halaman Katalog -->
-        <section class="movie-section">
-            <div class="section-header">
-                <h1 class="section-title">All Movies</h1>
-            </div>
-            
-            <!-- Grid Katalog Buku -->
-            <div class="catalog-grid"> 
-                @forelse ($allBooks as $item)
-                    <!-- Menghubungkan ke halaman detail item -->
-                    <a href="{{ url('/item/' . $item->id) }}" class="card" title="{{ $item->title }}" style="background-image: url('{{ asset('covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
-                        {{-- Nama Item, Rating, dll. bisa ditambahkan di sini --}}
-                    </a>
-                @empty
-                    <!-- KOREKSI: Tampilkan pesan jika tidak ada buku, HILANGKAN LOOP PLACEHOLDER -->
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px 0; color: #aaa;">
-                        <p>Maaf, tidak ada film yang ditemukan sesuai kriteria filter Anda.</p>
-                        {{-- Jika database kosong, pesan ini akan muncul --}}
-                    </div>
-                @endforelse
-            </div>
-        </section>
-        
+    <!-- ================= MOVIE GRID ================= -->
+    <section class="movie-section">
+        <h1 class="section-title">Semua Film</h1>
 
+        <div class="movie-grid">
+            @forelse ($allMovies as $item)
+                <a href="{{ route('item.detail', $item->id) }}" 
+                    class="movie-card"
+                    style="background-image: url('{{ asset('assets/covers/' . $item->cover_image) }}');">
+                </a>
+            @empty
+                <div style="grid-column: 1/-1; text-align:center; color:#aaa; padding:40px;">
+                    Tidak ada film ditemukan.
+                </div>
+            @endforelse
+        </div>
+    </section>
+
+    <!-- ================= FOOTER (no changes) ================= -->
     <footer class="footer-section">
                 <div class="footer-line"></div>
                 <div class="footer-content">
@@ -451,6 +457,7 @@
                     
                 </div>
     </footer>
+
 
 </body>
 </html>

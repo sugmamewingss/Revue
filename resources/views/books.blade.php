@@ -1,3 +1,11 @@
+@php
+    $selectedSort = $selectedSort ?? null;
+    $selectedGenre = $selectedGenre ?? null;
+    $selectedYear = $selectedYear ?? null;
+    $selectedSearch = $selectedSearch ?? null;
+@endphp
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -310,7 +318,7 @@
 </head>
 <body>
     
-    <!-- === KOPAS HEADER DARI HOMEPAGE KE SINI === -->
+    <!-- ================= HEADER ================= -->
     <header>
         <div class="logo" style="background-image: url('{{ asset('assets/revuekecil.png') }}')"></div> 
         
@@ -322,36 +330,46 @@
         </nav>
         
         <div class="search-container">
-            @if (Auth::check() && Auth::user()->role === 'admin')
-            <a href="{{ route('admin.genre.index') }}" class="nav-link" style="color: #4CAF50; margin-right: 20px; font-weight: bold;">
-                Admin Panel
-            </a>
-            <a href="{{ route('admin.item.create') }}" class="nav-link" style="color: #4CAF50; margin-right: 20px;">
-                + Tambah Item
-            </a>
-        @endif
-            <input type="text" class="search-box" placeholder="Search titles, authors...">
-            
-            <a href="{{ url('/user/profile') }}" class="user-icon">
+
+    @if (Auth::check() && Auth::user()->role === 'admin')
+        <a href="{{ route('admin.genre.index') }}" class="nav-link" style="color:#4CAF50; margin-right:20px;">
+            Admin Panel
+        </a>
+        <a href="{{ route('admin.item.create') }}" class="nav-link" style="color:#4CAF50; margin-right:20px;">
+            + Tambah Item
+        </a>
+    @endif
+
+    <form method="GET" action="{{ url()->current() }}">
+        <input
+            type="text"
+            name="search"
+            class="search-box"
+            placeholder="Search..."
+            value="{{ request('search') }}"
+        >
+    </form>
+
+    <a href="{{ url('/user/profile') }}" class="user-icon">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
             </a>
-            
-        </div>
-        <div class="content">
-    
+
+</div>
+
+        
         
     </header>
     
     <!-- FORM FILTER - Menggunakan method GET -->
-    <form method="GET" action="{{ route('homepage') }}">
-        <div class="filters">
+<form method="GET" action="{{ url('/books') }}">
+    <div class="filters">
             
             <!-- 1. FILTER SORTING -->
             <div class="filter-group">
                 <label>Sort:</label>
-                <select name="sort">
+                <select name="sort" onchange="this.form.submit()">
                     {{-- Nilai yang dipilih dipertahankan dengan 'selected' --}}
                     <option value="">Select</option>
                     <option value="title_asc" {{ $selectedSort == 'title_asc' ? 'selected' : '' }}>Title A-Z</option>
@@ -364,7 +382,7 @@
             <!-- 2. FILTER GENRE (Dinamis dari DB) -->
             <div class="filter-group">
                 <label>Genre:</label>
-                <select name="genre_id"> 
+                <select name="genre_id" onchange="this.form.submit()">
                     <option value="">Select</option>
                     @isset($genres)
                         @foreach ($genres as $genre)
@@ -379,7 +397,7 @@
             <!-- 3. FILTER YEAR (Dinamis Statis) -->
             <div class="filter-group">
                 <label>Year:</label>
-                <select name="year"> 
+                <select name="year" onchange="this.form.submit()">
                     <option value="">Select</option>
                     @php
                         $currentYear = date('Y');
@@ -413,7 +431,7 @@
                     <a href="{{ route('item.detail', $item->id) }}" 
                        class="card" 
                        title="{{ $item->title }}" 
-                       style="background-image: url('{{ asset('covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
+                       style="background-image: url('{{ asset('assets/covers/' . $item->cover_image) }}'); background-size: cover; background-position: center;">
                         {{-- Nama Item, Rating, dll. bisa ditambahkan di sini --}}
                     </a>
                 @empty

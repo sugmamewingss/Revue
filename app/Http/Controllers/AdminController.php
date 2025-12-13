@@ -105,6 +105,25 @@ class AdminController extends Controller
         return view('admin.item.create', compact('genres'));
     }
 
+    public function destroyItem($id)
+{
+    $item = Item::findOrFail($id);
+
+    // hapus relasi dulu (AMAN)
+    $item->genres()->detach();
+    $item->reviews()->delete();
+    $item->userLists()->delete();
+
+    // hapus file cover
+    if ($item->cover_image && file_exists(public_path('assets/covers/' . $item->cover_image))) {
+        unlink(public_path('assets/covers/' . $item->cover_image));
+    }
+
+    $item->delete();
+
+    return back()->with('success', 'Item deleted successfully.');
+}
+
     /**
      * CREATE: Menyimpan Item baru ke database, termasuk upload gambar.
      */
@@ -117,7 +136,7 @@ class AdminController extends Controller
             'author_or_director' => 'nullable|string|max:150',
             'release_year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
             'description' => 'nullable|string',
-            'cover_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:10000', 
+            'cover_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:10000', // Max 10MB
             'genres' => 'required|array|min:1',
             'genres.*' => 'exists:genres,id', 
         ], [
@@ -125,14 +144,40 @@ class AdminController extends Controller
             'cover_image.required' => 'Cover image wajib diupload.',
         ]);
 
+        // START DEBUGGING KRITIS UNTUK MENGIDENTIFIKASI POST SIZE/FILE UPLOAD ERROR
+        if (!$request->hasFile('cover_image') || !$request->file('cover_image')->isValid()) {
+            dd([
+                'STATUS' => 'Gagal di validasi File/Post Size (Cek php.ini).',
+                'Validasi Data Lolos' => true,
+                'File Ada di Request' => $request->hasFile('cover_image') ? 'Ya' : 'TIDAK',
+                'File Valid' => $request->hasFile('cover_image') ? $request->file('cover_image')->isValid() : 'N/A',
+                'Pesan' => 'Jika File Ada/Valid adalah TIDAK, periksa post_max_size dan upload_max_filesize di php.ini Anda!',
+                'POST Data' => $request->except(['cover_image', '_token']),
+            ]);
+        }
+        // END DEBUGGING KRITIS
+        
         DB::beginTransaction();
-        $imagePath = null; 
+        $fileNameToStore = null; // Ganti $path menjadi $fileNameToStore untuk kejelasan
+        $tempPath = null;
 
         try {
-            // 2. UPLOAD FILE GAMBAR
+            // 2. UPLOAD FILE: Menggunakan Metode move() untuk stabilitas di XAMPP
             $imageFile = $request->file('cover_image');
-            $imagePath = $imageFile->store('covers', 'public'); 
-
+            
+            // Buat nama file unik (hash based)
+            $extension = $imageFile->getClientOriginalExtension();
+            $fileNameToStore = time() . '_' . uniqid() . '.' . $extension; // Nama hash + timestamp
+            
+            // Lokasi tujuan fisik di public/assets/covers
+            $destinationPath = public_path('assets/covers');
+            
+            // Pindahkan file ke lokasi tujuan
+            $imageFile->move($destinationPath, $fileNameToStore);
+            
+            // Simpan nama file (path relatif dari public/assets/covers)
+            $path = $fileNameToStore; 
+            
             // 3. CREATE ITEM di tabel 'items'
             $item = Item::create([
                 'title' => $validatedData['title'],
@@ -140,7 +185,8 @@ class AdminController extends Controller
                 'author_or_director' => $validatedData['author_or_director'],
                 'release_year' => $validatedData['release_year'],
                 'description' => $validatedData['description'],
-                'cover_image' => basename($imagePath), 
+                // Menyimpan nama file unik
+                'cover_image' => $path, 
             ]);
 
             // 4. MENGHUBUNGKAN RELASI MANY-TO-MANY (Genre)
@@ -148,20 +194,86 @@ class AdminController extends Controller
 
             DB::commit(); 
 
-            // Jika semua berhasil, redirect ke homepage dengan alert sukses
+            // Redirect ke homepage dengan alert sukses
             return redirect()->route('homepage')->with('success', 'Item ' . $item->title . ' berhasil dibuat dan poster diupload.');
 
         } catch (\Exception $e) {
             DB::rollBack();
-
-            if (isset($imagePath)) {
-                Storage::disk('public')->delete($imagePath);
-            }
             
-            // KOREKSI DEBUGGING: Hentikan eksekusi dan tampilkan error
-            // Ini akan memunculkan layar error Laravel yang detail.
-            dd('Kegagalan Fatal Terjadi. Error:', $e->getMessage()); 
-            // Setelah error teridentifikasi, kita akan ganti dd() dengan return back()
+            // Jika file sudah dipindahkan, coba hapus (opsional)
+            if (isset($path) && file_exists($destinationPath . '/' . $path)) {
+                @unlink($destinationPath . '/' . $path); // Gunakan unlink native PHP
+            }
+
+            // Tampilkan Error Exception jika berhasil mencapai blok catch
+            dd('ERROR KRITIS: Exception Database/Storage Gagal. Pesan Server:', $e->getMessage()); 
         }
     }
+
+    // ======================
+// ITEM MANAGEMENT
+// ======================
+
+public function indexItem()
+{
+    $items = Item::latest()->get();
+    return view('admin.item.index', compact('items'));
+}
+
+public function editItem($id)
+{
+    $item = Item::findOrFail($id);
+    $genres = Genre::all();
+
+    return view('admin.item.edit', compact('item', 'genres'));
+}
+
+public function updateItem(Request $request, $id)
+{
+    $item = Item::findOrFail($id);
+
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'type' => 'required|in:book,movie',
+        'release_year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
+        'description' => 'nullable|string',
+        'cover_image' => 'nullable|image|mimes:jpg,jpeg,png|max:10000',
+    ]);
+
+    // UPDATE DATA TEXT DULU
+    $item->update([
+        'title' => $request->title,
+        'type' => $request->type,
+        'release_year' => $request->release_year,
+        'description' => $request->description,
+    ]);
+
+    // JIKA ADA FILE BARU
+    if ($request->hasFile('cover_image')) {
+
+        $image = $request->file('cover_image');
+        $newName = time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
+        $destination = public_path('assets/covers');
+
+        // PINDAHKAN FILE BARU DULU
+        $image->move($destination, $newName);
+
+        // HAPUS FILE LAMA SETELAH SUKSES
+        if ($item->cover_image &&
+            file_exists($destination.'/'.$item->cover_image)) {
+            unlink($destination.'/'.$item->cover_image);
+        }
+
+        // UPDATE DB
+        $item->update([
+            'cover_image' => $newName
+        ]);
+    }
+
+    return redirect()
+        ->route('admin.item.index')
+        ->with('success', 'Item berhasil diperbarui');
+}
+
+
 }

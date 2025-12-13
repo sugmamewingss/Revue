@@ -28,49 +28,38 @@ class GenreController extends Controller
     /**
      * Menampilkan semua Item (Buku & Film) berdasarkan Genre ID tertentu.
      */
-    public function showItemsByGenre(Request $request, $genreId)
-    {
-        $selectedGenre = Genre::findOrFail($genreId);
-        
-        // Ambil parameter filter dari request
-        $sort = $request->query('sort');
-        $year = $request->query('year');
-        
-        // Query Dasar: Item yang memiliki Genre ID ini.
-        $itemsQuery = Item::whereHas('genres', function ($query) use ($genreId) {
-            $query->where('genre_id', $genreId);
-        });
-        
-        // --- Implementasi Filter pada Hasil Genre ---
-        
-        if ($year) {
-            $itemsQuery->where('release_year', $year);
-        }
+    public function showItemsByGenre(Request $request, Genre $genre)
+{
 
-        // Implementasi Sorting
-        if ($sort === 'title_asc') {
-            $itemsQuery->orderBy('title', 'asc');
-        } elseif ($sort === 'title_desc') {
-            $itemsQuery->orderBy('title', 'desc');
-        } elseif ($sort === 'year_desc') {
-            $itemsQuery->orderBy('release_year', 'desc');
-        } elseif ($sort === 'year_asc') {
-            $itemsQuery->orderBy('release_year', 'asc');
-        } 
-        
-        $itemsByGenre = $itemsQuery->get();
-        
-        // Ambil semua genre lagi untuk dropdown di halaman detail
-        $genres = Genre::all(); 
+    $sort = $request->query('sort');
+    $year = $request->query('year');
 
-        return view('genredetail', [ // Menggunakan nama file genredetail.blade.php
-            'selectedGenre' => $selectedGenre,
-            'items' => $itemsByGenre,
-            'genres' => $genres, // Untuk dropdown filter di halaman detail
-            
-            // Mengirim variabel yang dipilih untuk mempertahankan status filter
-            'selectedSort' => $sort, 
-            'selectedYear' => $year,
-        ]);
+    $itemsQuery = Item::whereHas('genres', function ($q) use ($genre) {
+        $q->where('genres.id', $genre->id);
+    });
+
+    if ($year) {
+        $itemsQuery->where('release_year', $year);
     }
+
+    if ($sort === 'title_asc') {
+        $itemsQuery->orderBy('title', 'asc');
+    } elseif ($sort === 'title_desc') {
+        $itemsQuery->orderBy('title', 'desc');
+    } elseif ($sort === 'year_desc') {
+        $itemsQuery->orderBy('release_year', 'desc');
+    } elseif ($sort === 'year_asc') {
+        $itemsQuery->orderBy('release_year', 'asc');
+    } else {
+        // DEFAULT PENTING
+        $itemsQuery->orderBy('title', 'asc');
+    }
+
+    return view('genredetail', [
+        'selectedGenre' => $genre,
+        'items' => $itemsQuery->get(),
+        'selectedSort' => $sort,
+        'selectedYear' => $year,
+    ]);
+}
 }
