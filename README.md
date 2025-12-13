@@ -1,7 +1,7 @@
 ## 🚀 Panduan Instalasi Revue
 
 Selamat datang di **Revue**! 🎉
-Panduan ini akan membantumu menjalankan project Revue secara lokal dengan lancar, bahkan kalau ini pertama kalinya kamu setup project Laravel.
+Panduan ini akan membantumu menjalankan project Revue secara lokal dengan lancar!
 
 ---
 
