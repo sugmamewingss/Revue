@@ -1,7 +1,7 @@
 ## 🚀 Panduan Instalasi Revue
 
 Selamat datang di **Revue**! 🎉
-Panduan ini akan membantumu menjalankan project Revue secara lokal dengan lancar!
+Panduan ini akan membantumu menjalankan project Revue secara lokal dengan lancar, bahkan kalau ini pertama kalinya kamu setup project Laravel.
 
 ---
 
@@ -225,6 +225,152 @@ revue/
 
 ---
 
+## 🔄 Alur CRUD Berdasarkan Fitur
+
+Bagian ini menjelaskan **di mana letak proses Create, Read, Update, Delete (CRUD)** untuk tiap fitur utama pada project **Revue**, agar mudah dipahami oleh developer lain maupun dosen penguji.
+
+---
+
+### 🔐 Autentikasi Pengguna
+
+📁 **Controller**
+
+```bash
+app/Http/Controllers/Auth/
+├── LoginController.php      # Login (Read session user)
+├── RegisterController.php   # Register (Create user)
+└── LogoutController.php     # Logout (Delete session)
+```
+
+📁 **Model**
+
+```bash
+app/Models/User.php
+```
+
+📁 **View**
+
+```bash
+resources/views/auth/
+├── login.blade.php
+└── register.blade.php
+```
+
+📁 **Route**
+
+```bash
+routes/web.php
+```
+
+---
+
+### 📚 Review Buku & Film
+
+📁 **Controller**
+
+```bash
+app/Http/Controllers/ReviewController.php
+```
+
+CRUD yang ditangani:
+
+* **Create** → `store()` (menambah review)
+* **Read** → `index()`, `show()` (menampilkan daftar & detail review)
+* **Update** → `update()` (mengedit review)
+* **Delete** → `destroy()` (menghapus review)
+
+📁 **Model**
+
+```bash
+app/Models/Review.php
+app/Models/Book.php
+app/Models/Movie.php
+```
+
+📁 **View**
+
+```bash
+resources/views/reviews/
+├── index.blade.php   # Read
+├── create.blade.php  # Create
+├── edit.blade.php    # Update
+└── show.blade.php    # Detail
+```
+
+📁 **Route**
+
+```php
+Route::resource('reviews', ReviewController::class);
+```
+
+---
+
+### 👤 Profil Pengguna
+
+📁 **Controller**
+
+```bash
+app/Http/Controllers/ProfileController.php
+```
+
+CRUD yang ditangani:
+
+* **Read** → `index()` / `show()` (menampilkan profil)
+* **Update** → `update()` (mengubah data pengguna)
+
+📁 **Model**
+
+```bash
+app/Models/User.php
+```
+
+📁 **View**
+
+```bash
+resources/views/profile/
+├── index.blade.php
+└── edit.blade.php
+```
+
+---
+
+### 🛠️ Role & Admin Management
+
+📁 **Controller**
+
+```bash
+app/Http/Controllers/Admin/
+└── UserManagementController.php
+```
+
+CRUD yang ditangani:
+
+* **Read** → Melihat seluruh user
+* **Update** → Mengubah role user
+* **Delete** → Menghapus user
+
+📁 **Model**
+
+```bash
+app/Models/User.php
+```
+
+📁 **View**
+
+```bash
+resources/views/admin/users/
+├── index.blade.php
+└── edit.blade.php
+```
+
+📁 **Middleware**
+
+```bash
+app/Http/Middleware/IsAdmin.php
+```
+
+---
+
 ## 🎨 **Desain Figma Bisa Dilihat Disini!**
 
 Link: [https://www.figma.com/design/VkQ3iz3qT775RdANxI33uf/REVUE_KELOMPOK-7?node-id=0-1&t=Ppo0IQj8rnlrxMlV-1](https://www.figma.com/design/VkQ3iz3qT775RdANxI33uf/REVUE_KELOMPOK-7?node-id=0-1&t=Ppo0IQj8rnlrxMlV-1)
@@ -251,12 +397,4 @@ Proyek ini dirilis dengan lisensi **Copyright © 2025 by Kelompok 7 PAW TI-A**.
 ---
 
 ## ✨ Penutup
-
-Jika kamu menemukan bug atau ingin berkontribusi:
-
-* Fork repository
-* Buat branch baru
-* Pull Request 🚀
-
 Terima kasih sudah menggunakan **Revue** ❤️
-Happy coding!
